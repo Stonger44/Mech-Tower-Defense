@@ -6,9 +6,9 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _endPoint = null;
+    private Vector3 _endPoint = new Vector3(-48.5f, 0.6f, 0.16f);
 
-    private NavMeshAgent _navMeshAgent = null;
+    private NavMeshAgent _navMeshAgent;
 
     [SerializeField]
     private int _health = 0;
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     {
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
-        _navMeshAgent.SetDestination(_endPoint.transform.position);
+        _navMeshAgent.SetDestination(_endPoint);
     }
 
     // Update is called once per frame

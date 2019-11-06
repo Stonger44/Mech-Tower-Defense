@@ -1492,7 +1492,7 @@ GameObject:
   - component: {fileID: 4505513421613776}
   - component: {fileID: 95831276238310704}
   - component: {fileID: 192152421}
-  - component: {fileID: 192152422}
+  - component: {fileID: 7569614670499354889}
   m_Layer: 0
   m_Name: Mech1
   m_TagString: Untagged
@@ -1507,7 +1507,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637921026644932}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
@@ -1515,7 +1515,7 @@ Transform:
   - {fileID: 4014509653832364}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!95 &95831276238310704
 Animator:
   serializedVersion: 3
@@ -1544,8 +1544,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1637921026644932}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1.5
+  m_Radius: 5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1557,7 +1557,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &192152422
+--- !u!114 &7569614670499354889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1569,7 +1569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296e7785e3fb9f14b984aefb9f3ee94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endPoint: {fileID: 0}
+  _endPoint: {x: -48.5, y: 0.6, z: 0.16}
   _health: 10
   _warFund: 100
 --- !u!1 &1695296882317140
