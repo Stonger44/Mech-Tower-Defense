@@ -7,30 +7,20 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     public GameObject spawnPoint;
     public GameObject endPoint;
 
-    [SerializeField]
-    private List<GameObject> _enemyPrefabs;
-
-    private GameObject _enemyContainer;
+    public int enemyCount = 10;
+    public int wave = 1;
 
     public override void Init()
     {
-        _enemyContainer = GameObject.Find("EnemyContainer");
+        enemyCount = enemyCount * wave;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnEnemy();
+            GameObject enemy = PoolManager.Instance.RequestEnemy();
         }
     }
 
-    public void SpawnEnemy()
-    {
-        int randomIndex = Random.Range(0, _enemyPrefabs.Count);
-
-        GameObject enemy = Instantiate(_enemyPrefabs[randomIndex], spawnPoint.transform.position, Quaternion.Euler(0, -90, 0));
-
-        enemy.transform.parent = _enemyContainer.transform;
-    }
 }

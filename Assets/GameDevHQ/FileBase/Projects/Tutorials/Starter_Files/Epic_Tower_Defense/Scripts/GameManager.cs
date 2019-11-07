@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public override void Init()
+    {
 
+    }
+
+    private void Update()
+    {
+
+    }
 }

@@ -18,11 +18,17 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+
+    private void OnEnable()
+    {
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
 
+        _navMeshAgent.Warp(_spawnPoint);
         _navMeshAgent.SetDestination(_endPoint);
     }
 
@@ -31,8 +37,7 @@ public class Enemy : MonoBehaviour
     {
         if (this.transform.position.x <= _endPoint.x)
         {
-            _navMeshAgent.Warp(_spawnPoint);
-            _navMeshAgent.SetDestination(_endPoint);
+            this.gameObject.SetActive(false);
         }
     }
 }
