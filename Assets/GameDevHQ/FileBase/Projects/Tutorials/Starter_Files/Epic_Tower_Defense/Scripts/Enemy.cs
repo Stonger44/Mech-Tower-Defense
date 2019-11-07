@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private Vector3 _endPoint = new Vector3(-48.5f, 0.6f, 0.16f);
+    private Vector3 _spawnPoint;
+    private Vector3 _endPoint;
 
     private NavMeshAgent _navMeshAgent;
 
@@ -20,12 +20,19 @@ public class Enemy : MonoBehaviour
     {
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
+        _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
+        _endPoint = SpawnManager.Instance.endPoint.transform.position;
+
         _navMeshAgent.SetDestination(_endPoint);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.transform.position.x <= _endPoint.x)
+        {
+            _navMeshAgent.Warp(_spawnPoint);
+            _navMeshAgent.SetDestination(_endPoint);
+        }
     }
 }

@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296e7785e3fb9f14b984aefb9f3ee94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endPoint: {x: -48.5, y: 0.6, z: 0.16}
+  _endPoint: {x: -48, y: 0.6, z: 0.16}
   _health: 25
   _warFund: 250
 --- !u!1 &1088550950582580
