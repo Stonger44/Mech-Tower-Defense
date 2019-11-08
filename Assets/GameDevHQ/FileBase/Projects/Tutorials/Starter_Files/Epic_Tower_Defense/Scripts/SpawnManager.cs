@@ -7,20 +7,49 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     public GameObject spawnPoint;
     public GameObject endPoint;
 
-    public int enemyCount = 10;
+    public int spawnCount = 10;
     public int wave = 1;
+
+    public bool waveComplete = false;
 
     public override void Init()
     {
-        enemyCount = enemyCount * wave;
+        spawnCount = spawnCount * wave;
+
+        StartCoroutine(SpawnEnemyRoutine(3));
+    }
+
+    private void Start()
+    {
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (PoolManager.Instance.enemyPool.Count == 0)
         {
-            GameObject enemy = PoolManager.Instance.RequestEnemy();
+            waveComplete = true;
         }
+    }
+
+    private IEnumerator SpawnEnemyRoutine(int seconds)
+    {
+        while (!waveComplete)
+        {
+            yield return new WaitForSeconds(seconds);
+
+            GameObject enemy = PoolManager.Instance.RequestEnemy();
+
+            if (enemy != null)
+            {
+                //Mech2 (The bigger Mech) is slower, so give it more time before the next spawn
+                if (enemy.name == "Mech1(Clone)")
+                    seconds = 3;
+                else
+                    seconds = 5;
+            }
+        }
+        
     }
 
 }

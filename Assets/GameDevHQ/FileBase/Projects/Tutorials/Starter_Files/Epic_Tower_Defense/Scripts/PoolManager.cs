@@ -5,15 +5,13 @@ using UnityEngine;
 public class PoolManager : MonoSingleton<PoolManager>
 {
     private int _enemyCount;
-
     private int _randomIndex;
 
     [SerializeField]
     private List<GameObject> _enemyPrefabs;
-    [SerializeField]
-    private List<GameObject> _enemyPool;
-    [SerializeField]
-    private GameObject _enemyContainer;
+    public List<GameObject> enemyPool;
+    
+    public GameObject enemyContainer;
 
     public override void Init()
     {
@@ -23,14 +21,14 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void Start()
     {
         //I put this in Start() instead of Init() because the SpawnManager would be null.
-        _enemyCount = SpawnManager.Instance.enemyCount;
+        _enemyCount = SpawnManager.Instance.spawnCount;
 
         GenerateEnemies(_enemyCount);
     }
 
     private void Update()
     {
-
+        
     }
 
     private void GenerateEnemies(int enemyCount)
@@ -38,22 +36,21 @@ public class PoolManager : MonoSingleton<PoolManager>
         for (int i = 0; i < enemyCount; i++)
         {
             //I only want to spawn the bigger mechs 25% of the time
-            _randomIndex = Random.Range(0f, 1f) <= 0.75f ? 0 : 1;
+            _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? 0 : 1;
 
             GameObject enemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
-            enemy.transform.parent = _enemyContainer.transform;
+            enemy.transform.parent = enemyContainer.transform;
             enemy.SetActive(false);
 
-            _enemyPool.Add(enemy);
+            enemyPool.Add(enemy);
         }
     }
 
-    //DANGER - Recursive Function
     public GameObject RequestEnemy()
     {
-        foreach (var enemy in _enemyPool)
+        foreach (var enemy in enemyPool)
         {
             if (enemy.activeInHierarchy == false)
             {
@@ -62,8 +59,10 @@ public class PoolManager : MonoSingleton<PoolManager>
             }
         }
 
-        GenerateEnemies(1);
+        //If we get here, there are no more enemies available to spawn; the wave's max enemy count has been reached
+        return null;
 
-        return RequestEnemy();
+        //GenerateEnemies(1);
+        //return RequestEnemy();
     }
 }

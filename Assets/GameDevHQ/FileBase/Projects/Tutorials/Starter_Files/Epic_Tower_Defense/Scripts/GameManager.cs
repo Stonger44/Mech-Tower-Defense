@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public int health = 3;
+    public int totalWarFund = 0;
+
     public override void Init()
     {
 
@@ -11,6 +14,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-
+        if (health <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+        if (SpawnManager.Instance.waveComplete)
+        {
+            Debug.Log("Wave Complete!");
+        }
     }
 }

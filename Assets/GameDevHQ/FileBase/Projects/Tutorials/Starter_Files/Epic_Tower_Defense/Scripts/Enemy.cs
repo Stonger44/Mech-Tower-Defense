@@ -36,10 +36,19 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //When an enemy reaches the endpoint, deactivate it (recycle it to the Enemy pool)
+        //When an enemy reaches the endpoint, deactivate it (recycle it to the Enemy pool), and decrement player health
         if (this.transform.position.x <= _endPoint.x)
         {
+            GameManager.Instance.health -= 1;
             this.gameObject.SetActive(false);
         }
+    }
+
+    public void Die()
+    {
+        PoolManager.Instance.enemyPool.Remove(this.gameObject);
+        Destroy(this.gameObject);
+        GameManager.Instance.totalWarFund += _warFund;
+        Debug.Log("Enemy Destroyed");
     }
 }
