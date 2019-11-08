@@ -22,6 +22,7 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void Start()
     {
+        //I put this in Start() instead of Init() because the SpawnManager would be null.
         _enemyCount = SpawnManager.Instance.enemyCount;
 
         GenerateEnemies(_enemyCount);
@@ -41,6 +42,7 @@ public class PoolManager : MonoSingleton<PoolManager>
 
             GameObject enemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
+            //Put enemies in EnemyContainer to keep the heirarchy clean
             enemy.transform.parent = _enemyContainer.transform;
             enemy.SetActive(false);
 
@@ -48,6 +50,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         }
     }
 
+    //DANGER - Recursive Function
     public GameObject RequestEnemy()
     {
         foreach (var enemy in _enemyPool)

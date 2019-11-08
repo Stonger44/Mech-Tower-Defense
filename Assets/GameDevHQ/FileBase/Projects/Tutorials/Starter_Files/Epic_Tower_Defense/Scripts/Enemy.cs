@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
 
+        //When SetActive, "spawn" at (warp to) the spawn point and start moving toward the endpoint
         _navMeshAgent.Warp(_spawnPoint);
         _navMeshAgent.SetDestination(_endPoint);
     }
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //When an enemy reaches the endpoint, deactivate it (recycle it to the Enemy pool)
         if (this.transform.position.x <= _endPoint.x)
         {
             this.gameObject.SetActive(false);
