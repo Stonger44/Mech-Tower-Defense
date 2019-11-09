@@ -7,8 +7,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     private int _enemyCount;
     private int _randomIndex;
 
-    [SerializeField]
-    private List<GameObject> _enemyPrefabs;
+    [SerializeField] private List<GameObject> _enemyPrefabs;
     public List<GameObject> enemyPool;
     
     public GameObject enemyContainer;
@@ -26,6 +25,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         GenerateEnemies(_enemyCount);
     }
 
+    // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
     private void Update()
     {
         
@@ -42,7 +42,6 @@ public class PoolManager : MonoSingleton<PoolManager>
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
             enemy.transform.parent = enemyContainer.transform;
-            enemy.SetActive(false);
 
             enemyPool.Add(enemy);
         }
@@ -52,9 +51,11 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         foreach (var enemy in enemyPool)
         {
-            if (enemy.activeInHierarchy == false)
+            var currentEnemy = enemy.GetComponent<Enemy>();
+
+            if (currentEnemy != null && currentEnemy.IsOnStandBy())
             {
-                enemy.SetActive(true);
+                currentEnemy.SetToAttack();
                 return enemy;
             }
         }

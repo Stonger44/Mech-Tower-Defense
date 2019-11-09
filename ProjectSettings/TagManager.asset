@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Mech1
+  - Mech2
   layers:
   - Default
   - TransparentFX

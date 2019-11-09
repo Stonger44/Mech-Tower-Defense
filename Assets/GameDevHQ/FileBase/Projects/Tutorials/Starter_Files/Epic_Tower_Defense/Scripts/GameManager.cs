@@ -14,13 +14,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-        if (health <= 0)
-        {
-            Debug.Log("Game Over");
-        }
-        if (SpawnManager.Instance.waveComplete)
-        {
-            Debug.Log("Wave Complete!");
-        }
+
     }
 }

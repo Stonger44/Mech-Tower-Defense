@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 2656567138829617795}
   m_Layer: 0
   m_Name: Mech2
-  m_TagString: Enemy
+  m_TagString: Mech2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -411,7 +411,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 4.5
-  m_Speed: 2
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -437,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 25
   _warFund: 250
+  _onStandBy: 0
 --- !u!136 &2656567138829617795
 CapsuleCollider:
   m_ObjectHideFlags: 0

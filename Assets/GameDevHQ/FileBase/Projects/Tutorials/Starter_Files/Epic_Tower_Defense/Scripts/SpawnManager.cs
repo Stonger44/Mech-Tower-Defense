@@ -6,6 +6,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 {
     public GameObject spawnPoint;
     public GameObject endPoint;
+    public GameObject standbyPoint;
 
     public int spawnCount = 10;
     public int wave = 1;
@@ -43,7 +44,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             if (enemy != null)
             {
                 //Mech2 (The bigger Mech) is slower, so give it more time before the next spawn
-                if (enemy.name == "Mech1(Clone)")
+                if (enemy.tag == "Mech1")
                     seconds = 3;
                 else
                     seconds = 5;

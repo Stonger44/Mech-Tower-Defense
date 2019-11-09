@@ -7,48 +7,69 @@ public class Enemy : MonoBehaviour
 {
     private Vector3 _spawnPoint;
     private Vector3 _endPoint;
+    private Vector3 _standbyPoint;
 
     private NavMeshAgent _navMeshAgent;
 
-    [SerializeField]
-    private int _health = 0;
-    [SerializeField]
-    private int _warFund = 0;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    [SerializeField] private int _health;
+    [SerializeField] private int _warFund;
+    [SerializeField] private bool _onStandby = false;
 
     private void OnEnable()
     {
-        _navMeshAgent = this.GetComponent<NavMeshAgent>();
-
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
+        _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
 
-        //When SetActive, "spawn" at (warp to) the spawn point and start moving toward the endpoint
-        _navMeshAgent.Warp(_spawnPoint);
-        _navMeshAgent.SetDestination(_endPoint);
+        _navMeshAgent = this.GetComponent<NavMeshAgent>();
+
+        SetToStandBy();
     }
 
-    // Update is called once per frame
+    // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
     void Update()
     {
-        //When an enemy reaches the endpoint, deactivate it (recycle it to the Enemy pool), and decrement player health
-        if (this.transform.position.x <= _endPoint.x)
+        
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        _health -= damageAmount;
+
+        if (_health <= 0)
         {
-            GameManager.Instance.health -= 1;
-            this.gameObject.SetActive(false);
+            _health = 0;
+            Die();
         }
     }
 
     public void Die()
     {
-        PoolManager.Instance.enemyPool.Remove(this.gameObject);
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
         GameManager.Instance.totalWarFund += _warFund;
         Debug.Log("Enemy Destroyed");
+    }
+
+    public void SetToAttack()
+    {
+        _onStandby = false;
+        _navMeshAgent.enabled = true;
+        _navMeshAgent.Warp(_spawnPoint);
+        _navMeshAgent.SetDestination(_endPoint);
+    }
+
+    public void SetToStandBy()
+    {
+        GameManager.Instance.health -= 1;
+
+        _navMeshAgent.enabled = false;
+        this.transform.position = _standbyPoint;
+
+        _onStandby = true;
+    }
+
+    public bool IsOnStandBy()
+    {
+        return _onStandby;
     }
 }
