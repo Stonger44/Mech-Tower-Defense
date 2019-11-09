@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public static int enemyCount;
+
     private Vector3 _spawnPoint;
     private Vector3 _endPoint;
     private Vector3 _standbyPoint;
@@ -17,19 +19,26 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
+        enemyCount++;
+
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
         _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
 
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
-        SetToStandBy();
+        SetToStandby();
+    }
+
+    private void OnDisable()
+    {
+        enemyCount--;
     }
 
     // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
     void Update()
     {
-        
+        Debug.Log("Enemy Count:" + enemyCount);
     }
 
     public void TakeDamage(int damageAmount)
@@ -58,10 +67,8 @@ public class Enemy : MonoBehaviour
         _navMeshAgent.SetDestination(_endPoint);
     }
 
-    public void SetToStandBy()
+    public void SetToStandby()
     {
-        GameManager.Instance.health -= 1;
-
         _navMeshAgent.enabled = false;
         this.transform.position = _standbyPoint;
 

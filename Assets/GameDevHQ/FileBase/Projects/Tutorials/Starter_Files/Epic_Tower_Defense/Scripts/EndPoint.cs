@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EndPoint : MonoBehaviour
 {
+    public delegate void EndPointReached();
+    public static event EndPointReached onEndPointReached;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,14 +19,25 @@ public class EndPoint : MonoBehaviour
         
     }
 
+    public void SendEndPointReachedNotification()
+    {
+        //This is super duper short hand for the commented out code below
+        onEndPointReached?.Invoke();
+
+        //if (onEvent != null)
+        //{
+        //    onEvent();
+        //}
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains("Mech"))
         {
             var enemyScript = other.GetComponent<Enemy>();
+            enemyScript.SetToStandby();
 
-            //When an enemy reaches the endpoint, decrement player health, move and set the enemy to standby
-            enemyScript.SetToStandBy();
+            SendEndPointReachedNotification();
         }
     }
 }

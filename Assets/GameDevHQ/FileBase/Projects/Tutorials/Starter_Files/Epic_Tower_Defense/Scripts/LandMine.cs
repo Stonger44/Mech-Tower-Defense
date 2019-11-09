@@ -25,7 +25,7 @@ public class LandMine : MonoBehaviour
             Debug.Log("Enemy Alert");
             var enemy = other.GetComponent<Enemy>();
 
-            if (Input.GetKeyDown(KeyCode.Space) && (Time.time > _nextFire))
+            if (Input.GetKeyDown(KeyCode.F) && (Time.time > _nextFire))
             {
                 Debug.Log("LandMineFired");
                 enemy.TakeDamage(10);

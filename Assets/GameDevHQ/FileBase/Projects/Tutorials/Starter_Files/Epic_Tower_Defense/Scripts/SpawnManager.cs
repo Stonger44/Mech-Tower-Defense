@@ -8,32 +8,31 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     public GameObject endPoint;
     public GameObject standbyPoint;
 
-    public int spawnCount = 10;
-    public int wave = 1;
+    public int spawnCount;
 
-    public bool waveComplete = false;
+    [SerializeField] private bool waveComplete = false;
 
     public override void Init()
     {
-        spawnCount = spawnCount * wave;
-
-        StartCoroutine(SpawnEnemyRoutine(3));
+        
     }
 
     private void Start()
     {
-
+        spawnCount = spawnCount * GameManager.Instance.wave;
+        waveComplete = GameManager.Instance.waveRunning;
     }
 
     private void Update()
     {
-        if (PoolManager.Instance.enemyPool.Count == 0)
+        //Try to move this out of Update()?
+        if (Enemy.enemyCount <= 0)
         {
             waveComplete = true;
         }
     }
 
-    private IEnumerator SpawnEnemyRoutine(int seconds)
+    public IEnumerator SpawnEnemyRoutine(int seconds)
     {
         while (!waveComplete)
         {
