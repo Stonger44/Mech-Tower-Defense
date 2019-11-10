@@ -80,10 +80,10 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         foreach (var enemy in enemyPool)
         {
-            if (enemy.activeSelf == false)
-            {
-                enemy.SetActive(true);
-            }
+            //Setting OnEnable sets the enemy to Standby,
+            //so first disable, so that you can enable.
+            enemy.SetActive(false);
+            enemy.SetActive(true);
         }
     }
 }
