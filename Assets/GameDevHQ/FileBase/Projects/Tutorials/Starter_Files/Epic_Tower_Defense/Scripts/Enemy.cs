@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _warFund;
     [SerializeField] private bool _onStandby = false;
 
-    public static Action<int> OnDeath;
+    public static event Action<int> onDeath;
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
         this.gameObject.SetActive(false);
 
         //Broadcast enemy death
-        OnDeath?.Invoke(_warFund);
+        onDeath?.Invoke(_warFund);
     }
 
     public void SetToAttack()

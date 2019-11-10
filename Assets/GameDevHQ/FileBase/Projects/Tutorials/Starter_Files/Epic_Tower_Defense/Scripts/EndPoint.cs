@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EndPoint : MonoBehaviour
 {
-    public static Action OnEndPointReached;
+    public static event Action onEndPointReached;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class EndPoint : MonoBehaviour
     {
         if (other.tag.Contains("Mech"))
         {
-            OnEndPointReached?.Invoke();
+            onEndPointReached?.Invoke();
         }
     }
 }

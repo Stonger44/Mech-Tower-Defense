@@ -20,7 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
     public bool waveRunning { get; private set; }
     public bool waveSuccess { get; private set; }
 
-    public static Action OnStartWave;
+    public static event Action onStartWave;
 
 
     public override void Init()
@@ -33,15 +33,15 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnEnable()
     {
         //Subscribe to events
-        EndPoint.OnEndPointReached += TakeDamage;
-        Enemy.OnDeath += OnEnemyDeath;
+        EndPoint.onEndPointReached += TakeDamage;
+        Enemy.onDeath += OnEnemyDeath;
     }
 
     private void OnDisable()
     {
         //Unsubscribe from events
-        EndPoint.OnEndPointReached -= TakeDamage;
-        Enemy.OnDeath -= OnEnemyDeath;
+        EndPoint.onEndPointReached -= TakeDamage;
+        Enemy.onDeath -= OnEnemyDeath;
     }
 
     private void Start()
@@ -59,7 +59,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void BroadcastStartWave()
     {
-        OnStartWave?.Invoke();
+        onStartWave?.Invoke();
     }
 
     private void StartWave()

@@ -18,12 +18,12 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void OnEnable()
     {
-        GameManager.OnStartWave += SetEnemiesInPoolToStandby;
+        GameManager.onStartWave += SetEnemiesInPoolToStandby;
     }
 
     private void OnDisable()
     {
-        GameManager.OnStartWave -= SetEnemiesInPoolToStandby;
+        GameManager.onStartWave -= SetEnemiesInPoolToStandby;
     }
 
     private void Start()
