@@ -86,4 +86,12 @@ public class Enemy : MonoBehaviour
     {
         return _onStandby;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "EndPoint")
+        {
+            SetToStandby();
+        }
+    }
 }

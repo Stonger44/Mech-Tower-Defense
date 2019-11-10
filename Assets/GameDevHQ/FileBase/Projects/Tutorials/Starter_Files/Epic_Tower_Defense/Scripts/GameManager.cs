@@ -14,9 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     [SerializeField] private int _initialWaveEnemyCount;
     public int waveTotalEnemyCount { get; private set; }
-
     [SerializeField] private int _currentWaveEnemyCount;
-
 
     public bool waveRunning { get; private set; }
     public bool waveSuccess { get; private set; }
@@ -28,7 +26,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         wave = _initialWave;
 
-        SetPlayerHealthAndWaveEnemyCount();
+        ResetPlayerHealthAndWaveEnemyCount();
     }
 
     private void OnEnable()
@@ -65,7 +63,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartWave()
     {
-        SetPlayerHealthAndWaveEnemyCount();
+        ResetPlayerHealthAndWaveEnemyCount();
 
         waveRunning = true;
         waveSuccess = false;
@@ -114,7 +112,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     }
 
-    private void SetPlayerHealthAndWaveEnemyCount()
+    private void ResetPlayerHealthAndWaveEnemyCount()
     {
         _health = _initialHealth;
         waveTotalEnemyCount = _initialWaveEnemyCount * wave;

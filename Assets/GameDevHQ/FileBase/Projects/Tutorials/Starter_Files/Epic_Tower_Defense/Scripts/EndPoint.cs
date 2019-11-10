@@ -28,9 +28,6 @@ public class EndPoint : MonoBehaviour
     {
         if (other.tag.Contains("Mech"))
         {
-            var enemyScript = other.GetComponent<Enemy>();
-            enemyScript.SetToStandby();
-
             BroadcastEndPointReached();
         }
     }
