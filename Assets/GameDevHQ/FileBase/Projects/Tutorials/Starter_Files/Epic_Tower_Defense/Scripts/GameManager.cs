@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,8 +20,8 @@ public class GameManager : MonoSingleton<GameManager>
     public bool waveRunning { get; private set; }
     public bool waveSuccess { get; private set; }
 
-    public delegate void StartingWave();
-    public static event StartingWave onStartWave;
+    public static Action OnStartWave;
+
 
     public override void Init()
     {
@@ -32,15 +33,15 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnEnable()
     {
         //Subscribe to events
-        EndPoint.onEndPointReached += TakeDamage;
-        Enemy.onDeath += OnEnemyDeath;
+        EndPoint.OnEndPointReached += TakeDamage;
+        Enemy.OnDeath += OnEnemyDeath;
     }
 
     private void OnDisable()
     {
         //Unsubscribe from events
-        EndPoint.onEndPointReached -= TakeDamage;
-        Enemy.onDeath -= OnEnemyDeath;
+        EndPoint.OnEndPointReached -= TakeDamage;
+        Enemy.OnDeath -= OnEnemyDeath;
     }
 
     private void Start()
@@ -58,7 +59,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void BroadcastStartWave()
     {
-        onStartWave?.Invoke();
+        OnStartWave?.Invoke();
     }
 
     private void StartWave()

@@ -18,12 +18,12 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void OnEnable()
     {
-        GameManager.onStartWave += SetEnemiesInPoolToStandby;
+        GameManager.OnStartWave += SetEnemiesInPoolToStandby;
     }
 
     private void OnDisable()
     {
-        GameManager.onStartWave -= SetEnemiesInPoolToStandby;
+        GameManager.OnStartWave -= SetEnemiesInPoolToStandby;
     }
 
     private void Start()
@@ -59,7 +59,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             var currentEnemy = enemy.GetComponent<Enemy>();
 
-            if (currentEnemy != null && currentEnemy.IsOnStandBy())
+            if (currentEnemy != null && currentEnemy.IsOnStandby())
             {
                 currentEnemy.SetToAttack();
                 return enemy;

@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EndPoint : MonoBehaviour
 {
-    public delegate void EndPointReached();
-    public static event EndPointReached onEndPointReached;
+    public static Action OnEndPointReached;
 
     // Start is called before the first frame update
     void Start()
@@ -19,16 +19,11 @@ public class EndPoint : MonoBehaviour
         
     }
 
-    public void BroadcastEndPointReached()
-    {
-        onEndPointReached?.Invoke();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains("Mech"))
         {
-            BroadcastEndPointReached();
+            OnEndPointReached?.Invoke();
         }
     }
 }

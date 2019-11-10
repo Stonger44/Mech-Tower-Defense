@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,8 +19,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _warFund;
     [SerializeField] private bool _onStandby = false;
 
-    public delegate void Death(int warFund);
-    public static event Death onDeath;
+    public static Action<int> OnDeath;
+
+    private void Awake()
+    {
+        //I put this here because I Enable and Disable the enemy objects;
+        //This way GetComponent<> is only called once.
+        _navMeshAgent = this.GetComponent<NavMeshAgent>();
+    }
 
     private void OnEnable()
     {
@@ -28,8 +35,6 @@ public class Enemy : MonoBehaviour
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
         _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
-
-        _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
         _health = _initialHealth;
 
@@ -61,9 +66,9 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         this.gameObject.SetActive(false);
-        
+
         //Broadcast enemy death
-        onDeath?.Invoke(_warFund);
+        OnDeath?.Invoke(_warFund);
     }
 
     public void SetToAttack()
@@ -82,7 +87,7 @@ public class Enemy : MonoBehaviour
         _onStandby = true;
     }
 
-    public bool IsOnStandBy()
+    public bool IsOnStandby()
     {
         return _onStandby;
     }

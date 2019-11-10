@@ -18,13 +18,13 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     private void OnEnable()
     {
         //Subscribe to events
-        GameManager.onStartWave += StartSpawning;
+        GameManager.OnStartWave += StartSpawning;
     }
 
     private void OnDisable()
     {
         //Unsubscribe from events
-        GameManager.onStartWave -= StartSpawning;
+        GameManager.OnStartWave -= StartSpawning;
     }
 
     private void Start()
