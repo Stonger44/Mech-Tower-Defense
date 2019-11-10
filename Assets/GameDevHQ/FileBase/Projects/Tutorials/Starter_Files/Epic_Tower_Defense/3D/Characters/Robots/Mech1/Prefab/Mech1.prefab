@@ -1570,9 +1570,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296e7785e3fb9f14b984aefb9f3ee94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialHealth: 10
   _health: 10
   _warFund: 100
-  _onStandBy: 0
+  _onStandby: 0
 --- !u!136 &7468889319632309100
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -8,33 +8,38 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     public GameObject endPoint;
     public GameObject standbyPoint;
 
-    public int spawnCount;
-
-    [SerializeField] private bool waveComplete = false;
+    [SerializeField] private bool _waveRunning = false;
 
     public override void Init()
     {
         
     }
 
+    private void OnEnable()
+    {
+        //Subscribe to events
+        GameManager.onStartWave += StartSpawning;
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribe from events
+        GameManager.onStartWave -= StartSpawning;
+    }
+
     private void Start()
     {
-        spawnCount = spawnCount * GameManager.Instance.wave;
-        waveComplete = GameManager.Instance.waveRunning;
+
     }
 
     private void Update()
     {
-        //Try to move this out of Update()?
-        if (Enemy.enemyCount <= 0)
-        {
-            waveComplete = true;
-        }
+        
     }
 
     public IEnumerator SpawnEnemyRoutine(int seconds)
     {
-        while (!waveComplete)
+        while (_waveRunning)
         {
             yield return new WaitForSeconds(seconds);
 
@@ -48,8 +53,16 @@ public class SpawnManager : MonoSingleton<SpawnManager>
                 else
                     seconds = 5;
             }
+
+            _waveRunning = GameManager.Instance.waveRunning;
         }
         
+    }
+
+    private void StartSpawning()
+    {
+        _waveRunning = GameManager.Instance.waveRunning;
+        StartCoroutine(SpawnEnemyRoutine(3));
     }
 
 }

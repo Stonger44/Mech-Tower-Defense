@@ -4,26 +4,50 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    [SerializeField] private int health = 3;
-    public int totalWarFund = 0;
+    [SerializeField] private int _initialHealth;
+    [SerializeField] private int _health;
+    public int totalWarFund;
 
-    public int wave = 1;
+    private int _initialWave = 1;
+    public int wave { get; private set; }
+    
+
+    [SerializeField] private int _initialWaveEnemyCount;
+    public int waveTotalEnemyCount { get; private set; }
+
+    [SerializeField] private int _currentWaveEnemyCount;
+
 
     public bool waveRunning { get; private set; }
+    public bool waveSuccess { get; private set; }
+
+    public delegate void StartingWave();
+    public static event StartingWave onStartWave;
 
     public override void Init()
     {
-        
+        wave = _initialWave;
+
+        SetPlayerHealthAndWaveEnemyCount();
     }
 
     private void OnEnable()
     {
+        //Subscribe to events
         EndPoint.onEndPointReached += TakeDamage;
+        Enemy.onDeath += OnEnemyDeath;
     }
 
     private void OnDisable()
     {
+        //Unsubscribe from events
         EndPoint.onEndPointReached -= TakeDamage;
+        Enemy.onDeath -= OnEnemyDeath;
+    }
+
+    private void Start()
+    {
+        Debug.Log("Press [Space] to start Wave " + wave + ".");
     }
 
     private void Update()
@@ -34,26 +58,38 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    public void BroadcastStartWave()
+    {
+        onStartWave?.Invoke();
+    }
+
     private void StartWave()
     {
-        Debug.Log("Wave " + wave + " started.");
-        StartCoroutine(SpawnManager.Instance.SpawnEnemyRoutine(3));
+        SetPlayerHealthAndWaveEnemyCount();
 
         waveRunning = true;
+        waveSuccess = false;
+
+        BroadcastStartWave();
+        Debug.Log("Wave " + wave + " started.");
     }
 
     private void WaveComplete()
     {
         waveRunning = false;
+        waveSuccess = true;
+        Debug.Log("Wave " + wave + " complete!");
+        
+        wave++;
     }
 
     private void TakeDamage()
     {
-        health--;
+        _health--;
 
-        if (health <= 0)
+        if (_health <= 0)
         {
-            health = 0;
+            _health = 0;
             GameOver();
         }
     }
@@ -61,7 +97,27 @@ public class GameManager : MonoSingleton<GameManager>
     private void GameOver()
     {
         waveRunning = false;
-        Debug.Log("Game Over");
+        waveSuccess = false;
+        Debug.Log("Wave " + wave + " failed.");
     }
 
+    private void OnEnemyDeath(int warFund)
+    {
+        totalWarFund += warFund;
+
+        _currentWaveEnemyCount--;
+
+        if (_currentWaveEnemyCount <= 0)
+        {
+            WaveComplete();
+        }
+
+    }
+
+    private void SetPlayerHealthAndWaveEnemyCount()
+    {
+        _health = _initialHealth;
+        waveTotalEnemyCount = _initialWaveEnemyCount * wave;
+        _currentWaveEnemyCount = waveTotalEnemyCount;
+    }
 }

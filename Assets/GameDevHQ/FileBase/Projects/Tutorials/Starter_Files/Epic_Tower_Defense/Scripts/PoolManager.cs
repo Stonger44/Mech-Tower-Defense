@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
-    private int _enemyCount;
     private int _randomIndex;
 
     [SerializeField] private List<GameObject> _enemyPrefabs;
@@ -17,12 +16,19 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     }
 
+    private void OnEnable()
+    {
+        GameManager.onStartWave += SetEnemiesInPoolToStandby;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onStartWave -= SetEnemiesInPoolToStandby;
+    }
+
     private void Start()
     {
-        //I put this in Start() instead of Init() because the SpawnManager would be null.
-        _enemyCount = SpawnManager.Instance.spawnCount;
-
-        GenerateEnemies(_enemyCount);
+        GenerateEnemies(GameManager.Instance.waveTotalEnemyCount);
     }
 
     // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
@@ -60,10 +66,24 @@ public class PoolManager : MonoSingleton<PoolManager>
             }
         }
 
-        //If we get here, there are no more enemies available to spawn; the wave's max enemy count has been reached
-        return null;
+        //Fix maximum enemies for the wave has been reached, do not generate more enemies
+        if (enemyPool.Count >= GameManager.Instance.waveTotalEnemyCount)
+        {
+            return null;
+        }
 
-        //GenerateEnemies(1);
-        //return RequestEnemy();
+        GenerateEnemies(1);
+        return RequestEnemy();
+    }
+
+    private void SetEnemiesInPoolToStandby()
+    {
+        foreach (var enemy in enemyPool)
+        {
+            if (enemy.activeSelf == false)
+            {
+                enemy.SetActive(true);
+            }
+        }
     }
 }

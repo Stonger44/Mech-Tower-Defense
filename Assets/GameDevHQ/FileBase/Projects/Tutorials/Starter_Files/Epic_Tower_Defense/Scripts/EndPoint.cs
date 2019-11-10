@@ -19,15 +19,9 @@ public class EndPoint : MonoBehaviour
         
     }
 
-    public void SendEndPointReachedNotification()
+    public void BroadcastEndPointReached()
     {
-        //This is super duper short hand for the commented out code below
         onEndPointReached?.Invoke();
-
-        //if (onEvent != null)
-        //{
-        //    onEvent();
-        //}
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,7 +31,7 @@ public class EndPoint : MonoBehaviour
             var enemyScript = other.GetComponent<Enemy>();
             enemyScript.SetToStandby();
 
-            SendEndPointReachedNotification();
+            BroadcastEndPointReached();
         }
     }
 }

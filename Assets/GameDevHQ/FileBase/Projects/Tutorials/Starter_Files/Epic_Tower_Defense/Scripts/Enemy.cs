@@ -13,9 +13,13 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent _navMeshAgent;
 
+    [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
     [SerializeField] private int _warFund;
     [SerializeField] private bool _onStandby = false;
+
+    public delegate void Death(int warFund);
+    public static event Death onDeath;
 
     private void OnEnable()
     {
@@ -26,6 +30,8 @@ public class Enemy : MonoBehaviour
         _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
 
         _navMeshAgent = this.GetComponent<NavMeshAgent>();
+
+        _health = _initialHealth;
 
         SetToStandby();
     }
@@ -38,7 +44,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
     void Update()
     {
-        Debug.Log("Enemy Count:" + enemyCount);
+
     }
 
     public void TakeDamage(int damageAmount)
@@ -55,8 +61,9 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         this.gameObject.SetActive(false);
-        GameManager.Instance.totalWarFund += _warFund;
-        Debug.Log("Enemy Destroyed");
+        
+        //Broadcast enemy death
+        onDeath?.Invoke(_warFund);
     }
 
     public void SetToAttack()

@@ -22,12 +22,10 @@ public class LandMine : MonoBehaviour
     {
         if (other.tag.Contains("Mech"))
         {
-            Debug.Log("Enemy Alert");
             var enemy = other.GetComponent<Enemy>();
 
-            if (Input.GetKeyDown(KeyCode.F) && (Time.time > _nextFire))
+            if (Input.GetKeyDown(KeyCode.Return) && (Time.time > _nextFire))
             {
-                Debug.Log("LandMineFired");
                 enemy.TakeDamage(10);
                 _nextFire = Time.time + 1.0f;
             } 
