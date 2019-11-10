@@ -87,10 +87,7 @@ public class Enemy : MonoBehaviour
         _onStandby = true;
     }
 
-    public bool IsOnStandby()
-    {
-        return _onStandby;
-    }
+    public bool IsOnStandby() => _onStandby;
 
     private void OnTriggerEnter(Collider other)
     {
