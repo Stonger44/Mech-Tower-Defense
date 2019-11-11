@@ -21,13 +21,6 @@ public class Enemy : MonoBehaviour
 
     public static event Action<int> onDeath;
 
-    private void Awake()
-    {
-        //I put this here because I Enable and Disable the enemy objects;
-        //This way GetComponent<> is only called once.
-        _navMeshAgent = this.GetComponent<NavMeshAgent>();
-    }
-
     private void OnEnable()
     {
         enemyCount++;
@@ -81,6 +74,9 @@ public class Enemy : MonoBehaviour
 
     public void SetToStandby()
     {
+        if (_navMeshAgent == null)
+            _navMeshAgent = this.GetComponent<NavMeshAgent>();
+
         _navMeshAgent.enabled = false;
         this.transform.position = _standbyPoint;
 
