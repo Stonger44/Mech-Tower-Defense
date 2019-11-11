@@ -8,11 +8,13 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _xInput, _xMin, _xMax;
     [SerializeField] private float _yInput, _yMin, _yMax;
     [SerializeField] private float _zInput, _zMin, _zMax;
+    [SerializeField] private float _scrollInput, _scrollSpeed;
+    [SerializeField] private float _fieldOfView, _fieldOfViewMin, _fieldOfViewMax;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -50,10 +52,18 @@ public class CameraController : MonoBehaviour
 
     private void ZoomCamera()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            //Zoom in/out
-        }
+        _scrollInput = Input.GetAxis("Mouse ScrollWheel") * _scrollSpeed * Time.deltaTime;
+
+        //Zoom in/out
+        Camera.main.fieldOfView -= _scrollInput;
+
+
+        //Confine Zoom
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, _fieldOfViewMin, _fieldOfViewMax);
+
+
+        //Change transform min/max values based on magnitude of transform:
+        //As zoom increases, min/max values increas
     }
 
     private void MouseMoveCamera()

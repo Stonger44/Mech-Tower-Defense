@@ -2686,7 +2686,7 @@ GameObject:
   - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2838,6 +2838,11 @@ MonoBehaviour:
   _zInput: 0
   _zMin: -14
   _zMax: -4
+  _scrollInput: 0
+  _scrollSpeed: 250
+  _fieldOfView: 0
+  _fieldOfViewMin: 20
+  _fieldOfViewMax: 35
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0
