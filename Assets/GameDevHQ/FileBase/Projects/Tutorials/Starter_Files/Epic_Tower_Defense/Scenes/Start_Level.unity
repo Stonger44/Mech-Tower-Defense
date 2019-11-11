@@ -2840,9 +2840,8 @@ MonoBehaviour:
   _zMax: -4
   _scrollInput: 0
   _scrollSpeed: 250
-  _fieldOfView: 0
   _fieldOfViewMin: 20
-  _fieldOfViewMax: 35
+  _fieldOfViewMax: 30
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0
