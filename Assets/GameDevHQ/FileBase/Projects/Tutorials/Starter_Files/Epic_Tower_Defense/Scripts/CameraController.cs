@@ -46,7 +46,6 @@ public class CameraController : MonoBehaviour
         var zPos = Mathf.Clamp(this.transform.position.z, _zMin, _zMax);
 
         this.transform.position = new Vector3(xPos, yPos, zPos);
-
     }
 
     private void ZoomCamera()
