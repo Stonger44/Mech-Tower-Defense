@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _xInput, _xMin, _xMax;
-    [SerializeField] private float _yInput, _yMin, _yMax;
-    [SerializeField] private float _zInput, _zMin, _zMax;
-    [SerializeField] private float _scrollInput, _scrollSpeed;
+    [SerializeField] private float _xInput, _yInput, _zInput, _scrollInput;
+    [SerializeField] private float _xMin, _xMax;
+    [SerializeField] private float _yMin, _yMax;
+    [SerializeField] private float _zMin, _zMax;
+    [SerializeField] private float _panSpeed, _scrollSpeed;
     [SerializeField] private float _fieldOfViewMin, _fieldOfViewMax;
+    [SerializeField] private float _xDelta, _yDelta, _zDelta;
+    //[SerializeField] private Dictionary<float, List<int>> _fieldOfViewBoundaries = new Dictionary<float, List<int>>();
 
     // Start is called before the first frame update
     void Start()
     {
-
+        //GenerateFieldOfViewBoundaries();
     }
 
     // Update is called once per frame
@@ -33,8 +35,8 @@ public class CameraController : MonoBehaviour
     private void PanCamera()
     {
         //Get player input
-        _xInput = Input.GetAxis("Horizontal") * _speed * Time.deltaTime;
-        _yInput = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
+        _xInput = Input.GetAxis("Horizontal") * _panSpeed * Time.deltaTime;
+        _yInput = Input.GetAxis("Vertical") * _panSpeed * Time.deltaTime;
 
         //Move camera
         if (_xInput != 0)
@@ -50,41 +52,54 @@ public class CameraController : MonoBehaviour
     {
         _scrollInput = Input.GetAxis("Mouse ScrollWheel") * _scrollSpeed * Time.deltaTime;
 
-        Debug.Log("Scroll Input: " + _scrollInput);
-
-        //Zoom in/out
-        Camera.main.fieldOfView -= _scrollInput;
-
-        //Confine Zoom
-        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, _fieldOfViewMin, _fieldOfViewMax);
-
-        //Change transform min/max values based on magnitude of transform:
-        //As field of view increases, min/max values decrease
-        //Need to use LERP or something to make this dynamically smooth
-        if (Camera.main.fieldOfView <= 23)
+        if (_scrollInput != 0)
         {
-            _xMin = -60;
-            _xMax = -44;
+            if (_scrollInput > 0)
+            {
+                //Change Field of View by one
+                Camera.main.fieldOfView -= _yDelta;
 
-            _zMin = -16;
-            _zMax = -2;
-        }
-        else if (Camera.main.fieldOfView > 23 && Camera.main.fieldOfView < 27)
-        {
-            _xMin = -58;
-            _xMax = -47;
+                if (Camera.main.fieldOfView >= _fieldOfViewMin && Camera.main.fieldOfView <= _fieldOfViewMax)
+                {
+                    //Adjust Camera confined area
+                    _xMin -= _xDelta;
+                    _xMax += _xDelta;
+                    _zMin -= _zDelta;
+                    _zMax += _zDelta; 
+                }
+            }
+            else if (_scrollInput < 0)
+            {
+                //Change Field of View by one
+                Camera.main.fieldOfView += _yDelta;
 
-            _zMin = -14;
-            _zMax = -4;
-        }
-        else if (Camera.main.fieldOfView >= 27)
-        {
-            _xMin = -54;
-            _xMax = -52;
+                if (Camera.main.fieldOfView >= _fieldOfViewMin && Camera.main.fieldOfView <= _fieldOfViewMax)
+                {
+                    //Adjust Camera confined area
+                    _xMin += _xDelta;
+                    _xMax -= _xDelta;
+                    _zMin += _zDelta;
+                    _zMax -= _zDelta;
+                }
+            }
 
-            _zMin = -12;
-            _zMax = -6;
+            //Zoom in/out
+            //Camera.main.fieldOfView -= _scrollInput;
+
+            //Confine Zoom
+            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, _fieldOfViewMin, _fieldOfViewMax);
+
+            ////Change camera min/max confine values based on field of view (zoom):
+            ////As we zoom in (field of view decreases), confined area increases
+            ////Change Camera hardcoded confine values based on Field of View values
+            //List<int> fieldOfViewBoundary = _fieldOfViewBoundaries[Camera.main.fieldOfView];
+
+            //_xMin = fieldOfViewBoundary[0];
+            //_xMax = fieldOfViewBoundary[1];
+            //_zMin = fieldOfViewBoundary[2];
+            //_zMax = fieldOfViewBoundary[3];
         }
+
     }
 
     private void MouseMoveCamera()
@@ -104,5 +119,21 @@ public class CameraController : MonoBehaviour
 
         this.transform.position = new Vector3(xPos, yPos, zPos);
     }
+
+    //private void GenerateFieldOfViewBoundaries()
+    //{
+    //    //FoVBoundares.Add(fieldOfView, new List<int>() { xMin, xMax, zMin, zMax });
+    //    _fieldOfViewBoundaries.Add(20, new List<int>() { -60, -44, -16, -2 });
+    //    _fieldOfViewBoundaries.Add(21, new List<int>() { -59, -45, -16, -2 });
+    //    _fieldOfViewBoundaries.Add(22, new List<int>() { -59, -46, -15, -3 });
+    //    _fieldOfViewBoundaries.Add(23, new List<int>() { -58, -47, -15, -3 });
+    //    _fieldOfViewBoundaries.Add(24, new List<int>() { -58, -47, -14, -4 });
+    //    _fieldOfViewBoundaries.Add(25, new List<int>() { -58, -47, -14, -4 });
+    //    _fieldOfViewBoundaries.Add(26, new List<int>() { -57, -48, -13, -5 });
+    //    _fieldOfViewBoundaries.Add(27, new List<int>() { -57, -49, -13, -5 });
+    //    _fieldOfViewBoundaries.Add(28, new List<int>() { -56, -50, -13, -5 });
+    //    _fieldOfViewBoundaries.Add(29, new List<int>() { -55, -51, -12, -6 });
+    //    _fieldOfViewBoundaries.Add(30, new List<int>() { -54, -52, -12, -6 });
+    //}
 
 }

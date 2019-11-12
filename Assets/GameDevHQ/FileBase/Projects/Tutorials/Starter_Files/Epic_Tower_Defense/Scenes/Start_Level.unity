@@ -2724,7 +2724,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 25
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2828,20 +2828,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029e442914e85fa48973a07b9a09608e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 15
   _xInput: 0
-  _xMin: -58
-  _xMax: -47
   _yInput: 0
+  _zInput: 0
+  _scrollInput: 0
+  _xMin: -54
+  _xMax: -52
   _yMin: 32
   _yMax: 32
-  _zInput: 0
-  _zMin: -14
-  _zMax: -4
-  _scrollInput: 0
+  _zMin: -12
+  _zMax: -6
+  _panSpeed: 15
   _scrollSpeed: 250
   _fieldOfViewMin: 20
   _fieldOfViewMax: 30
+  _xDelta: 0.6666667
+  _yDelta: 1
+  _zDelta: 0.3333333
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0
