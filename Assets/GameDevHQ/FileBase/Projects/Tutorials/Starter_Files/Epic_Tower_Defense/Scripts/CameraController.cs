@@ -11,11 +11,21 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _panSpeed, _scrollSpeed;
     [SerializeField] private float _fieldOfViewMin, _fieldOfViewMax;
     [SerializeField] private float _xDelta, _yDelta, _zDelta;
-
+    [SerializeField] private int _ScreenWidth = Screen.width;
+    [SerializeField] private int _ScreenHeight = Screen.height;
+    [SerializeField] private float _mousePosition;
+    [SerializeField] private float _edgeScrollWidthPercent;
+    [SerializeField] private float _edgeScrollMarginTop, _edgeScrollMarginLeft, _edgeScrollMarginRight, _edgeScrollMarginBottom;
+    
     // Start is called before the first frame update
     void Start()
     {
+        //Cache _edgeScrollMargin values based on _edgeScrollWidthPercent
+        _edgeScrollMarginLeft = Screen.width * _edgeScrollWidthPercent;
+        _edgeScrollMarginRight = Screen.width - (Screen.width * _edgeScrollWidthPercent);
 
+        _edgeScrollMarginTop = Screen.height - (Screen.height * _edgeScrollWidthPercent);
+        _edgeScrollMarginBottom = Screen.height * _edgeScrollWidthPercent;
     }
 
     // Update is called once per frame
@@ -28,7 +38,7 @@ public class CameraController : MonoBehaviour
     {
         PanCamera();
         ZoomCamera();
-        MouseMoveCamera();
+        MouseEdgeScrollCamera();
     }
 
     private void PanCamera()
@@ -88,13 +98,28 @@ public class CameraController : MonoBehaviour
         ConfineCamera();
     }
 
-    private void MouseMoveCamera()
+    private void MouseEdgeScrollCamera()
     {
-        //Mouse moves Camera toward mouse direction if mouse is at the edge of the screen
+        //Mouse moves Camera toward screen edge if mouse is near the edge of the screen
+        if (Input.mousePosition.x < _edgeScrollMarginLeft)
+        {
+            this.transform.Translate(Vector3.left * _panSpeed * Time.deltaTime);
+        }
+        if (Input.mousePosition.x > _edgeScrollMarginRight)
+        {
+            this.transform.Translate(Vector3.right * _panSpeed * Time.deltaTime);
+        }
 
-        //If (Input.mousPosition.x > )
-        //Screen.width
-        //transform.translate(Vector3.left * Time.deltaTime);
+        if (Input.mousePosition.y < _edgeScrollMarginBottom)
+        {
+            this.transform.Translate(Vector3.down * _panSpeed * Time.deltaTime);
+        }
+        if (Input.mousePosition.y > _edgeScrollMarginTop)
+        {
+            this.transform.Translate(Vector3.up * _panSpeed * Time.deltaTime);
+        }
+
+        ConfineCamera();
     }
 
     private void ConfineCamera()

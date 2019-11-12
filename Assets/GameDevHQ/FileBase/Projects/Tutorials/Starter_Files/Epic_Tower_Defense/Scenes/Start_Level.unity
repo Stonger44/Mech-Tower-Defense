@@ -2845,6 +2845,14 @@ MonoBehaviour:
   _xDelta: 0.6666667
   _yDelta: 1
   _zDelta: 0.3333333
+  _ScreenWidth: 3840
+  _ScreenHeight: 45
+  _mousePosition: 0
+  _edgeScrollWidthPercent: 0.1
+  _edgeScrollMarginTop: 0
+  _edgeScrollMarginLeft: 0
+  _edgeScrollMarginRight: 0
+  _edgeScrollMarginBottom: 0
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0
