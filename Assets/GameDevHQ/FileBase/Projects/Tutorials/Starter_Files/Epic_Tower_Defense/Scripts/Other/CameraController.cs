@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float _xInput, _yInput, _zInput, _scrollInput;
+    [SerializeField] private float _scrollInput;
     [SerializeField] private float _xMin, _xMax;
     [SerializeField] private float _yMin, _yMax;
     [SerializeField] private float _zMin, _zMax;
@@ -16,7 +16,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _mousePosition;
     [SerializeField] private float _edgeScrollWidthPercent;
     [SerializeField] private float _edgeScrollMarginTop, _edgeScrollMarginLeft, _edgeScrollMarginRight, _edgeScrollMarginBottom;
-    
+    [SerializeField] private Vector3 _newCameraPosition, _confinedCameraPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,20 +45,19 @@ public class CameraController : MonoBehaviour
     private void PanCamera()
     {
         //Get player input
-        _xInput = Input.GetAxis("Horizontal") * _panSpeed * Time.deltaTime;
-        _yInput = Input.GetAxis("Vertical") * _panSpeed * Time.deltaTime;
+        _newCameraPosition.x = Input.GetAxis("Horizontal") * _panSpeed * Time.deltaTime;
+        _newCameraPosition.y = Input.GetAxis("Vertical") * _panSpeed * Time.deltaTime;
 
         //Move camera
-        if (_xInput != 0)
-            this.transform.Translate(Vector3.right * _xInput);
-        if (_yInput != 0)
-            this.transform.Translate(Vector3.up * _yInput);
+        this.transform.Translate(_newCameraPosition);
 
         ConfineCamera();
     }
 
     private void ZoomCamera()
     {
+        //Mathf.Lerp with scroll wheel
+
         _scrollInput = Input.GetAxis("Mouse ScrollWheel") * _scrollSpeed * Time.deltaTime;
 
         if (_scrollInput != 0)
@@ -124,10 +124,10 @@ public class CameraController : MonoBehaviour
 
     private void ConfineCamera()
     {
-        var xPos = Mathf.Clamp(this.transform.position.x, _xMin, _xMax);
-        var yPos = Mathf.Clamp(this.transform.position.y, _yMin, _yMax);
-        var zPos = Mathf.Clamp(this.transform.position.z, _zMin, _zMax);
+        _confinedCameraPosition.x = Mathf.Clamp(this.transform.position.x, _xMin, _xMax);
+        _confinedCameraPosition.y = Mathf.Clamp(this.transform.position.y, _yMin, _yMax);
+        _confinedCameraPosition.z = Mathf.Clamp(this.transform.position.z, _zMin, _zMax);
 
-        this.transform.position = new Vector3(xPos, yPos, zPos);
+        this.transform.position = _confinedCameraPosition;
     }
 }
