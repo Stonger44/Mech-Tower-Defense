@@ -2835,7 +2835,8 @@ MonoBehaviour:
   _yMax: 32
   _zMin: -13.66667
   _zMax: -3.333333
-  _panSpeed: 15
+  _xPanSpeed: 15
+  _yPanSpeed: 20
   _scrollSpeed: 250
   _fieldOfViewMin: 20
   _fieldOfViewMax: 30

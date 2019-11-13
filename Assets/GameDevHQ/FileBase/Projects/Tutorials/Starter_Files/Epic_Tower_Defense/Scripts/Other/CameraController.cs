@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _xMin, _xMax;
     [SerializeField] private float _yMin, _yMax;
     [SerializeField] private float _zMin, _zMax;
-    [SerializeField] private float _panSpeed, _scrollSpeed;
+    [SerializeField] private float _xPanSpeed, _yPanSpeed, _scrollSpeed;
     [SerializeField] private float _fieldOfViewMin, _fieldOfViewMax;
     [SerializeField] private float _xDelta, _yDelta, _zDelta;
     [SerializeField] private int _ScreenWidth = Screen.width;
@@ -45,8 +45,8 @@ public class CameraController : MonoBehaviour
     private void PanCamera()
     {
         //Get player input
-        _newCameraPosition.x = Input.GetAxis("Horizontal") * _panSpeed * Time.deltaTime;
-        _newCameraPosition.y = Input.GetAxis("Vertical") * _panSpeed * Time.deltaTime;
+        _newCameraPosition.x = Input.GetAxis("Horizontal") * _xPanSpeed * Time.deltaTime;
+        _newCameraPosition.y = Input.GetAxis("Vertical") * _yPanSpeed * Time.deltaTime;
 
         //Move camera
         this.transform.Translate(_newCameraPosition);
@@ -103,20 +103,20 @@ public class CameraController : MonoBehaviour
         //Mouse moves Camera toward screen edge if mouse is near the edge of the screen
         if (Input.mousePosition.x < _edgeScrollMarginLeft)
         {
-            this.transform.Translate(Vector3.left * _panSpeed * Time.deltaTime);
+            this.transform.Translate(Vector3.left * _xPanSpeed * Time.deltaTime);
         }
         if (Input.mousePosition.x > _edgeScrollMarginRight)
         {
-            this.transform.Translate(Vector3.right * _panSpeed * Time.deltaTime);
+            this.transform.Translate(Vector3.right * _xPanSpeed * Time.deltaTime);
         }
 
         if (Input.mousePosition.y < _edgeScrollMarginBottom)
         {
-            this.transform.Translate(Vector3.down * _panSpeed * Time.deltaTime);
+            this.transform.Translate(Vector3.down * _yPanSpeed * Time.deltaTime);
         }
         if (Input.mousePosition.y > _edgeScrollMarginTop)
         {
-            this.transform.Translate(Vector3.up * _panSpeed * Time.deltaTime);
+            this.transform.Translate(Vector3.up * _yPanSpeed * Time.deltaTime);
         }
 
         ConfineCamera();
