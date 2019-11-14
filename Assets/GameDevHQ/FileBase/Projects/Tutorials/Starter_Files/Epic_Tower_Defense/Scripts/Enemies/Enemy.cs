@@ -39,12 +39,6 @@ public class Enemy : MonoBehaviour
         enemyCount--;
     }
 
-    // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
-    void Update()
-    {
-
-    }
-
     public void TakeDamage(int damageAmount)
     {
         _health -= damageAmount;

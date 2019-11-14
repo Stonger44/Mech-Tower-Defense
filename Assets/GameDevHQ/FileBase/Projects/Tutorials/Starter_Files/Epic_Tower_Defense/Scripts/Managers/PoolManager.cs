@@ -11,11 +11,6 @@ public class PoolManager : MonoSingleton<PoolManager>
     
     public GameObject enemyContainer;
 
-    public override void Init()
-    {
-
-    }
-
     private void OnEnable()
     {
         GameManager.onStartWave += SetEnemiesInPoolToStandby;
@@ -29,12 +24,6 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void Start()
     {
         GenerateEnemies(GameManager.Instance.waveTotalEnemyCount);
-    }
-
-    // Update is called once per frame SO TRY TO ONLY USE IT FOR PLAYER INPUT
-    private void Update()
-    {
-        
     }
 
     private void GenerateEnemies(int enemyCount)

@@ -10,11 +10,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     [SerializeField] private bool _waveRunning = false;
 
-    public override void Init()
-    {
-        
-    }
-
     private void OnEnable()
     {
         //Subscribe to events
@@ -25,16 +20,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     {
         //Unsubscribe from events
         GameManager.onStartWave -= StartSpawning;
-    }
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        
     }
 
     public IEnumerator SpawnEnemyRoutine(int seconds)

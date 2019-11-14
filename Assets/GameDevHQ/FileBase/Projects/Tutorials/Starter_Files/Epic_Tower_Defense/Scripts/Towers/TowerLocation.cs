@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class TowerLocation : MonoBehaviour
 {
+    private bool _IsActive;
+
+    //method to place tower
+    //maintain reference to tower type (for upgrade functionality)
+
     // Start is called before the first frame update
     void Start()
     {
