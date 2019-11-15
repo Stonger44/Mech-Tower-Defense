@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 3249254172378108675}
   - component: {fileID: 3211091193424498333}
   m_Layer: 0
-  m_Name: Missile_Launcher_Turret
+  m_Name: Missile_Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

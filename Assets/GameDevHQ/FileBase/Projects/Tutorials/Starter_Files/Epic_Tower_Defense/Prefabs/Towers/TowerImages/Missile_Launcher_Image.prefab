@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 6429207034703237915}
   - component: {fileID: 6394720754169253509}
   m_Layer: 0
-  m_Name: Missile_Launcher_Turret_Image
+  m_Name: Missile_Launcher_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,7 +843,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6426457986979894435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f37f75a662e08584192823355ae4ac73, type: 3}
   m_Name: 

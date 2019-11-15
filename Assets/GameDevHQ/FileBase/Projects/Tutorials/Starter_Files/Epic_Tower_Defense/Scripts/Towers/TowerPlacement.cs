@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TowerPlacement : MonoBehaviour
 {
-    [SerializeField] private GameObject _towerImage;
+    [SerializeField] private List<GameObject> _towerImageList;
 
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
@@ -18,6 +18,15 @@ public class TowerPlacement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+
+        }
+
         //Cast a ray from the mouse position on the screen into the game world. Whoa.
         //Update postiion of decoy tower (follow mouse position)
         //Check what the raycast hit (if hit placement spot placeholder)
@@ -25,7 +34,10 @@ public class TowerPlacement : MonoBehaviour
 
         if (Physics.Raycast(_rayOrigin, out _hitInfo))
         {
-            _towerImage.transform.position = _hitInfo.point;
+
+            //_towerImage.transform.position = _hitInfo.point;
         }
     }
+
+
 }

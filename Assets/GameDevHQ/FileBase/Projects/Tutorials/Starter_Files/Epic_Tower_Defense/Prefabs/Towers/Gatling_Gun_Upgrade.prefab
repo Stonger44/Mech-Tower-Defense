@@ -29463,7 +29463,7 @@ GameObject:
   - component: {fileID: 4658583872502584571}
   - component: {fileID: 4616912070874839671}
   m_Layer: 0
-  m_Name: Dual_Gatling_Gun
+  m_Name: Gatling_Gun_Upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -29432,7 +29432,7 @@ GameObject:
   - component: {fileID: 5818607607496717313}
   - component: {fileID: 5767937405934787213}
   m_Layer: 0
-  m_Name: Dual_Gatling_Gun_Image
+  m_Name: Gatling_Gun_Upgrade_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29460,7 +29460,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5849817933919098679}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa87186eb31905c4fa207e5970b35579, type: 3}
   m_Name: 
@@ -29482,7 +29482,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5849817933919098679}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}

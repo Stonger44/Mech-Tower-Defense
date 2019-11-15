@@ -3356,9 +3356,10 @@ GameObject:
   m_Component:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
-  - component: {fileID: 534669907}
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
+  - component: {fileID: 534669907}
+  - component: {fileID: 534669908}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3528,6 +3529,23 @@ MonoBehaviour:
   _edgeScrollMarginBottom: 0
   _newCameraPosition: {x: 0, y: 0, z: 0}
   _confinedCameraPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &534669908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2b5e6cf85d5fd4db0fc832e66ea967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerImageList:
+  - {fileID: 2335246054913302906, guid: d86633601af9b574ea3f46dfd088c253, type: 3}
+  - {fileID: 5849817933919098679, guid: 094fb128041c3324a8488df5a6a70aff, type: 3}
+  - {fileID: 6426457986979894435, guid: 354b050ca6527044eb72f262add6e0d0, type: 3}
+  - {fileID: 4160676167326545763, guid: 806893a36eb17b2418214b3d5717cde0, type: 3}
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0
