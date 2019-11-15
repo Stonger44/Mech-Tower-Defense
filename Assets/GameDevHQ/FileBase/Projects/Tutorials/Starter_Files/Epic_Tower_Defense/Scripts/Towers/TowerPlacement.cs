@@ -40,8 +40,9 @@ public class TowerPlacement : MonoBehaviour
             {
                 _currentTowerImage.transform.position = _hitInfo.point;
 
-                if (_hitInfo.transform.name == "TowerLocation")
+                if (_hitInfo.transform.tag == "TowerLocation")
                 {
+                    Debug.Log("Hit: " + _hitInfo.transform.name);
                     _currentTowerImage.transform.position = _hitInfo.transform.position;
                 }
             }
