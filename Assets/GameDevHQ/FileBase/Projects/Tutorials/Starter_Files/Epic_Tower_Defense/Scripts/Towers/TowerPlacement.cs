@@ -26,6 +26,32 @@ public class TowerPlacement : MonoBehaviour
     void Update()
     {
         //Test Code
+        SelectTower();
+
+        if (IsPlacingTower)
+        {
+            //Cast a ray from the mouse position on the screen into the game world. Whoa.
+            //Update position of decoy tower (follow mouse position)
+            //Check what the raycast hit (if hit placement spot placeholder)
+            _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(_rayOrigin, out _hitInfo))
+            {
+                _currentTowerImage.transform.position = _hitInfo.point;
+
+                if (_hitInfo.transform.name == "TowerLocation")
+                {
+                    _currentTowerImage.transform.position = _hitInfo.transform.position;
+                }
+            }
+        }
+
+        
+    }
+
+    //Test Code
+    private void SelectTower()
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             //Cycle through Tower1, Tower2, and NoTower (null)
@@ -46,18 +72,10 @@ public class TowerPlacement : MonoBehaviour
             IsPlacingTower = (_currentTowerImage != null) ? true : false;
             Debug.Log("IsPlacingTower: " + IsPlacingTower);
         }
-
-        //Cast a ray from the mouse position on the screen into the game world. Whoa.
-        //Update postiion of decoy tower (follow mouse position)
-        //Check what the raycast hit (if hit placement spot placeholder)
-        _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(_rayOrigin, out _hitInfo))
-        {
-
-            //_towerImage.transform.position = _hitInfo.point;
-        }
     }
 
+    private void PlaceTower()
+    {
 
+    }
 }

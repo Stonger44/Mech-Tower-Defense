@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Mech1
   - Mech2
+  - TowerLocation
   layers:
   - Default
   - TransparentFX
