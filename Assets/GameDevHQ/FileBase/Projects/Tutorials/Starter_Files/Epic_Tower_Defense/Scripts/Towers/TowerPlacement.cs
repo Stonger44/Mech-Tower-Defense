@@ -15,11 +15,12 @@ public class TowerPlacement : MonoBehaviour
     public bool IsPlacingTower { get; private set; }
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
+    [SerializeField] private GameObject _towerImagesContainer;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -54,16 +55,16 @@ public class TowerPlacement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            //Cycle through Tower1, Tower2, and NoTower (null)
+            //Cycle through GatlingGun, MissleLauncher, and NoTower (null)
             if (_currentTowerImage == null)
             {
                 _currentTowerImage = _towerImageList[0]; //Gatling Gun
             }
             else if (_currentTowerImage == _towerImageList[0])
             {
-                _currentTowerImage = _towerImageList[3]; //Missle Launcher
+                _currentTowerImage = _towerImageList[2]; //Missle Launcher
             }
-            else if (_currentTowerImage == _towerImageList[3])
+            else if (_currentTowerImage == _towerImageList[2])
             {
                 _currentTowerImage = null;
             }
@@ -71,6 +72,13 @@ public class TowerPlacement : MonoBehaviour
             //Update IsPlacingTower boolean appropriately
             IsPlacingTower = (_currentTowerImage != null) ? true : false;
             Debug.Log("IsPlacingTower: " + IsPlacingTower);
+
+            //Put un-used images back in container (off screen)
+            foreach (var tower in _towerImageList)
+            {
+                if (tower != _currentTowerImage)
+                    tower.transform.position = _towerImagesContainer.transform.position;
+            }
         }
     }
 
