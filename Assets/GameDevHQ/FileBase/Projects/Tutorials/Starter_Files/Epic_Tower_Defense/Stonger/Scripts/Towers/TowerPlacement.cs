@@ -56,11 +56,7 @@ public class TowerPlacement : MonoBehaviour
             BroadcastBrowsingTowerLocations(IsPlacingTower);
 
             //Put un-used images back in container (off screen)
-            foreach (var tower in _towerImageList)
-            {
-                if (tower != _currentTowerImage)
-                    tower.transform.position = _towerImagesContainer.transform.position;
-            }
+            ResetTowerImages();
         }
     }
 
@@ -68,6 +64,12 @@ public class TowerPlacement : MonoBehaviour
     {
         if (IsPlacingTower)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StopBrowsingTowerLocations();
+                return;
+            }
+
             //Cast a ray from the mouse position on the screen into the game world. Whoa.
             _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -98,4 +100,22 @@ public class TowerPlacement : MonoBehaviour
 
     private void BroadcastBrowsingTowerLocations(bool isPlacingTower, bool onTowerLocation = false)
         => onBrowsingTowerLocations?.Invoke(isPlacingTower, onTowerLocation);
+
+    private void StopBrowsingTowerLocations()
+    {
+        IsPlacingTower = false;
+        _currentTowerImage = null;
+        ResetTowerImages();
+        BroadcastBrowsingTowerLocations(false);
+        
+    }
+
+    private void ResetTowerImages()
+    {
+        foreach (var tower in _towerImageList)
+        {
+            if (tower != _currentTowerImage)
+                tower.transform.position = _towerImagesContainer.transform.position;
+        }
+    }
 }
