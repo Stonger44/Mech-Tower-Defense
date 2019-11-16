@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TowerLocation : MonoBehaviour
 {
-    private bool _IsActive;
+    private bool _IsOccupied;
 
     //method to place tower
     //maintain reference to tower type (for upgrade functionality)
