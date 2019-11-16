@@ -57,10 +57,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void BroadcastStartWave()
-    {
-        onStartWave?.Invoke();
-    }
+    public void BroadcastStartWave() => onStartWave?.Invoke();
 
     private void StartWave()
     {

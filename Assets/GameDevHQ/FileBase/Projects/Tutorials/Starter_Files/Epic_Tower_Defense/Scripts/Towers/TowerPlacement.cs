@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class TowerPlacement : MonoBehaviour
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
     [SerializeField] private GameObject _towerImagesContainer;
+
+    public static event Action<bool> onTogglePlacingTower;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +54,7 @@ public class TowerPlacement : MonoBehaviour
 
             //Update IsPlacingTower boolean appropriately
             IsPlacingTower = (_currentTowerImage != null) ? true : false;
-            Debug.Log("IsPlacingTower: " + IsPlacingTower);
+            BroadcastIsPlacingTower(IsPlacingTower);
 
             //Put un-used images back in container (off screen)
             foreach (var tower in _towerImageList)
@@ -82,5 +85,10 @@ public class TowerPlacement : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void BroadcastIsPlacingTower(bool isPlacingTower)
+    {
+        onTogglePlacingTower?.Invoke(isPlacingTower);
     }
 }
