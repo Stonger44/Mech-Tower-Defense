@@ -27,7 +27,7 @@ public class TowerPlacement : MonoBehaviour
     void Update()
     {
         SelectTower();
-        PlaceTower();
+        SelectTowerLocation();
     }
 
     //Test Code
@@ -62,7 +62,7 @@ public class TowerPlacement : MonoBehaviour
         }
     }
 
-    private void PlaceTower()
+    private void SelectTowerLocation()
     {
         if (IsPlacingTower)
         {
