@@ -81,6 +81,12 @@ public class TowerPlacement : MonoBehaviour
                 {
                     _currentTowerImage.transform.position = _hitInfo.transform.position;
                     BroadcastBrowsingTowerLocations(IsPlacingTower, true);
+
+                    //Place Tower
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+
+                    }
                 }
                 else
                 {
