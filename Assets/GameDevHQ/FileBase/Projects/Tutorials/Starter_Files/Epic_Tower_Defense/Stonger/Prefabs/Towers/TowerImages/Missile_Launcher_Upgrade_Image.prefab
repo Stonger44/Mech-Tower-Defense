@@ -87,6 +87,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4160676167326182211}
+  - component: {fileID: -8356419638338747012}
   m_Layer: 0
   m_Name: Missile_Launcher_Upgrade_Image
   m_TagString: Untagged
@@ -102,7 +103,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4160676167326545763}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -27.858856, y: 0.42141625, z: -2.0473633}
+  m_LocalPosition: {x: -22.6, y: 5.24, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4160676167326182219}
@@ -110,6 +111,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &-8356419638338747012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160676167326545763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71441800fd621db46b03c0bc2bbd12c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _towerRangeGreen: {fileID: 7100209509656424068, guid: 02453672ddde7664a8b9f5b61b4854b8,
+    type: 3}
+  _towerRangeRed: {fileID: 409793204580464587, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
+    type: 3}
 --- !u!1 &4160676167326545765
 GameObject:
   m_ObjectHideFlags: 0

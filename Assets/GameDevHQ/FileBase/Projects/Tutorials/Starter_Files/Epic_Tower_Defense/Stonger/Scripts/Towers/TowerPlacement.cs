@@ -17,8 +17,7 @@ public class TowerPlacement : MonoBehaviour
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
     [SerializeField] private GameObject _towerImagesContainer;
-
-    public static event Action<bool> onTogglePlacingTower;
+    public static event Action<bool, bool> onBrowsingTowerLocations; //When in "Placing Tower" Mode
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +53,7 @@ public class TowerPlacement : MonoBehaviour
 
             //Update IsPlacingTower boolean appropriately
             IsPlacingTower = (_currentTowerImage != null) ? true : false;
-            BroadcastIsPlacingTower(IsPlacingTower);
+            BroadcastBrowsingTowerLocations(IsPlacingTower);
 
             //Put un-used images back in container (off screen)
             foreach (var tower in _towerImageList)
@@ -80,15 +79,17 @@ public class TowerPlacement : MonoBehaviour
                 //Check what the raycast hit (if hit placement spot placeholder)
                 if (_hitInfo.transform.tag == "TowerLocation")
                 {
-                    Debug.Log("Hit: " + _hitInfo.transform.name);
                     _currentTowerImage.transform.position = _hitInfo.transform.position;
+                    BroadcastBrowsingTowerLocations(IsPlacingTower, true);
+                }
+                else
+                {
+                    BroadcastBrowsingTowerLocations(IsPlacingTower, false);
                 }
             }
         }
     }
 
-    private void BroadcastIsPlacingTower(bool isPlacingTower)
-    {
-        onTogglePlacingTower?.Invoke(isPlacingTower);
-    }
+    private void BroadcastBrowsingTowerLocations(bool isPlacingTower, bool onTowerLocation = false)
+        => onBrowsingTowerLocations?.Invoke(isPlacingTower, onTowerLocation);
 }

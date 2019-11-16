@@ -12,14 +12,12 @@ public class TowerLocation : MonoBehaviour
 
     private void OnEnable()
     {
-        //Subscribe to onPlacingTower event
-        TowerPlacement.onTogglePlacingTower += ToggleVacantParticleEffect;
+        TowerPlacement.onBrowsingTowerLocations += ToggleVacantParticleEffect;
     }
 
     private void OnDisable()
     {
-        //Unsubscribe from onPlacingTower event
-        TowerPlacement.onTogglePlacingTower -= ToggleVacantParticleEffect;
+        TowerPlacement.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
     }
 
     // Start is called before the first frame update
@@ -34,7 +32,7 @@ public class TowerLocation : MonoBehaviour
 
     }
 
-    private void ToggleVacantParticleEffect(bool isPlacingTower)
+    private void ToggleVacantParticleEffect(bool isPlacingTower, bool onTowerLocation)
     {
         if (isPlacingTower && !_isOccupied)
             _vacantParticleEffect.SetActive(true);
