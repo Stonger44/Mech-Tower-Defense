@@ -6,18 +6,17 @@ public class TowerLocation : MonoBehaviour
 {
     [SerializeField] private bool _isOccupied;
     [SerializeField] private GameObject _vacantParticleEffect;
-
-    //method to place tower
-    //maintain reference to tower type (for upgrade functionality)
+    [SerializeField] private GameObject _currentSelectedtower;
+    [SerializeField] private GameObject _currentPlacedTower;
 
     private void OnEnable()
     {
-        TowerPlacement.onBrowsingTowerLocations += ToggleVacantParticleEffect;
+        TowerBrowsing.onBrowsingTowerLocations += ToggleVacantParticleEffect;
     }
 
     private void OnDisable()
     {
-        TowerPlacement.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
+        TowerBrowsing.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
     }
 
     // Start is called before the first frame update
@@ -32,11 +31,49 @@ public class TowerLocation : MonoBehaviour
 
     }
 
-    private void ToggleVacantParticleEffect(bool isPlacingTower, bool onTowerLocation)
+    private void OnMouseEnter()
+    {
+        _currentSelectedtower = Camera.main.GetComponent<TowerBrowsing>().CurrentTower;
+
+        if (_currentSelectedtower != null)
+            Debug.Log("Current Selected Tower: " + _currentSelectedtower.name);
+    }
+
+    private void OnMouseExit()
+    {
+        
+    }
+
+    private void OnMouseDown()
+    {
+        
+    }
+
+    private GameObject GetCurrentSelectedTower()
+    {
+        return new GameObject();
+    }
+
+    private void ToggleVacantParticleEffect(bool isPlacingTower)
     {
         if (isPlacingTower && !_isOccupied)
             _vacantParticleEffect.SetActive(true);
         else
             _vacantParticleEffect.SetActive(false);
+    }
+
+    private void PlaceTower()
+    {
+        if (_isOccupied)
+        {
+            Debug.Log("Request Denied: Tower Location already occupied");
+        }
+        else
+        {
+            ////NEEDS WORK
+            Debug.Log(_currentPlacedTower.name + " has been placed.");
+            //Instantiate(currentTower, this.transform.position, Quaternion.identity);
+            //_isOccupied = true;
+        }
     }
 }

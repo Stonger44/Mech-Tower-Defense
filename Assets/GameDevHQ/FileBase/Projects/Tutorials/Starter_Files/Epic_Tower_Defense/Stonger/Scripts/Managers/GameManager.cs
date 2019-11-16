@@ -57,9 +57,6 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void BroadcastStartWave()
-        => onStartWave?.Invoke();
-
     private void StartWave()
     {
         ResetPlayerHealthAndWaveEnemyCount();
@@ -67,7 +64,7 @@ public class GameManager : MonoSingleton<GameManager>
         waveRunning = true;
         waveSuccess = false;
 
-        BroadcastStartWave();
+        onStartWave?.Invoke();
         Debug.Log("Wave " + wave + " started.");
     }
 

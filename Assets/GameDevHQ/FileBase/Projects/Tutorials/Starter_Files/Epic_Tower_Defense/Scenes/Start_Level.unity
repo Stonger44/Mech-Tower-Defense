@@ -3684,6 +3684,11 @@ MonoBehaviour:
   - {fileID: 120505913}
   - {fileID: 372477588}
   - {fileID: 314270106}
+  _towerList:
+  - {fileID: 912176236257442156, guid: f7364e4ed1024f647b6737266b0a9337, type: 3}
+  - {fileID: 4699506181887915981, guid: ed957f47d1a23dd4d938e810192b8946, type: 3}
+  - {fileID: 3243110382537594043, guid: aef17fef0e2b20e4d8710e58bde411d5, type: 3}
+  - {fileID: 4285578482583536955, guid: 2f1b5049765cc0441a11ff3e9c39b527, type: 3}
   _towerImagesContainer: {fileID: 1009697888}
 --- !u!1 &552431162
 GameObject:

@@ -9,12 +9,12 @@ public class TowerRange : MonoBehaviour
 
     private void OnEnable()
     {
-        TowerPlacement.onBrowsingTowerLocations += ToggleTowerRangeColor;
+        TowerBrowsing.onBrowsingTowerLocations += ToggleTowerRangeColor;
     }
 
     private void OnDisable()
     {
-        TowerPlacement.onBrowsingTowerLocations -= ToggleTowerRangeColor;
+        TowerBrowsing.onBrowsingTowerLocations -= ToggleTowerRangeColor;
     }
 
     // Start is called before the first frame update
@@ -29,18 +29,11 @@ public class TowerRange : MonoBehaviour
         
     }
 
-    private void ToggleTowerRangeColor(bool isPlacingTower, bool onTowerLocation)
+    private void ToggleTowerRangeColor(bool isPlacingTower)
     {
         if (isPlacingTower)
         {
-            if (onTowerLocation)
-            {
-                ShowTowerRange_Green();
-            }
-            else
-            {
-                ShowTowerRange_Red();
-            }
+            ShowTowerRange_Red();
         }
         else
         {
