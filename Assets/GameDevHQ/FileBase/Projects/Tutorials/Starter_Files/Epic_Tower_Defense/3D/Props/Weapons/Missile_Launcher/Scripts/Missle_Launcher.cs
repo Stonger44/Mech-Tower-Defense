@@ -7,9 +7,8 @@ namespace GameDevHQ.FileBase.Missle_Launcher
 {
     public class Missle_Launcher : MonoBehaviour, ITower
     {
-        public int Health { get; set; } = 20;
-        public int WarFundCost { get; set; } = 1000;
-        public int WarFundSellValue { get; set; } = 500;
+        public int WarFundCost { get; set; } = 2000;
+        public int WarFundSellValue { get; set; } = 1000;
 
         [SerializeField]
         private GameObject _missilePrefab; //holds the missle gameobject to clone

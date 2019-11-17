@@ -19,8 +19,11 @@ namespace GameDevHQ.FileBase.Gatling_Gun
     /// </summary>
 
     [RequireComponent(typeof(AudioSource))] //Require Audio Source component
-    public class Gatling_Gun : MonoBehaviour
+    public class Gatling_Gun : MonoBehaviour, ITower
     {
+        public int WarFundCost { get; set; } = 500;
+        public int WarFundSellValue { get; set; } = 250;
+
         private Transform _gunBarrel; //Reference to hold the gun barrel
         public GameObject Muzzle_Flash; //reference to the muzzle flash effect to play when firing
         public ParticleSystem bulletCasings; //reference to the bullet casing effect to play when firing
