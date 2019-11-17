@@ -13,6 +13,7 @@ public class TowerLocation : MonoBehaviour
     public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
     public static event Action onVacantLocationMouseOver;
     public static event Action onVacantLocationMouseExit;
+    public static event Action onPlaceTower;
 
     private void OnEnable()
     {
@@ -47,15 +48,27 @@ public class TowerLocation : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!_isOccupied)
-        {
-            onVacantLocationMouseExit?.Invoke();
-        }
+        onVacantLocationMouseExit?.Invoke();
     }
 
     private void OnMouseDown()
     {
+        //Place Tower
+        if (TowerManager.Instance.IsPlacingTower && !_isOccupied)
+        {
+            _currentSelectedtower = TowerManager.Instance.CurrentTower;
+
+            if (_currentSelectedtower != null)
+            {
+                _isOccupied = true;
+                ToggleVacantParticleEffect(false);
+                _currentPlacedTower = Instantiate(_currentSelectedtower, this.transform.position, Quaternion.Euler(0, 90, 0));
+
+                onPlaceTower?.Invoke();
+            }
+        }
         
+        //End Tower Placing mode
     }
 
     private GameObject GetCurrentSelectedTower()

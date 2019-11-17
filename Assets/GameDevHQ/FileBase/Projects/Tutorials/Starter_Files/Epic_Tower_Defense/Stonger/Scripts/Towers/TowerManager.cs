@@ -38,12 +38,14 @@ public class TowerManager : MonoSingleton<TowerManager>
     {
         TowerLocation.onVacantLocationMouseOver_Vector3 += SnapTowerImageToTowerLocation;
         TowerLocation.onVacantLocationMouseExit += UpdateTowerImageToFollowMouse;
+        TowerLocation.onPlaceTower += StopBrowsingTowerLocations;
     }
 
     private void OnDisable()
     {
         TowerLocation.onVacantLocationMouseOver_Vector3 -= SnapTowerImageToTowerLocation;
         TowerLocation.onVacantLocationMouseExit -= UpdateTowerImageToFollowMouse;
+        TowerLocation.onPlaceTower -= StopBrowsingTowerLocations;
     }
 
     // Update is called once per frame
