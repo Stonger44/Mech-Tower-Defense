@@ -9,19 +9,21 @@ public class TowerRange : MonoBehaviour
 
     private void OnEnable()
     {
-        TowerManager.onBrowsingTowerLocations += ToggleTowerRangeColor;
-        TowerLocation.onVacantLocationMouseOver += ShowTowerRange_Green;
+        TowerManager.onBrowsingTowerLocations += ToggleTowerRange;
+        TowerLocation.onVacantLocationMouseOver += ToggleTowerColor;
         TowerLocation.onVacantLocationMouseExit += ShowTowerRange_Red;
+        TowerLocation.onInsufficientWarFunds += ShowTowerRange_Red;
     }
 
     private void OnDisable()
     {
-        TowerManager.onBrowsingTowerLocations -= ToggleTowerRangeColor;
-        TowerLocation.onVacantLocationMouseOver -= ShowTowerRange_Green;
+        TowerManager.onBrowsingTowerLocations -= ToggleTowerRange;
+        TowerLocation.onVacantLocationMouseOver -= ToggleTowerColor;
         TowerLocation.onVacantLocationMouseExit -= ShowTowerRange_Red;
+        TowerLocation.onInsufficientWarFunds -= ShowTowerRange_Red;
     }
 
-    private void ToggleTowerRangeColor(bool isPlacingTower)
+    private void ToggleTowerRange(bool isPlacingTower)
     {
         if (isPlacingTower)
         {
@@ -32,6 +34,14 @@ public class TowerRange : MonoBehaviour
             HideTowerRange();
         }
 
+    }
+
+    private void ToggleTowerColor(bool isOkay)
+    {
+        if (isOkay)
+            ShowTowerRange_Green();
+        else
+            ShowTowerRange_Red();
     }
 
     private void HideTowerRange()

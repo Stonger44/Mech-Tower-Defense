@@ -39,6 +39,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         TowerLocation.onVacantLocationMouseOver_Vector3 += SnapTowerImageToTowerLocation;
         TowerLocation.onVacantLocationMouseExit += UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower += StopBrowsingTowerLocations;
+        TowerLocation.onOccupiedLocationMouseOver += UpdateTowerImageToFollowMouse;
     }
 
     private void OnDisable()
@@ -46,6 +47,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         TowerLocation.onVacantLocationMouseOver_Vector3 -= SnapTowerImageToTowerLocation;
         TowerLocation.onVacantLocationMouseExit -= UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower -= StopBrowsingTowerLocations;
+        TowerLocation.onOccupiedLocationMouseOver -= UpdateTowerImageToFollowMouse;
     }
 
     // Update is called once per frame
@@ -143,7 +145,5 @@ public class TowerManager : MonoSingleton<TowerManager>
     }
 
     private void UpdateTowerImageToFollowMouse()
-    {
-        _onVacantLocation = false;
-    }
+        => _onVacantLocation = false;
 }

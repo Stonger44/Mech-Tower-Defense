@@ -35,6 +35,7 @@ public class GameManager : MonoSingleton<GameManager>
         //Subscribe to events
         EndPoint.onEndPointReached += TakeDamage;
         Enemy.onDeath += OnEnemyDeath;
+        TowerLocation.onPurchaseTower += SpendWarFund;
     }
 
     private void OnDisable()
@@ -42,6 +43,7 @@ public class GameManager : MonoSingleton<GameManager>
         //Unsubscribe from events
         EndPoint.onEndPointReached -= TakeDamage;
         Enemy.onDeath -= OnEnemyDeath;
+        TowerLocation.onPurchaseTower -= SpendWarFund;
     }
 
     private void Start()
@@ -113,5 +115,10 @@ public class GameManager : MonoSingleton<GameManager>
         _health = _initialHealth;
         waveTotalEnemyCount = _initialWaveEnemyCount * wave;
         _currentWaveEnemyCount = waveTotalEnemyCount;
+    }
+
+    private void SpendWarFund(int amount)
+    {
+        totalWarFund -= amount;
     }
 }

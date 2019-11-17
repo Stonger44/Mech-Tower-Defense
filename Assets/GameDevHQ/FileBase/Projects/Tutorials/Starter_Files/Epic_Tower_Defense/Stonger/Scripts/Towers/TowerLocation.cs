@@ -7,13 +7,15 @@ public class TowerLocation : MonoBehaviour
 {
     [SerializeField] private bool _isOccupied;
     [SerializeField] private GameObject _vacantParticleEffect;
-    [SerializeField] private GameObject _currentSelectedtower;
     [SerializeField] private GameObject _currentPlacedTower;
 
     public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
-    public static event Action onVacantLocationMouseOver;
+    public static event Action<bool> onVacantLocationMouseOver;
     public static event Action onVacantLocationMouseExit;
+    public static event Action onOccupiedLocationMouseOver;
     public static event Action onPlaceTower;
+    public static event Action<int> onPurchaseTower;
+    public static event Action onInsufficientWarFunds;
 
     private void OnEnable()
     {
@@ -31,18 +33,21 @@ public class TowerLocation : MonoBehaviour
         _vacantParticleEffect.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnMouseOver()
     {
-        if (!_isOccupied)
+        if (TowerManager.Instance.IsPlacingTower)
         {
-            onVacantLocationMouseOver_Vector3?.Invoke(this.transform.position);
-            onVacantLocationMouseOver?.Invoke();
+            if (!_isOccupied)
+                onVacantLocationMouseOver_Vector3?.Invoke(this.transform.position);
+            else
+                onOccupiedLocationMouseOver?.Invoke();
+
+            ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
+            bool hasSufficientWarFund = false;
+            if (currentTower != null)
+                hasSufficientWarFund = GameManager.Instance.totalWarFund >= currentTower.WarFundCost;
+
+            onVacantLocationMouseOver?.Invoke(hasSufficientWarFund && !_isOccupied);
         }
     }
 
@@ -53,27 +58,7 @@ public class TowerLocation : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //Place Tower
-        if (TowerManager.Instance.IsPlacingTower && !_isOccupied)
-        {
-            _currentSelectedtower = TowerManager.Instance.CurrentTower;
-
-            if (_currentSelectedtower != null)
-            {
-                _isOccupied = true;
-                ToggleVacantParticleEffect(false);
-                _currentPlacedTower = Instantiate(_currentSelectedtower, this.transform.position, Quaternion.Euler(0, 90, 0));
-
-                onPlaceTower?.Invoke();
-            }
-        }
-        
-        //End Tower Placing mode
-    }
-
-    private GameObject GetCurrentSelectedTower()
-    {
-        return new GameObject();
+        PlaceTower();
     }
 
     private void ToggleVacantParticleEffect(bool isPlacingTower)
@@ -86,16 +71,38 @@ public class TowerLocation : MonoBehaviour
 
     private void PlaceTower()
     {
-        if (_isOccupied)
+        if (TowerManager.Instance.IsPlacingTower == false)
         {
-            Debug.Log("Request Denied: Tower Location already occupied");
+            Debug.Log("Not in placing tower mode");
+            return;
         }
-        else
+
+        if (_isOccupied == true)
         {
-            ////NEEDS WORK
-            Debug.Log(_currentPlacedTower.name + " has been placed.");
-            //Instantiate(currentTower, this.transform.position, Quaternion.identity);
-            //_isOccupied = true;
+            Debug.Log("TowerLocation is occupied with " + _currentPlacedTower.name + ".");
+            return;
         }
+
+        ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
+        if (currentTower == null)
+        {
+            Debug.Log("No Tower Selected!");
+            return;
+        }
+
+        if (currentTower.WarFundCost > GameManager.Instance.totalWarFund)
+        {
+            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFund + ".");
+            onInsufficientWarFunds?.Invoke();
+            return;
+        }
+
+        //If we get here, we passed all the pre-requisites and may place a tower.
+        _isOccupied = true;
+        ToggleVacantParticleEffect(false);
+        _currentPlacedTower = Instantiate(TowerManager.Instance.CurrentTower, this.transform.position, Quaternion.Euler(0, 90, 0));
+
+        onPlaceTower?.Invoke();
+        onPurchaseTower?.Invoke(currentTower.WarFundCost);
     }
 }
