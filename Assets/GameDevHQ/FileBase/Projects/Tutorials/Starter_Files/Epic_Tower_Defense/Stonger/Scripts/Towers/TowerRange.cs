@@ -9,24 +9,16 @@ public class TowerRange : MonoBehaviour
 
     private void OnEnable()
     {
-        TowerBrowsing.onBrowsingTowerLocations += ToggleTowerRangeColor;
+        TowerManager.onBrowsingTowerLocations += ToggleTowerRangeColor;
+        TowerLocation.onVacantLocationMouseOver += ShowTowerRange_Green;
+        TowerLocation.onVacantLocationMouseExit += ShowTowerRange_Red;
     }
 
     private void OnDisable()
     {
-        TowerBrowsing.onBrowsingTowerLocations -= ToggleTowerRangeColor;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        TowerManager.onBrowsingTowerLocations -= ToggleTowerRangeColor;
+        TowerLocation.onVacantLocationMouseOver -= ShowTowerRange_Green;
+        TowerLocation.onVacantLocationMouseExit -= ShowTowerRange_Red;
     }
 
     private void ToggleTowerRangeColor(bool isPlacingTower)

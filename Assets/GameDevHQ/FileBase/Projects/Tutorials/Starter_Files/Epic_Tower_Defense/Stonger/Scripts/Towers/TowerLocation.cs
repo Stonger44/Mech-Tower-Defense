@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,14 +10,18 @@ public class TowerLocation : MonoBehaviour
     [SerializeField] private GameObject _currentSelectedtower;
     [SerializeField] private GameObject _currentPlacedTower;
 
+    public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
+    public static event Action onVacantLocationMouseOver;
+    public static event Action onVacantLocationMouseExit;
+
     private void OnEnable()
     {
-        TowerBrowsing.onBrowsingTowerLocations += ToggleVacantParticleEffect;
+        TowerManager.onBrowsingTowerLocations += ToggleVacantParticleEffect;
     }
 
     private void OnDisable()
     {
-        TowerBrowsing.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
+        TowerManager.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
     }
 
     // Start is called before the first frame update
@@ -31,17 +36,21 @@ public class TowerLocation : MonoBehaviour
 
     }
 
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {
-        _currentSelectedtower = Camera.main.GetComponent<TowerBrowsing>().CurrentTower;
-
-        if (_currentSelectedtower != null)
-            Debug.Log("Current Selected Tower: " + _currentSelectedtower.name);
+        if (!_isOccupied)
+        {
+            onVacantLocationMouseOver_Vector3?.Invoke(this.transform.position);
+            onVacantLocationMouseOver?.Invoke();
+        }
     }
 
     private void OnMouseExit()
     {
-        
+        if (!_isOccupied)
+        {
+            onVacantLocationMouseExit?.Invoke();
+        }
     }
 
     private void OnMouseDown()

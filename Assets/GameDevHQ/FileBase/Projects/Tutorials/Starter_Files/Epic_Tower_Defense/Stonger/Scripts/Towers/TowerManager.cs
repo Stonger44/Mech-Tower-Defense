@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerBrowsing : MonoBehaviour
+public class TowerManager : MonoSingleton<TowerManager>
 {
     /*-----Towers-----*\
      0: Gatling Gun 
@@ -13,10 +13,12 @@ public class TowerBrowsing : MonoBehaviour
     \*-----Towers-----*/
     [SerializeField] private List<GameObject> _towerImageList;
     public GameObject CurrentTowerImage { get; private set; }
-    [SerializeField] private List<GameObject> _towerList;
 
-    [SerializeField] private GameObject _towerImagesContainer;
+    [SerializeField] private List<GameObject> _towerList;
     public GameObject CurrentTower { get; private set; }
+
+    public GameObject TowerImagesContainer { get; set; }
+    
     public bool IsPlacingTower { get; private set; }
 
     private Ray _rayOrigin;
@@ -24,10 +26,24 @@ public class TowerBrowsing : MonoBehaviour
     
     public static event Action<bool> onBrowsingTowerLocations; //When in "Placing Tower" Mode
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private bool _onVacantLocation;
 
+    public override void Init()
+    {
+        IsPlacingTower = false;
+        TowerImagesContainer = GameObject.Find("TowerImagesContainer");
+    }
+
+    private void OnEnable()
+    {
+        TowerLocation.onVacantLocationMouseOver_Vector3 += SnapTowerImageToTowerLocation;
+        TowerLocation.onVacantLocationMouseExit += UpdateTowerImageToFollowMouse;
+    }
+
+    private void OnDisable()
+    {
+        TowerLocation.onVacantLocationMouseOver_Vector3 -= SnapTowerImageToTowerLocation;
+        TowerLocation.onVacantLocationMouseExit -= UpdateTowerImageToFollowMouse;
     }
 
     // Update is called once per frame
@@ -66,7 +82,7 @@ public class TowerBrowsing : MonoBehaviour
             onBrowsingTowerLocations?.Invoke(IsPlacingTower);
 
             //Put un-used images back in container (off screen)
-            ResetTowerImages();
+            ResetTowerImages(false);
         }
     }
 
@@ -80,31 +96,16 @@ public class TowerBrowsing : MonoBehaviour
                 return;
             }
 
-            //Cast a ray from the mouse position on the screen into the game world. Whoa.
-            _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(_rayOrigin, out _hitInfo))
+            if (!_onVacantLocation)
             {
-                //Update position of decoy tower (follow mouse position)
-                CurrentTowerImage.transform.position = _hitInfo.point;
+                //Cast a ray from the mouse position on the screen into the game world. Whoa.
+                _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                //Move this into TowerLocation script using OnMouseEnter/Exit/Down
-                ////Check what the raycast hit (if hit placement spot placeholder)
-                //if (_hitInfo.transform.tag == "TowerLocation")
-                //{
-                //    _currentTowerImage.transform.position = _hitInfo.transform.position;
-                //    BroadcastBrowsingTowerLocations(IsPlacingTower, true);
-
-                //    //Place Tower
-                //    if (Input.GetKeyDown(KeyCode.Mouse0))
-                //    {
-                //        onPlaceTowerClick?.Invoke(_hitInfo.transform.name, _currentTower);
-                //    }
-                //}
-                //else
-                //{
-                //    BroadcastBrowsingTowerLocations(IsPlacingTower, false);
-                //}
+                if (Physics.Raycast(_rayOrigin, out _hitInfo))
+                {
+                    //Update position of decoy tower (follow mouse position)
+                    CurrentTowerImage.transform.position = _hitInfo.point;
+                } 
             }
         }
     }
@@ -114,17 +115,33 @@ public class TowerBrowsing : MonoBehaviour
         IsPlacingTower = false;
         CurrentTowerImage = null;
         CurrentTower = null;
-        ResetTowerImages();
+        ResetTowerImages(true);
 
         onBrowsingTowerLocations?.Invoke(IsPlacingTower);
     }
 
-    private void ResetTowerImages()
+    private void ResetTowerImages(bool resetAllImages)
     {
+        if (resetAllImages)
+            CurrentTowerImage = null;
+
         foreach (var tower in _towerImageList)
         {
             if (tower != CurrentTowerImage)
-                tower.transform.position = _towerImagesContainer.transform.position;
+                tower.transform.position = TowerImagesContainer.transform.position;
         }
+    }
+
+    private void SnapTowerImageToTowerLocation(Vector3 TowerLocation)
+    {
+        _onVacantLocation = true;
+
+        if (CurrentTower != null)
+            CurrentTowerImage.transform.position = TowerLocation;
+    }
+
+    private void UpdateTowerImageToFollowMouse()
+    {
+        _onVacantLocation = false;
     }
 }

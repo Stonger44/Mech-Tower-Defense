@@ -10,7 +10,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         get
         {
             if (_instance == null)
-                Debug.LogError(typeof(T).ToString() + "is NULL.");
+                Debug.LogError(typeof(T).ToString() + " is NULL.");
 
             return _instance;
         }
