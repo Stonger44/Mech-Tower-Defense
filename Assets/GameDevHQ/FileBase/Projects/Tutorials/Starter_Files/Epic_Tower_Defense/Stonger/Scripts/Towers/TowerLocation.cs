@@ -10,9 +10,11 @@ public class TowerLocation : MonoBehaviour
     [SerializeField] private GameObject _currentPlacedTower;
 
     public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
-    public static event Action<bool> onVacantLocationMouseOver;
-    public static event Action onVacantLocationMouseExit;
     public static event Action onOccupiedLocationMouseOver;
+
+    public static event Action<bool> onLocationMouseOver;
+    public static event Action onLocationMouseExit;
+    
     public static event Action onPlaceTower;
     public static event Action<int> onPurchaseTower;
     public static event Action onInsufficientWarFunds;
@@ -37,23 +39,25 @@ public class TowerLocation : MonoBehaviour
     {
         if (TowerManager.Instance.IsPlacingTower)
         {
+            //Move Tower image accordingly
             if (!_isOccupied)
                 onVacantLocationMouseOver_Vector3?.Invoke(this.transform.position);
             else
                 onOccupiedLocationMouseOver?.Invoke();
 
+            //Check if enough WarFunds are available (basically in order to change the tower range color appropriately)
             ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
             bool hasSufficientWarFund = false;
             if (currentTower != null)
                 hasSufficientWarFund = GameManager.Instance.totalWarFund >= currentTower.WarFundCost;
 
-            onVacantLocationMouseOver?.Invoke(hasSufficientWarFund && !_isOccupied);
+            onLocationMouseOver?.Invoke(hasSufficientWarFund && !_isOccupied);
         }
     }
 
     private void OnMouseExit()
     {
-        onVacantLocationMouseExit?.Invoke();
+        onLocationMouseExit?.Invoke();
     }
 
     private void OnMouseDown()
@@ -71,18 +75,21 @@ public class TowerLocation : MonoBehaviour
 
     private void PlaceTower()
     {
+        //Check 1: Is in Placing Tower mode?
         if (TowerManager.Instance.IsPlacingTower == false)
         {
             Debug.Log("Not in placing tower mode");
             return;
         }
 
+        //Check 2: Is this tower location occupied?
         if (_isOccupied == true)
         {
             Debug.Log("TowerLocation is occupied with " + _currentPlacedTower.name + ".");
             return;
         }
 
+        //Check 3: Is a tower selected?
         ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
         if (currentTower == null)
         {
@@ -90,6 +97,7 @@ public class TowerLocation : MonoBehaviour
             return;
         }
 
+        //Check 4: Is there enough WarFund available?
         if (currentTower.WarFundCost > GameManager.Instance.totalWarFund)
         {
             Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFund + ".");
@@ -97,7 +105,7 @@ public class TowerLocation : MonoBehaviour
             return;
         }
 
-        //If we get here, we passed all the pre-requisites and may place a tower.
+        //PASS: If we get here, we passed all the pre-requisites and may place a tower.
         _isOccupied = true;
         ToggleVacantParticleEffect(false);
         _currentPlacedTower = Instantiate(TowerManager.Instance.CurrentTower, this.transform.position, Quaternion.Euler(0, 90, 0));

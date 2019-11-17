@@ -37,7 +37,7 @@ public class TowerManager : MonoSingleton<TowerManager>
     private void OnEnable()
     {
         TowerLocation.onVacantLocationMouseOver_Vector3 += SnapTowerImageToTowerLocation;
-        TowerLocation.onVacantLocationMouseExit += UpdateTowerImageToFollowMouse;
+        TowerLocation.onLocationMouseExit += UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower += StopBrowsingTowerLocations;
         TowerLocation.onOccupiedLocationMouseOver += UpdateTowerImageToFollowMouse;
     }
@@ -45,7 +45,7 @@ public class TowerManager : MonoSingleton<TowerManager>
     private void OnDisable()
     {
         TowerLocation.onVacantLocationMouseOver_Vector3 -= SnapTowerImageToTowerLocation;
-        TowerLocation.onVacantLocationMouseExit -= UpdateTowerImageToFollowMouse;
+        TowerLocation.onLocationMouseExit -= UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower -= StopBrowsingTowerLocations;
         TowerLocation.onOccupiedLocationMouseOver -= UpdateTowerImageToFollowMouse;
     }
