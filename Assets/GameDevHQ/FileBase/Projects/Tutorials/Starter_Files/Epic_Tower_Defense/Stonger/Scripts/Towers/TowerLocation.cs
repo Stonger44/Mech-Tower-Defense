@@ -50,7 +50,6 @@ public class TowerLocation : MonoBehaviour
             bool hasSufficientWarFund = false;
             if (currentTower != null)
                 hasSufficientWarFund = GameManager.Instance.totalWarFund >= currentTower.WarFundCost;
-
             onLocationMouseOver?.Invoke(hasSufficientWarFund && !_isOccupied);
         }
     }

@@ -1169,6 +1169,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 1488451366}
   endPoint: {fileID: 1209883009}
   standbyPoint: {fileID: 1469157413}
+  _mech1SpawnDelayTime: 5
+  _mech2SpawnDelayTime: 7
   _waveRunning: 0
 --- !u!4 &126891189
 Transform:
@@ -5776,6 +5778,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1009697889}
     m_Modifications:
+    - target: {fileID: 5849817933919098679, guid: 094fb128041c3324a8488df5a6a70aff,
+        type: 3}
+      propertyPath: m_Name
+      value: Gatling_Gun_Upgrade_Image
+      objectReference: {fileID: 0}
     - target: {fileID: -6802242228814087143, guid: 094fb128041c3324a8488df5a6a70aff,
         type: 3}
       propertyPath: _towerRangeRed
@@ -5786,11 +5793,6 @@ PrefabInstance:
       propertyPath: _towerRangeGreen
       value: 
       objectReference: {fileID: 978860721}
-    - target: {fileID: 5849817933919098679, guid: 094fb128041c3324a8488df5a6a70aff,
-        type: 3}
-      propertyPath: m_Name
-      value: Gatling_Gun_Upgrade_Image
-      objectReference: {fileID: 0}
     - target: {fileID: 5847722652066140923, guid: 094fb128041c3324a8488df5a6a70aff,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9035,6 +9037,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1009697889}
     m_Modifications:
+    - target: {fileID: 6426457986979894435, guid: 354b050ca6527044eb72f262add6e0d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Missile_Launcher_Image
+      objectReference: {fileID: 0}
     - target: {fileID: -4573608979289265760, guid: 354b050ca6527044eb72f262add6e0d0,
         type: 3}
       propertyPath: _towerRangeRed
@@ -9045,11 +9052,6 @@ PrefabInstance:
       propertyPath: _towerRangeGreen
       value: 
       objectReference: {fileID: 1456979622}
-    - target: {fileID: 6426457986979894435, guid: 354b050ca6527044eb72f262add6e0d0,
-        type: 3}
-      propertyPath: m_Name
-      value: Missile_Launcher_Image
-      objectReference: {fileID: 0}
     - target: {fileID: 6429207034703237915, guid: 354b050ca6527044eb72f262add6e0d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11409,6 +11411,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1009697889}
     m_Modifications:
+    - target: {fileID: 2335246054913302906, guid: d86633601af9b574ea3f46dfd088c253,
+        type: 3}
+      propertyPath: m_Name
+      value: Gatling_Gun_Image
+      objectReference: {fileID: 0}
     - target: {fileID: 9218565488704627152, guid: d86633601af9b574ea3f46dfd088c253,
         type: 3}
       propertyPath: _towerRangeRed
@@ -11419,11 +11426,6 @@ PrefabInstance:
       propertyPath: _towerRangeGreen
       value: 
       objectReference: {fileID: 1640314857}
-    - target: {fileID: 2335246054913302906, guid: d86633601af9b574ea3f46dfd088c253,
-        type: 3}
-      propertyPath: m_Name
-      value: Gatling_Gun_Image
-      objectReference: {fileID: 0}
     - target: {fileID: 2341045195820179886, guid: d86633601af9b574ea3f46dfd088c253,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12270,6 +12272,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1009697889}
     m_Modifications:
+    - target: {fileID: 6156693795650427251, guid: 806893a36eb17b2418214b3d5717cde0,
+        type: 3}
+      propertyPath: m_Name
+      value: Missile_Launcher_Upgrade_Image
+      objectReference: {fileID: 0}
     - target: {fileID: 7064294937924132552, guid: 806893a36eb17b2418214b3d5717cde0,
         type: 3}
       propertyPath: _towerRangeRed
@@ -12280,11 +12287,6 @@ PrefabInstance:
       propertyPath: _towerRangeGreen
       value: 
       objectReference: {fileID: 1761127648}
-    - target: {fileID: 6156693795650427251, guid: 806893a36eb17b2418214b3d5717cde0,
-        type: 3}
-      propertyPath: m_Name
-      value: Missile_Launcher_Upgrade_Image
-      objectReference: {fileID: 0}
     - target: {fileID: 6153947980462133291, guid: 806893a36eb17b2418214b3d5717cde0,
         type: 3}
       propertyPath: m_LocalPosition.x

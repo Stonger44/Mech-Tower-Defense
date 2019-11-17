@@ -33,7 +33,6 @@ public class TowerRange : MonoBehaviour
         {
             HideTowerRange();
         }
-
     }
 
     private void ToggleTowerColor(bool isGood)
