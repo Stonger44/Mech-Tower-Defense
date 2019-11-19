@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 918125941789505976}
   - component: {fileID: 953222777052985966}
   - component: {fileID: 976122710970234718}
+  - component: {fileID: 7790874248527109750}
   m_Layer: 0
   m_Name: Gatling_Gun
   m_TagString: Untagged
@@ -337,6 +338,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7790874248527109750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912176236257442156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b8e1a601c6cc54283161a9747fe6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _horizontalAimPivot: {fileID: 913784690144518056}
+  _verticalAimPivot: {fileID: 912523923185071550}
 --- !u!1 &912225716815252022
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +565,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912523923185071550}
-  m_LocalRotation: {x: -0, y: -9.8607613e-32, z: -4.1037882e-26, w: 1}
+  m_LocalRotation: {x: -0, y: -9.869224e-32, z: -4.10731e-26, w: 1}
   m_LocalPosition: {x: -0.29565015, y: 0.38314095, z: -0.22158031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14890,7 +14905,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913784690144518056}
-  m_LocalRotation: {x: 0, y: -4.9303807e-32, z: 4.1037882e-26, w: 1}
+  m_LocalRotation: {x: 0, y: -5.192827e-32, z: 4.3222345e-26, w: 1}
   m_LocalPosition: {x: 0.004159235, y: 0.2792407, z: 0.015021309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
