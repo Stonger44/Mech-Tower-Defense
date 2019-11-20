@@ -352,6 +352,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalAimPivot: {fileID: 913784690144518056}
   _verticalAimPivot: {fileID: 912523923185071550}
+  _rotationSpeed: 0
+  _currentEnemy: {fileID: 0}
 --- !u!1 &912225716815252022
 GameObject:
   m_ObjectHideFlags: 0
@@ -14987,7 +14989,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8677488977793346260}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.78044224, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 918125941789505976}
