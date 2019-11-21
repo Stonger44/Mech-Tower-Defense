@@ -3575,7 +3575,7 @@ MonoBehaviour:
   _ScreenWidth: 3840
   _ScreenHeight: 45
   _mousePosition: 0
-  _edgeScrollWidthPercent: 0.1
+  _edgeScrollWidthPercent: 0.01
   _edgeScrollMarginTop: 0
   _edgeScrollMarginLeft: 0
   _edgeScrollMarginRight: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Attack : MonoBehaviour
 {
@@ -13,11 +14,14 @@ public class Attack : MonoBehaviour
 
     private Vector3 _neutralPosition;
     private Vector3 _lookDirection;
+    private Vector3 _previousLookDirection;
     private Vector3 _horizontalOnlyLookDirection;
     private Quaternion _horizontalOnlyRotation;
 
-    [SerializeField] private Queue _targetQueue;
+    [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
+
+    [SerializeField] private float _closeTargetMargin;
 
     // Start is called before the first frame update
     void Start()
@@ -36,23 +40,26 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SlerpAim();
+        //if no targets, move back to standby position
+        if (_targetList.Count <= 0)
+            SlerpAim();
     }
 
-    //Currently not using this, but might later
-    private void Aim()
-    {
-        if (_currentTarget != null)
-            _lookDirection = _currentTarget.transform.position - this.transform.position;
-        else
-            _lookDirection = _neutralPosition - this.transform.position;
+    #region Aim() with no Slerp, currently not in use
+    //private void Aim()
+    //{
+    //    if (_currentTarget != null)
+    //        _lookDirection = _currentTarget.transform.position - this.transform.position;
+    //    else
+    //        _lookDirection = _neutralPosition - this.transform.position;
 
-        _horizontalOnlyLookDirection.x = _lookDirection.x;
-        _horizontalOnlyLookDirection.z = _lookDirection.z;
+    //    _horizontalOnlyLookDirection.x = _lookDirection.x;
+    //    _horizontalOnlyLookDirection.z = _lookDirection.z;
 
-        _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-        _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
-    }
+    //    _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
+    //    _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
+    //}
+    #endregion
 
     private void SlerpAim()
     {
@@ -68,6 +75,20 @@ public class Attack : MonoBehaviour
         }
         Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
 
+        //This doesn't work. I'm trying to switch to no Slerp Aim to avoid an unnatural swinging rotation; I want the tower to stop immmediately when it catches up to the target.
+        if ((_lookDirection.x - _previousLookDirection.x < _closeTargetMargin && _lookDirection.x - _previousLookDirection.x > -_closeTargetMargin)
+            && (_lookDirection.y - _previousLookDirection.y < _closeTargetMargin && _lookDirection.y - _previousLookDirection.y > -_closeTargetMargin)
+            && (_lookDirection.x - _previousLookDirection.z < _closeTargetMargin && _lookDirection.z - _previousLookDirection.z > -_closeTargetMargin))
+        {
+            _horizontalOnlyLookDirection.x = _lookDirection.x;
+            _horizontalOnlyLookDirection.z = _lookDirection.z;
+
+            _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
+            _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
+
+            return;
+        }
+
         _horizontalOnlyLookDirection.x = _lookDirection.x;
         _horizontalOnlyLookDirection.z = _lookDirection.z;
 
@@ -80,22 +101,38 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Contains("Mech") && _currentTarget == null)
+        if (other.tag.Contains("Mech"))
         {
-            _currentTarget = other.gameObject;
+            _targetList.Add(other.gameObject);
+        }
+
+        if (_currentTarget == null && _targetList.Count > 0)
+        {
+            _currentTarget = _targetList.FirstOrDefault(x => x.tag.Contains("Mech")); //return the first target in the queue and set as _currentEnemy
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        
+        if (other.gameObject == _currentTarget)
+            SlerpAim();
+
+        //Attack
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (_currentTarget == other.gameObject)
+        if (_targetList.Count > 0 && _targetList.Contains(other.gameObject))
+            _targetList.Remove(other.gameObject);
+
+        if (other.gameObject == _currentTarget)
         {
             _currentTarget = null;
+        }
+        
+        if (_currentTarget == null && _targetList.Count > 0)
+        {
+            _currentTarget = _targetList.FirstOrDefault(x => x.tag.Contains("Mech")); //return the first target in the queue and set as _currentEnemy
         }
     }
 }
