@@ -6,21 +6,28 @@ public class Attack : MonoBehaviour
 {
     [SerializeField] private GameObject _horizontalAimPivot;
     [SerializeField] private GameObject _verticalAimPivot;
+
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _standbySpeed;
     [SerializeField] private float _trackingSpeed;
+
     private Vector3 _neutralPosition;
     private Vector3 _lookDirection;
     private Vector3 _horizontalOnlyLookDirection;
     private Quaternion _horizontalOnlyRotation;
 
-    [SerializeField] private GameObject _currentEnemy;
-
-    private bool _resettingPosition;
+    [SerializeField] private Queue _targetQueue;
+    [SerializeField] private GameObject _currentTarget;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (_horizontalAimPivot == null)
+            Debug.LogError("_horizontalAimPivot is NULL.");
+
+        if (_verticalAimPivot == null)
+            Debug.LogError("_verticalAimPivot is NULL.");
+
         _neutralPosition.x = this.transform.position.x + 10;
         _neutralPosition.y = this.transform.position.y;
         _neutralPosition.z = this.transform.position.z;
@@ -32,25 +39,26 @@ public class Attack : MonoBehaviour
         SlerpAim();
     }
 
-    //private void Aim()
-    //{
-    //    if (_currentEnemy != null)
-    //        _lookDirection = _currentEnemy.transform.position - this.transform.position;
-    //    else
-    //        _lookDirection = _neutralPosition - this.transform.position;
+    //Currently not using this, but might later
+    private void Aim()
+    {
+        if (_currentTarget != null)
+            _lookDirection = _currentTarget.transform.position - this.transform.position;
+        else
+            _lookDirection = _neutralPosition - this.transform.position;
 
-    //    _horizontalOnlyLookDirection.x = _lookDirection.x;
-    //    _horizontalOnlyLookDirection.z = _lookDirection.z;
+        _horizontalOnlyLookDirection.x = _lookDirection.x;
+        _horizontalOnlyLookDirection.z = _lookDirection.z;
 
-    //    _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-    //    _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
-    //}
+        _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
+        _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
+    }
 
     private void SlerpAim()
     {
-        if (_currentEnemy != null)
+        if (_currentTarget != null)
         {
-            _lookDirection = _currentEnemy.transform.position - this.transform.position;
+            _lookDirection = _currentTarget.transform.position - this.transform.position;
             _rotationSpeed = _trackingSpeed;
         }
         else
@@ -58,7 +66,7 @@ public class Attack : MonoBehaviour
             _lookDirection = _neutralPosition - this.transform.position;
             _rotationSpeed = _standbySpeed;
         }
-            
+        Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
 
         _horizontalOnlyLookDirection.x = _lookDirection.x;
         _horizontalOnlyLookDirection.z = _lookDirection.z;
@@ -72,9 +80,9 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Contains("Mech") && _currentEnemy == null)
+        if (other.tag.Contains("Mech") && _currentTarget == null)
         {
-            _currentEnemy = other.gameObject;
+            _currentTarget = other.gameObject;
         }
     }
 
@@ -85,16 +93,9 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (_currentEnemy == other.gameObject)
+        if (_currentTarget == other.gameObject)
         {
-            _currentEnemy = null;
+            _currentTarget = null;
         }
-    }
-
-    private IEnumerator ResetAimPositionRoutine()
-    {
-        yield return new WaitForSeconds(1);
-
-        _resettingPosition = false;
     }
 }
