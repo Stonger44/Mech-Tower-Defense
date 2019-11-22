@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TowerLocation : MonoBehaviour
 {
+    private GameObject _towerContainer;
+
     [SerializeField] private bool _isOccupied;
     [SerializeField] private GameObject _vacantParticleEffect;
     [SerializeField] private GameObject _currentPlacedTower;
@@ -32,6 +34,11 @@ public class TowerLocation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _towerContainer = GameObject.Find("TowerContainer");
+
+        if (_towerContainer == null)
+            Debug.LogError("_towerContainer is NULL.");
+
         _vacantParticleEffect.SetActive(false);
     }
 
@@ -107,7 +114,10 @@ public class TowerLocation : MonoBehaviour
         //PASS: If we get here, we passed all the pre-requisites and may place a tower.
         _isOccupied = true;
         ToggleVacantParticleEffect(false);
-        _currentPlacedTower = Instantiate(TowerManager.Instance.CurrentTower, this.transform.position, Quaternion.Euler(0, 90, 0));
+
+        var newTower = Instantiate(TowerManager.Instance.CurrentTower, this.transform.position, Quaternion.Euler(0, 90, 0));
+        newTower.transform.parent = _towerContainer.transform;
+        _currentPlacedTower = newTower;
 
         onPlaceTower?.Invoke();
         onPurchaseTower?.Invoke(currentTower.WarFundCost);
