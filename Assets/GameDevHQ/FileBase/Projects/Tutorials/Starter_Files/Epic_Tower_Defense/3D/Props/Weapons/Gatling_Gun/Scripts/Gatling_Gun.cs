@@ -72,9 +72,10 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
         private void Shoot(GameObject thisTower)
         {
-            if (thisTower == this.gameObject && !_isShooting)
+            if (thisTower == this.gameObject)
             {
-                _isShooting = true;
+                if (_isShooting == false)
+                    _isShooting = true;
 
                 RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
                 Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
