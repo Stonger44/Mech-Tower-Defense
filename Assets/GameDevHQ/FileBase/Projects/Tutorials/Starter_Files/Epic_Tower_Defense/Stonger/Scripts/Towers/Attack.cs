@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class Attack : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class Attack : MonoBehaviour
 
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
+
+    public static event Action onTargetInRange;
+    public static event Action onNoTargetInRange;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,7 @@ public class Attack : MonoBehaviour
         if (_targetList.Count <= 0)
         {
             SlerpAim();
+            onNoTargetInRange?.Invoke();
         }
     }
 
@@ -96,7 +101,9 @@ public class Attack : MonoBehaviour
         if (_currentTarget == null && _targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
-            //_currentTarget = _targetList.FirstOrDefault(x => x.tag.Contains("Mech"));
+
+            SlerpAim();
+            onTargetInRange?.Invoke();
         }
     }
 
@@ -105,15 +112,15 @@ public class Attack : MonoBehaviour
         if (other.gameObject == _currentTarget)
         {
             SlerpAim();
+            onTargetInRange?.Invoke();
         }
-
-        //Attack
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (_targetList.Count > 0 && _targetList.Contains(other.gameObject))
         {
+            onNoTargetInRange?.Invoke();
             _targetList.Remove(other.gameObject);
         }
 
@@ -125,7 +132,6 @@ public class Attack : MonoBehaviour
         if (_currentTarget == null && _targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
-            //_currentTarget = _targetList.FirstOrDefault(x => x.tag.Contains("Mech"));
         }
     }
 }
