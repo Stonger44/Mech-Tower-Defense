@@ -15283,6 +15283,11 @@ PrefabInstance:
       propertyPath: _closeTargetMargin
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _towerRoot
+      value: 
+      objectReference: {fileID: 912176236257442156}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}
 --- !u!4 &3285334492714076474 stripped

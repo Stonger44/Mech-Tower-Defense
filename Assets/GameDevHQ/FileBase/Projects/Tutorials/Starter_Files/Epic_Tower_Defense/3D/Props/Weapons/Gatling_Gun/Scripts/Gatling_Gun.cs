@@ -29,8 +29,11 @@ namespace GameDevHQ.FileBase.Gatling_Gun
         private AudioSource _audioSource; //reference to the audio source component
         private bool _startWeaponNoise = true;
 
+        //Extended Code
         public int WarFundCost { get; set; } = 500;
         public int WarFundSellValue { get; set; } = 250;
+
+        private bool _isShooting;
 
         private void OnEnable()
         {
@@ -49,7 +52,7 @@ namespace GameDevHQ.FileBase.Gatling_Gun
         {
             _gunBarrel = GameObject.Find("Barrel_to_Spin").GetComponent<Transform>(); //assigning the transform of the gun barrel to the variable
             Muzzle_Flash.SetActive(false); //setting the initial state of the muzzle flash effect to off
-            _audioSource = GetComponent<AudioSource>(); //ssign the Audio Source to the reference variable
+            _audioSource = GetComponent<AudioSource>(); //Assign the Audio Source to the reference variable
             _audioSource.playOnAwake = false; //disabling play on awake
             _audioSource.loop = true; //making sure our sound effect loops
             _audioSource.clip = fireSound; //assign the clip to play
@@ -67,24 +70,34 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             _gunBarrel.transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
         }
 
-        private void Shoot()
+        private void Shoot(GameObject thisTower)
         {
-            RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
-            Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
-            bulletCasings.Emit(1); //Emit the bullet casing particle effect  
-
-            if (_startWeaponNoise == true) //checking if we need to start the gun sound
+            if (thisTower == this.gameObject && !_isShooting)
             {
-                _audioSource.Play(); //play audio clip attached to audio source
-                _startWeaponNoise = false; //set the start weapon noise value to false to prevent calling it again
+                _isShooting = true;
+
+                RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
+                Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
+                bulletCasings.Emit(1); //Emit the bullet casing particle effect  
+
+                if (_startWeaponNoise == true) //checking if we need to start the gun sound
+                {
+                    _audioSource.Play(); //play audio clip attached to audio source
+                    _startWeaponNoise = false; //set the start weapon noise value to false to prevent calling it again
+                } 
             }
         }
 
-        private void StopShooting()
+        private void StopShooting(GameObject thisTower)
         {
-            Muzzle_Flash.SetActive(false); //turn off muzzle flash particle effect
-            _audioSource.Stop(); //stop the sound effect from playing
-            _startWeaponNoise = true; //set the start weapon noise value to true
+            if (thisTower == this.gameObject && _isShooting)
+            {
+                Muzzle_Flash.SetActive(false); //turn off muzzle flash particle effect
+                _audioSource.Stop(); //stop the sound effect from playing
+                _startWeaponNoise = true; //set the start weapon noise value to true 
+
+                _isShooting = false;
+            }
         }
     }
 

@@ -6,6 +6,7 @@ using System;
 
 public class Attack : MonoBehaviour
 {
+    [SerializeField] private GameObject _towerRoot;
     [SerializeField] private GameObject _horizontalAimPivot;
     [SerializeField] private GameObject _verticalAimPivot;
 
@@ -22,12 +23,16 @@ public class Attack : MonoBehaviour
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
 
-    public static event Action onTargetInRange;
-    public static event Action onNoTargetInRange;
+    public static event Action<GameObject> onTargetInRange;
+    public static event Action<GameObject> onNoTargetInRange;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (_towerRoot == null)
+            Debug.LogError("_towerRoot is NULL.");
+
+
         if (_horizontalAimPivot == null)
             Debug.LogError("_horizontalAimPivot is NULL.");
 
@@ -46,7 +51,7 @@ public class Attack : MonoBehaviour
         if (_targetList.Count <= 0)
         {
             SlerpAim();
-            onNoTargetInRange?.Invoke();
+            onNoTargetInRange?.Invoke(_towerRoot);
         }
     }
 
@@ -103,7 +108,7 @@ public class Attack : MonoBehaviour
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
 
             SlerpAim();
-            onTargetInRange?.Invoke();
+            onTargetInRange?.Invoke(_towerRoot);
         }
     }
 
@@ -112,7 +117,7 @@ public class Attack : MonoBehaviour
         if (other.gameObject == _currentTarget)
         {
             SlerpAim();
-            onTargetInRange?.Invoke();
+            onTargetInRange?.Invoke(_towerRoot);
         }
     }
 
@@ -120,7 +125,7 @@ public class Attack : MonoBehaviour
     {
         if (_targetList.Count > 0 && _targetList.Contains(other.gameObject))
         {
-            onNoTargetInRange?.Invoke();
+            onNoTargetInRange?.Invoke(_towerRoot);
             _targetList.Remove(other.gameObject);
         }
 
