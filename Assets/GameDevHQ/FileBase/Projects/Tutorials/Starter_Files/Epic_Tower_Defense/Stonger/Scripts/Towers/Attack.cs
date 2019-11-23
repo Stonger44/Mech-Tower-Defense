@@ -14,9 +14,9 @@ public class Attack : MonoBehaviour
 
     private Vector3 _neutralPosition;
     private Vector3 _lookDirection;
-    private Vector3 _previousLookDirection;
     private Vector3 _horizontalOnlyLookDirection;
-    private Quaternion _horizontalOnlyRotation;
+    private Quaternion _horizontalOnlyLookRotation;
+    private Quaternion _lookRotation;
 
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
@@ -77,21 +77,13 @@ public class Attack : MonoBehaviour
 
         _horizontalOnlyLookDirection.x = _lookDirection.x;
         _horizontalOnlyLookDirection.z = _lookDirection.z;
-
-        var verticalOnlyLookDirection = new Vector3();
-        verticalOnlyLookDirection.x = _lookDirection.x;
-        verticalOnlyLookDirection.y = _lookDirection.y;
-        verticalOnlyLookDirection.z = _lookDirection.z;        
         
 
-        Quaternion horizontalOnlyLookRotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-        Quaternion verticalOnlyLookRotation = Quaternion.LookRotation(verticalOnlyLookDirection);
-        //Quaternion lookRotation = Quaternion.LookRotation(_lookDirection);
+        _horizontalOnlyLookRotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
+        _lookRotation = Quaternion.LookRotation(_lookDirection);
 
-
-        _horizontalAimPivot.transform.rotation = Quaternion.Slerp(_horizontalAimPivot.transform.rotation, horizontalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
-        _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, verticalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
-        //_verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, lookRotation, _rotationSpeed * Time.deltaTime);
+        _horizontalAimPivot.transform.rotation = Quaternion.Slerp(_horizontalAimPivot.transform.rotation, _horizontalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
+        _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
