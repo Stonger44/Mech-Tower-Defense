@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private AudioSource _explosionSound;
 
     [SerializeField] private Animator _animator;
-    [SerializeField] private bool IsDying;
+    [SerializeField] private bool _isDying;
 
     public static event Action<GameObject> onDeath;
 
@@ -100,34 +100,29 @@ public class Enemy : MonoBehaviour
             if (_health <= 0)
             {
                 _health = 0;
-                StartCoroutine(DieRoutine());
-                //Die();
+                if (!_isDying)
+                    StartCoroutine(DieRoutine());
             }
         }
     }
 
-    private void Die()
-    {
-        this.gameObject.SetActive(false);
-
-        //Broadcast enemy death
-        onDeath?.Invoke(this.gameObject);
-    }
-
     private IEnumerator DieRoutine()
     {
+        _isDying = true;
+
         //Death Animation
+
+
+        yield return new WaitForSeconds(3);
+
+        //Death Explosion
         _explosionObject.SetActive(true);
         _explosionSound.Play();
 
-        yield return new WaitForSeconds(2);
-
-        _explosionObject.SetActive(false);
-        _explosionSound.Stop();
+        yield return new WaitForSeconds(1);
 
         this.gameObject.SetActive(false);
-
-        //Broadcast enemy death
+        _isDying = false;
         onDeath?.Invoke(this.gameObject);
     }
 }
