@@ -21,6 +21,12 @@ public class Enemy : MonoBehaviour
     public int warFund { get; private set; }
     [SerializeField] private bool _onStandby = false;
 
+    [SerializeField] private GameObject _explosionObject;
+    [SerializeField] private AudioSource _explosionSound;
+
+    [SerializeField] private Animator _animator;
+    [SerializeField] private bool IsDying;
+
     public static event Action<GameObject> onDeath;
 
     private void OnEnable()
@@ -35,6 +41,12 @@ public class Enemy : MonoBehaviour
 
         _health = _initialHealth;
 
+        if (_explosionObject == null)
+            Debug.LogError("_explosionObject is NULL.");
+
+        _explosionSound.Stop();
+        _explosionObject.SetActive(false);
+
         SetToStandby();
     }
 
@@ -48,28 +60,6 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         warFund = _warFund;
-    }
-
-    private void TakeDamage(GameObject currentTarget, int damageAmount)
-    {
-        if (this.gameObject == currentTarget)
-        {
-            _health -= damageAmount;
-
-            if (_health <= 0)
-            {
-                _health = 0;
-                Die();
-            }
-        }
-    }
-
-    private void Die()
-    {
-        this.gameObject.SetActive(false);
-
-        //Broadcast enemy death
-        onDeath?.Invoke(this.gameObject);
     }
 
     public void SetToAttack()
@@ -99,5 +89,45 @@ public class Enemy : MonoBehaviour
         {
             SetToStandby();
         }
+    }
+
+    private void TakeDamage(GameObject currentTarget, int damageAmount)
+    {
+        if (this.gameObject == currentTarget)
+        {
+            _health -= damageAmount;
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                StartCoroutine(DieRoutine());
+                //Die();
+            }
+        }
+    }
+
+    private void Die()
+    {
+        this.gameObject.SetActive(false);
+
+        //Broadcast enemy death
+        onDeath?.Invoke(this.gameObject);
+    }
+
+    private IEnumerator DieRoutine()
+    {
+        //Death Animation
+        _explosionObject.SetActive(true);
+        _explosionSound.Play();
+
+        yield return new WaitForSeconds(2);
+
+        _explosionObject.SetActive(false);
+        _explosionSound.Stop();
+
+        this.gameObject.SetActive(false);
+
+        //Broadcast enemy death
+        onDeath?.Invoke(this.gameObject);
     }
 }
