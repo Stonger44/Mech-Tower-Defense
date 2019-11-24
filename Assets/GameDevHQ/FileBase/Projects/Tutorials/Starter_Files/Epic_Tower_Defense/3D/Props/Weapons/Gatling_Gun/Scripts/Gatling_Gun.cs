@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,6 +35,9 @@ namespace GameDevHQ.FileBase.Gatling_Gun
         public int WarFundSellValue { get; set; } = 250;
 
         private bool _isShooting;
+        [SerializeField] private int _damageAmount;
+
+        public static event Action<GameObject, int> onShoot;
 
         private void OnEnable()
         {
@@ -70,12 +74,15 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             _gunBarrel.transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
         }
 
-        private void Shoot(GameObject thisTower)
+        private void Shoot(GameObject thisTower, GameObject currentTarget)
         {
-            if (thisTower == this.gameObject)
+            if (thisTower == this.gameObject && currentTarget.tag.Contains("Mech"))
             {
                 if (_isShooting == false)
+                {
                     _isShooting = true;
+                    StartCoroutine(AttackRoutine(currentTarget));
+                }
 
                 RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
                 Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
@@ -85,7 +92,7 @@ namespace GameDevHQ.FileBase.Gatling_Gun
                 {
                     _audioSource.Play(); //play audio clip attached to audio source
                     _startWeaponNoise = false; //set the start weapon noise value to false to prevent calling it again
-                } 
+                }
             }
         }
 
@@ -98,6 +105,16 @@ namespace GameDevHQ.FileBase.Gatling_Gun
                 _startWeaponNoise = true; //set the start weapon noise value to true 
 
                 _isShooting = false;
+            }
+        }
+
+        private IEnumerator AttackRoutine(GameObject currentTarget)
+        {
+            while (_isShooting)
+            {
+                yield return new WaitForSeconds(1);
+
+                onShoot?.Invoke(currentTarget, _damageAmount);
             }
         }
     }

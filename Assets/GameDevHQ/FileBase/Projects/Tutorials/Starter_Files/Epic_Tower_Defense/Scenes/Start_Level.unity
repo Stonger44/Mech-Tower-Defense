@@ -6688,7 +6688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialHealth: 10
   _health: 10
-  totalWarFund: 5000
+  totalWarFund: 1000
   _initialWaveEnemyCount: 10
   _currentWaveEnemyCount: 0
 --- !u!4 &1121363925
@@ -12980,7 +12980,7 @@ GameObject:
   - component: {fileID: 1879326037}
   - component: {fileID: 1879326038}
   - component: {fileID: 1879326042}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LandMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}

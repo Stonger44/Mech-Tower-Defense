@@ -97,9 +97,14 @@ public class GameManager : MonoSingleton<GameManager>
         Debug.Log("Wave " + wave + " failed.");
     }
 
-    private void OnEnemyDeath(int warFund)
+    private void OnEnemyDeath(GameObject enemy)
     {
-        totalWarFund += warFund;
+        var enemyScript = enemy.GetComponent<Enemy>();
+
+        if (enemyScript == null)
+            Debug.Log("enemtScript is NULL.");
+
+        totalWarFund += enemyScript.warFund;
 
         _currentWaveEnemyCount--;
 

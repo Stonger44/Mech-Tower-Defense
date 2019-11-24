@@ -55,11 +55,9 @@ public class PoolManager : MonoSingleton<PoolManager>
             }
         }
 
-        //Fix maximum enemies for the wave has been reached, do not generate more enemies
+        //If maximum enemies for the wave has been reached, do not generate more enemies
         if (enemyPool.Count >= GameManager.Instance.waveTotalEnemyCount)
-        {
             return null;
-        }
 
         GenerateEnemies(1);
         return RequestEnemy();

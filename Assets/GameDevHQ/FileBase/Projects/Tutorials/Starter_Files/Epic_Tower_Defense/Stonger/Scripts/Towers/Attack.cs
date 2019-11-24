@@ -23,15 +23,24 @@ public class Attack : MonoBehaviour
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
 
-    public static event Action<GameObject> onTargetInRange;
+    public static event Action<GameObject, GameObject> onTargetInRange;
     public static event Action<GameObject> onNoTargetInRange;
+
+    private void OnEnable()
+    {
+        Enemy.onDeath += CheckCurrentTarget;
+    }
+
+    private void OnDisable()
+    {
+        Enemy.onDeath -= CheckCurrentTarget;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         if (_towerRoot == null)
             Debug.LogError("_towerRoot is NULL.");
-
 
         if (_horizontalAimPivot == null)
             Debug.LogError("_horizontalAimPivot is NULL.");
@@ -99,25 +108,26 @@ public class Attack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains("Mech"))
-        {
             _targetList.Add(other.gameObject);
-        }
 
         if (_currentTarget == null && _targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
 
             SlerpAim();
-            onTargetInRange?.Invoke(_towerRoot);
+            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        if (_currentTarget == null && _targetList.Contains(other.gameObject))
+            _currentTarget = other.gameObject;
+
         if (other.gameObject == _currentTarget)
         {
             SlerpAim();
-            onTargetInRange?.Invoke(_towerRoot);
+            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
         }
     }
 
@@ -125,18 +135,40 @@ public class Attack : MonoBehaviour
     {
         if (_targetList.Count > 0 && _targetList.Contains(other.gameObject))
         {
-            onNoTargetInRange?.Invoke(_towerRoot);
             _targetList.Remove(other.gameObject);
+            onNoTargetInRange?.Invoke(_towerRoot);
         }
 
         if (other.gameObject == _currentTarget)
-        {
             _currentTarget = null;
-        }
+
 
         if (_currentTarget == null && _targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
+            SlerpAim();
+            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
         }
+    }
+
+    private void CheckCurrentTarget(GameObject destroyedTarget)
+    {   
+        if (_targetList.Contains(destroyedTarget) && destroyedTarget.activeSelf == false)
+            _targetList.Remove(destroyedTarget);
+
+        if (destroyedTarget == _currentTarget)
+            _currentTarget = null;
+
+        if (_targetList.Count > 0)
+        {
+            _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
+            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+        }
+        else
+        {
+            onNoTargetInRange?.Invoke(_towerRoot);
+        }
+
+        SlerpAim();
     }
 }

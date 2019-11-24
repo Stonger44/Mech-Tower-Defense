@@ -241,6 +241,7 @@ MonoBehaviour:
   Muzzle_Flash: {fileID: 912937344943162762}
   bulletCasings: {fileID: 1039743723131286920}
   fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
+  _damageAmount: 2
 --- !u!82 &976122710970234718
 AudioSource:
   m_ObjectHideFlags: 0

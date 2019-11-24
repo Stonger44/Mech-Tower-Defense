@@ -1445,8 +1445,8 @@ GameObject:
   - component: {fileID: 1478119875328162560}
   - component: {fileID: 1569259853865098464}
   - component: {fileID: 1482624962821067445}
-  - component: {fileID: 9052230731078863065}
   - component: {fileID: 8301687516009011900}
+  - component: {fileID: 9052230731078863065}
   m_Layer: 0
   m_Name: Mech1
   m_TagString: Mech1
@@ -1511,6 +1511,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &8301687516009011900
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483520609388399124}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 4.52
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 4.42, z: 0}
 --- !u!114 &9052230731078863065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1527,20 +1541,6 @@ MonoBehaviour:
   _health: 10
   _warFund: 100
   _onStandby: 0
---- !u!136 &8301687516009011900
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483520609388399124}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 4.52
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 4.42, z: 0}
 --- !u!1 &1483659976317538464
 GameObject:
   m_ObjectHideFlags: 0

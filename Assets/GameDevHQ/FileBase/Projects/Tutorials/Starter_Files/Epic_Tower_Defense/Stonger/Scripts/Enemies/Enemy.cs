@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using GameDevHQ.FileBase.Gatling_Gun;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,12 +18,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
     [SerializeField] private int _warFund;
+    public int warFund { get; private set; }
     [SerializeField] private bool _onStandby = false;
 
-    public static event Action<int> onDeath;
+    public static event Action<GameObject> onDeath;
 
     private void OnEnable()
     {
+        Gatling_Gun.onShoot += TakeDamage;
+
         enemyCount++;
 
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
@@ -36,26 +40,36 @@ public class Enemy : MonoBehaviour
 
     private void OnDisable()
     {
+        Gatling_Gun.onShoot -= TakeDamage;
+
         enemyCount--;
     }
 
-    public void TakeDamage(int damageAmount)
+    private void Start()
     {
-        _health -= damageAmount;
+        warFund = _warFund;
+    }
 
-        if (_health <= 0)
+    private void TakeDamage(GameObject currentTarget, int damageAmount)
+    {
+        if (this.gameObject == currentTarget)
         {
-            _health = 0;
-            Die();
+            _health -= damageAmount;
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                Die();
+            }
         }
     }
 
-    public void Die()
+    private void Die()
     {
         this.gameObject.SetActive(false);
 
         //Broadcast enemy death
-        onDeath?.Invoke(_warFund);
+        onDeath?.Invoke(this.gameObject);
     }
 
     public void SetToAttack()

@@ -14,7 +14,7 @@ public class LandMine : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return) && (Time.time > _nextFire))
             {
-                enemy.TakeDamage(10);
+                //enemy.TakeDamage(10);
                 _nextFire = Time.time + 1.0f;
             } 
         }
