@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
+    [SerializeField] private GameObject _skin;
 
     public static event Action<GameObject> onDeath;
 
@@ -40,6 +41,8 @@ public class Enemy : MonoBehaviour
         _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
 
         _health = _initialHealth;
+        _skin.SetActive(true);
+        _animator.SetBool("IsDying", false);
 
         if (_explosionObject == null)
             Debug.LogError("_explosionObject is NULL.");
@@ -60,6 +63,11 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         warFund = _warFund;
+    }
+
+    public GameObject GetSkin()
+    {
+        return _skin;
     }
 
     public void SetToAttack()
@@ -111,18 +119,36 @@ public class Enemy : MonoBehaviour
         _isDying = true;
 
         //Death Animation
+        _animator.SetBool("IsDying", true);
 
 
-        yield return new WaitForSeconds(3);
+        if (this.gameObject.tag == "Mech1")
+        {
+            yield return new WaitForSeconds(0.5f);
+            _navMeshAgent.isStopped = true;
+            yield return new WaitForSeconds(3.5f);
+
+        }
+        else if (this.gameObject.tag == "Mech2")
+        {
+            yield return new WaitForSeconds(1f);
+            _navMeshAgent.isStopped = true;
+            yield return new WaitForSeconds(2f);
+        }
 
         //Death Explosion
         _explosionObject.SetActive(true);
         _explosionSound.Play();
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.44f);
+
+        _skin.SetActive(false);
+        onDeath?.Invoke(this.gameObject);
+
+        yield return new WaitForSeconds(4.44f);
 
         this.gameObject.SetActive(false);
+
         _isDying = false;
-        onDeath?.Invoke(this.gameObject);
     }
 }

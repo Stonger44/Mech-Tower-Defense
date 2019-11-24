@@ -90,7 +90,7 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
                 if (_startWeaponNoise == true) //checking if we need to start the gun sound
                 {
-                    //_audioSource.Play(); //play audio clip attached to audio source
+                    _audioSource.Play(); //play audio clip attached to audio source
                     _startWeaponNoise = false; //set the start weapon noise value to false to prevent calling it again
                 }
             }
@@ -101,7 +101,7 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             if (thisTower == this.gameObject && _isShooting)
             {
                 Muzzle_Flash.SetActive(false); //turn off muzzle flash particle effect
-                //_audioSource.Stop(); //stop the sound effect from playing
+                _audioSource.Stop(); //stop the sound effect from playing
                 _startWeaponNoise = true; //set the start weapon noise value to true 
 
                 _isShooting = false;
