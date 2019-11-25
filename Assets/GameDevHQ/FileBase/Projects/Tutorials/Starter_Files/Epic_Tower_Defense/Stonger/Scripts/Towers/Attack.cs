@@ -121,6 +121,9 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        //if (other.tag.Contains("Mech") && _targetList.Contains(other.gameObject) == false)
+        //    _targetList.Add(other.gameObject);
+
         if (_currentTarget == null && _targetList.Contains(other.gameObject))
             _currentTarget = other.gameObject;
 
@@ -154,13 +157,7 @@ public class Attack : MonoBehaviour
     private void CheckCurrentTarget(GameObject destroyedTarget)
     {   
         if (_targetList.Contains(destroyedTarget))
-        {
-            var destroyedTargetSkin = destroyedTarget.GetComponent<Enemy>().GetSkin();
-            if (destroyedTargetSkin != null && destroyedTargetSkin.activeSelf == false)
-            {
-                _targetList.Remove(destroyedTarget);
-            }
-        }
+            _targetList.Remove(destroyedTarget);
 
         if (destroyedTarget == _currentTarget)
             _currentTarget = null;

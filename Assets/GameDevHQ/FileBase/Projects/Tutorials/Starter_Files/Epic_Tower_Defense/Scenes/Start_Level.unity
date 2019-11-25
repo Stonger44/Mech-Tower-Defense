@@ -6690,7 +6690,7 @@ MonoBehaviour:
   _health: 10
   totalWarFund: 1000
   _initialWaveEnemyCount: 10
-  _currentWaveEnemyCount: 0
+  _currentWaveCurrentEnemyCount: 0
 --- !u!4 &1121363925
 Transform:
   m_ObjectHideFlags: 0

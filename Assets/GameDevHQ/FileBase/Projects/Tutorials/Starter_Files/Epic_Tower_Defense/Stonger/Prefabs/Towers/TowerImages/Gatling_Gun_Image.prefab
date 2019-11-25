@@ -106,7 +106,7 @@ Transform:
   m_GameObject: {fileID: 2335246054913302906}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -22.6, y: 5.24, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.44, y: 0.44, z: 0.44}
   m_Children:
   - {fileID: 2333619855481895714}
   - {fileID: 2333514675380705200}
@@ -130,6 +130,7 @@ MonoBehaviour:
   Muzzle_Flash: {fileID: 2336138074739088796}
   bulletCasings: {fileID: 2498706103785663902}
   fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
+  _damageAmount: 0
 --- !u!82 &2399051844748996424
 AudioSource:
   m_ObjectHideFlags: 0

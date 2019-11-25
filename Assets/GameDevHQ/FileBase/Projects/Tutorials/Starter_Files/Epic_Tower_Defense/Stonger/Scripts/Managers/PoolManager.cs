@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
@@ -11,24 +12,26 @@ public class PoolManager : MonoSingleton<PoolManager>
     
     public GameObject enemyContainer;
 
+    private Enemy _currentEnemy;
+
     private void OnEnable()
     {
-        GameManager.onStartWave += SetEnemiesInPoolToStandby;
+        GameManager.onStartWave += PrepareEnemyPoolForWave;
     }
 
     private void OnDisable()
     {
-        GameManager.onStartWave -= SetEnemiesInPoolToStandby;
+        GameManager.onStartWave -= PrepareEnemyPoolForWave;
     }
 
     private void Start()
     {
-        GenerateEnemies(GameManager.Instance.waveTotalEnemyCount);
+        GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
     }
 
-    private void GenerateEnemies(int enemyCount)
+    private void GenerateEnemies(int numberOfEnemiesToGenerate)
     {
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < numberOfEnemiesToGenerate; i++)
         {
             //I only want to spawn the bigger mechs 25% of the time
             _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? 0 : 1;
@@ -46,31 +49,39 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         foreach (var enemy in enemyPool)
         {
-            var currentEnemy = enemy.GetComponent<Enemy>();
+            _currentEnemy = enemy.GetComponent<Enemy>();
 
-            if (currentEnemy != null && currentEnemy.IsOnStandby())
+            if (_currentEnemy != null && _currentEnemy.IsOnStandby())
             {
-                currentEnemy.SetToAttack();
+                _currentEnemy.SetToAttack();
                 return enemy;
             }
         }
 
-        //If maximum enemies for the wave has been reached, do not generate more enemies
-        if (enemyPool.Count >= GameManager.Instance.waveTotalEnemyCount)
-            return null;
+        //If we get here, ther are no enemies available.
+        return null;
 
-        GenerateEnemies(1);
-        return RequestEnemy();
+        ////If maximum enemies for the wave has been reached, do not generate more enemies
+        //if (enemyPool.Count >= GameManager.Instance.waveTotalEnemyCount)
+        //    return null;
+
+        //GenerateEnemies(1);
+        //return RequestEnemy();
     }
 
-    private void SetEnemiesInPoolToStandby()
+    private void PrepareEnemyPoolForWave()
     {
+        //Set current Enemies in Pool to Standby
         foreach (var enemy in enemyPool)
         {
-            //Setting OnEnable sets the enemy to Standby,
-            //so first disable, so that you can enable.
+            //Reset Switch:
+            //Enemy.OnEnable() sets the enemy to Standby, so first disable the enemy, so that it can be enabled.
             enemy.SetActive(false);
             enemy.SetActive(true);
         }
+
+        //Generate remaining number of enemies needed to fulfill total wave count
+        int numberOfEnemiesToGenerate = GameManager.Instance.currentWaveTotalEnemyCount - enemyPool.Count;
+        GenerateEnemies(numberOfEnemiesToGenerate);
     }
 }

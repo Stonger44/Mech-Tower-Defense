@@ -34,7 +34,7 @@ namespace GameDevHQ.FileBase.Gatling_Gun
         public int WarFundCost { get; set; } = 500;
         public int WarFundSellValue { get; set; } = 250;
 
-        private bool _isShooting;
+        private bool _isAttacking;
         [SerializeField] private int _damageAmount;
 
         public static event Action<GameObject, int> onShoot;
@@ -78,11 +78,8 @@ namespace GameDevHQ.FileBase.Gatling_Gun
         {
             if (thisTower == this.gameObject && currentTarget.tag.Contains("Mech"))
             {
-                if (_isShooting == false)
-                {
-                    _isShooting = true;
+                if (!_isAttacking)
                     StartCoroutine(AttackRoutine(currentTarget));
-                }
 
                 RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
                 Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
@@ -98,24 +95,30 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
         private void StopShooting(GameObject thisTower)
         {
-            if (thisTower == this.gameObject && _isShooting)
+            if (thisTower == this.gameObject)
             {
                 Muzzle_Flash.SetActive(false); //turn off muzzle flash particle effect
                 _audioSource.Stop(); //stop the sound effect from playing
                 _startWeaponNoise = true; //set the start weapon noise value to true 
-
-                _isShooting = false;
             }
         }
 
         private IEnumerator AttackRoutine(GameObject currentTarget)
         {
-            while (_isShooting)
-            {
-                yield return new WaitForSeconds(1);
+            //while (_isShooting)
+            //{
+            //    yield return new WaitForSeconds(1);
 
-                onShoot?.Invoke(currentTarget, _damageAmount);
-            }
+            //    onShoot?.Invoke(currentTarget, _damageAmount);
+            //}
+
+            _isAttacking = true;
+
+            yield return new WaitForSeconds(1);
+
+            onShoot?.Invoke(currentTarget, _damageAmount);
+
+            _isAttacking = false;
         }
     }
 

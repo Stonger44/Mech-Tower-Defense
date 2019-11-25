@@ -14,8 +14,8 @@ public class GameManager : MonoSingleton<GameManager>
     
 
     [SerializeField] private int _initialWaveEnemyCount;
-    public int waveTotalEnemyCount { get; private set; }
-    [SerializeField] private int _currentWaveEnemyCount;
+    public int currentWaveTotalEnemyCount { get; private set; }
+    [SerializeField] private int _currentWaveCurrentEnemyCount;
 
     public bool waveRunning { get; private set; }
     public bool waveSuccess { get; private set; }
@@ -106,9 +106,9 @@ public class GameManager : MonoSingleton<GameManager>
 
         totalWarFund += enemyScript.warFund;
 
-        _currentWaveEnemyCount--;
+        _currentWaveCurrentEnemyCount--;
 
-        if (_currentWaveEnemyCount <= 0)
+        if (_currentWaveCurrentEnemyCount <= 0)
         {
             WaveComplete();
         }
@@ -118,12 +118,14 @@ public class GameManager : MonoSingleton<GameManager>
     private void ResetPlayerHealthAndWaveEnemyCount()
     {
         _health = _initialHealth;
-        waveTotalEnemyCount = _initialWaveEnemyCount * wave;
-        _currentWaveEnemyCount = waveTotalEnemyCount;
+        currentWaveTotalEnemyCount = _initialWaveEnemyCount * wave;
+        _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;
     }
 
     private void SpendWarFund(int amount)
     {
         totalWarFund -= amount;
     }
+
+    public int GetCurrentWaveCurrentEnemyCount() => _currentWaveCurrentEnemyCount;
 }

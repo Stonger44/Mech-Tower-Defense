@@ -121,20 +121,24 @@ public class Enemy : MonoBehaviour
         //Death Animation
         _animator.SetBool("IsDying", true);
 
-
+        //Different animations between Mech types, so different WaitForSeconds
         if (this.gameObject.tag == "Mech1")
-        {
             yield return new WaitForSeconds(0.5f);
-            _navMeshAgent.isStopped = true;
-            yield return new WaitForSeconds(3.5f);
-
-        }
         else if (this.gameObject.tag == "Mech2")
-        {
-            yield return new WaitForSeconds(1f);
-            _navMeshAgent.isStopped = true;
-            yield return new WaitForSeconds(2f);
-        }
+            yield return new WaitForSeconds(2.5f);
+
+        //Stop moving forward
+        _navMeshAgent.isStopped = true;
+
+        //Single death (basically to get towers to stop shooting at the enemy, it's already dying/dead)
+        yield return new WaitForSeconds(0.5f);
+        onDeath?.Invoke(this.gameObject);
+
+        //Different animations between Mech types, so different WaitForSeconds
+        if (this.gameObject.tag == "Mech1")
+            yield return new WaitForSeconds(1.5f);
+        else if (this.gameObject.tag == "Mech2")
+            yield return new WaitForSeconds(1.5f);
 
         //Death Explosion
         _explosionObject.SetActive(true);
@@ -143,12 +147,15 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.44f);
 
         _skin.SetActive(false);
-        onDeath?.Invoke(this.gameObject);
+        //onDeath?.Invoke(this.gameObject);
+
+        if (PoolManager.Instance.enemyPool.Contains(this.gameObject))
+            PoolManager.Instance.enemyPool.Remove(this.gameObject);
 
         yield return new WaitForSeconds(4.44f);
 
-        this.gameObject.SetActive(false);
-
-        _isDying = false;
+        //this.gameObject.SetActive(false);
+        //_isDying = false;
+        Destroy(this.gameObject);
     }
 }

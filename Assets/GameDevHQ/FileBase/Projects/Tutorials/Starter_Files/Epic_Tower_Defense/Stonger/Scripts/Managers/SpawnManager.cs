@@ -12,6 +12,8 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     [SerializeField] private bool _waveRunning = false;
 
+    private GameObject _enemy;
+
     private void OnEnable()
     {
         //Subscribe to events
@@ -30,12 +32,12 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         {
             yield return new WaitForSeconds(seconds);
 
-            GameObject enemy = PoolManager.Instance.RequestEnemy();
+            _enemy = PoolManager.Instance.RequestEnemy();
 
-            if (enemy != null)
+            if (_enemy != null)
             {
                 //Mech2 (The bigger Mech) is slower, so give it more time before the next spawn
-                if (enemy.tag == "Mech1")
+                if (_enemy.tag == "Mech1")
                     seconds = _mech1SpawnDelayTime;
                 else
                     seconds = _mech2SpawnDelayTime;
