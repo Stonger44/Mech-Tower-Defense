@@ -6705,7 +6705,7 @@ MonoBehaviour:
   _initialHealth: 10
   _health: 10
   totalWarFund: 1000
-  _initialWaveEnemyCount: 2
+  _initialWaveEnemyCount: 5
   _currentWaveCurrentEnemyCount: 0
 --- !u!4 &1121363925
 Transform:
