@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using GameDevHQ.FileBase.Gatling_Gun;
+using GameDevHQ.FileBase.Missle_Launcher;
 
 public class Enemy : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         Gatling_Gun.onShoot += TakeDamage;
+        Missle_Launcher.onMissileHit += TakeDamage;
 
         enemyCount++;
 
@@ -51,6 +53,7 @@ public class Enemy : MonoBehaviour
     private void OnDisable()
     {
         Gatling_Gun.onShoot -= TakeDamage;
+        Missle_Launcher.onMissileHit -= TakeDamage;
 
         enemyCount--;
     }
@@ -128,15 +131,16 @@ public class Enemy : MonoBehaviour
             {
                 _health = 0;
                 if (!_isDying)
+                {
+                    _isDying = true;
                     StartCoroutine(DieRoutine());
+                }
             }
         }
     }
 
     private IEnumerator DieRoutine()
     {
-        _isDying = true;
-
         //Death Animation
         _animator.SetBool("IsDying", true);
 

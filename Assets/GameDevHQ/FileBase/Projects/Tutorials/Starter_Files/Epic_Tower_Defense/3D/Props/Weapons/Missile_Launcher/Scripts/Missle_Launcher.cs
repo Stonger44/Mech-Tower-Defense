@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameDevHQ.FileBase.Missle_Launcher.Missle;
+using System;
 
 namespace GameDevHQ.FileBase.Missle_Launcher
 {
     public class Missle_Launcher : MonoBehaviour, ITower
     {
-        public int WarFundCost { get; set; } = 2000;
-        public int WarFundSellValue { get; set; } = 1000;
-
         [SerializeField]
         private GameObject _missilePrefab; //holds the missle gameobject to clone
         [SerializeField]
@@ -28,20 +26,30 @@ namespace GameDevHQ.FileBase.Missle_Launcher
         private float _destroyTime = 10.0f; //how long till the rockets get cleaned up
         private bool _launched; //bool to check if we launched the rockets
 
-        private void Update()
+        //Extended Code
+        public int WarFundCost { get; set; } = 2000;
+        public int WarFundSellValue { get; set; } = 1000;
+
+        [SerializeField] private int _damageAmount;
+
+        public static event Action<GameObject, int> onMissileHit;
+
+        private void OnEnable()
         {
-            //STONGER DID THIS FOR DEVELOPMENT PURPOSES
-            if (false)
-            {
-                if (Input.GetKeyDown(KeyCode.Space) && _launched == false) //check for space key and if we launched the rockets
-                {
-                    _launched = true; //set the launch bool to true
-                    StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
-                } 
-            }
+            Attack.onTargetInRange += FireMissiles;
         }
 
-        IEnumerator FireRocketsRoutine()
+        private void OnDisable()
+        {
+            Attack.onTargetInRange -= FireMissiles;
+        }
+
+        private void Update()
+        {
+
+        }
+
+        IEnumerator FireRocketsRoutine(GameObject currentTarget)
         {
             for (int i = 0; i < _misslePositions.Length; i++) //for loop to iterate through each missle position
             {
@@ -66,6 +74,15 @@ namespace GameDevHQ.FileBase.Missle_Launcher
             }
 
             _launched = false; //set launch bool to false
+        }
+
+        private void FireMissiles(GameObject thisTower, GameObject currentTarget)
+        {
+            if (_launched == false) //check if we launched the rockets
+            {
+                _launched = true; //set the launch bool to true
+                StartCoroutine(FireRocketsRoutine(currentTarget)); //start a coroutine that fires the rockets. 
+            }
         }
     }
 }

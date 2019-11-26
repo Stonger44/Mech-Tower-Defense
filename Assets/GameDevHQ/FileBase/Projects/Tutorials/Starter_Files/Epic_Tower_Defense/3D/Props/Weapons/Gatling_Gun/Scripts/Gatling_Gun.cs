@@ -79,7 +79,10 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             if (thisTower == this.gameObject && currentTarget.tag.Contains("Mech"))
             {
                 if (!_isAttacking)
+                {
+                    _isAttacking = true;
                     StartCoroutine(AttackRoutine(currentTarget));
+                }
 
                 RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
                 Muzzle_Flash.SetActive(true); //enable muzzle effect particle effect
@@ -105,8 +108,6 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
         private IEnumerator AttackRoutine(GameObject currentTarget)
         {
-            _isAttacking = true;
-
             onShoot?.Invoke(currentTarget, _damageAmount);
             yield return new WaitForSeconds(1);
 
