@@ -16,12 +16,12 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void OnEnable()
     {
-        GameManager.onStartWave += PrepareEnemyPoolForWave;
+        GameManager.onStartWave += SetEnemiesInPoolToStandby;
     }
 
     private void OnDisable()
     {
-        GameManager.onStartWave -= PrepareEnemyPoolForWave;
+        GameManager.onStartWave -= SetEnemiesInPoolToStandby;
     }
 
     private void Start()
@@ -58,18 +58,18 @@ public class PoolManager : MonoSingleton<PoolManager>
             }
         }
 
-        //If we get here, ther are no enemies available.
-        return null;
+        ////If we get here, ther are no enemies available.
+        //return null;
 
-        ////If maximum enemies for the wave has been reached, do not generate more enemies
-        //if (enemyPool.Count >= GameManager.Instance.waveTotalEnemyCount)
-        //    return null;
+        //If maximum enemies for the wave has been reached, do not generate more enemies
+        if (enemyPool.Count >= GameManager.Instance.currentWaveTotalEnemyCount)
+            return null;
 
-        //GenerateEnemies(1);
-        //return RequestEnemy();
+        GenerateEnemies(1);
+        return RequestEnemy();
     }
 
-    private void PrepareEnemyPoolForWave()
+    private void SetEnemiesInPoolToStandby()
     {
         //Set current Enemies in Pool to Standby
         foreach (var enemy in enemyPool)
@@ -79,9 +79,5 @@ public class PoolManager : MonoSingleton<PoolManager>
             enemy.SetActive(false);
             enemy.SetActive(true);
         }
-
-        //Generate remaining number of enemies needed to fulfill total wave count
-        int numberOfEnemiesToGenerate = GameManager.Instance.currentWaveTotalEnemyCount - enemyPool.Count;
-        GenerateEnemies(numberOfEnemiesToGenerate);
     }
 }

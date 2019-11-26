@@ -35,6 +35,7 @@ public class GameManager : MonoSingleton<GameManager>
         //Subscribe to events
         EndPoint.onEndPointReached += TakeDamage;
         Enemy.onDeath += OnEnemyDeath;
+        Enemy.onDying += OnEnemyExplosion;
         TowerLocation.onPurchaseTower += SpendWarFund;
     }
 
@@ -43,6 +44,7 @@ public class GameManager : MonoSingleton<GameManager>
         //Unsubscribe from events
         EndPoint.onEndPointReached -= TakeDamage;
         Enemy.onDeath -= OnEnemyDeath;
+        Enemy.onDying -= OnEnemyExplosion;
         TowerLocation.onPurchaseTower -= SpendWarFund;
     }
 
@@ -70,8 +72,11 @@ public class GameManager : MonoSingleton<GameManager>
         Debug.Log("Wave " + wave + " started.");
     }
 
-    private void WaveComplete()
+    private IEnumerator WaveComplete()
     {
+        //Must wait for all enemies to reset themselves for the next wave
+        yield return new WaitForSeconds(5);
+
         waveRunning = false;
         waveSuccess = true;
         Debug.Log("Wave " + wave + " complete!");
@@ -97,22 +102,24 @@ public class GameManager : MonoSingleton<GameManager>
         Debug.Log("Wave " + wave + " failed.");
     }
 
-    private void OnEnemyDeath(GameObject enemy)
+    private void OnEnemyExplosion(GameObject enemy)
     {
         var enemyScript = enemy.GetComponent<Enemy>();
 
         if (enemyScript == null)
-            Debug.Log("enemtScript is NULL.");
+            Debug.Log("enemyScript is NULL.");
 
         totalWarFund += enemyScript.warFund;
 
         _currentWaveCurrentEnemyCount--;
+    }
 
+    private void OnEnemyDeath(GameObject enemy)
+    {
         if (_currentWaveCurrentEnemyCount <= 0)
         {
-            WaveComplete();
+            StartCoroutine(WaveComplete());
         }
-
     }
 
     private void ResetPlayerHealthAndWaveEnemyCount()

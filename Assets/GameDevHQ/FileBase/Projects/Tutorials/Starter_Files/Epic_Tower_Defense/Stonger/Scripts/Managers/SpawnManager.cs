@@ -7,6 +7,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     public GameObject spawnPoint;
     public GameObject endPoint;
     public GameObject standbyPoint;
+    public GameObject junkyard;
     [SerializeField] private int _mech1SpawnDelayTime;
     [SerializeField] private int _mech2SpawnDelayTime;
 
@@ -51,7 +52,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     private void StartSpawning()
     {
         _waveRunning = GameManager.Instance.waveRunning;
-        StartCoroutine(SpawnEnemyRoutine(_mech1SpawnDelayTime));
+        StartCoroutine(SpawnEnemyRoutine(1));
     }
 
 }

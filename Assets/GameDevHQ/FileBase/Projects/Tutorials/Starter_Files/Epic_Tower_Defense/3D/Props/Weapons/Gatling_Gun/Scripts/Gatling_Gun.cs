@@ -105,18 +105,10 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
         private IEnumerator AttackRoutine(GameObject currentTarget)
         {
-            //while (_isShooting)
-            //{
-            //    yield return new WaitForSeconds(1);
-
-            //    onShoot?.Invoke(currentTarget, _damageAmount);
-            //}
-
             _isAttacking = true;
 
-            yield return new WaitForSeconds(1);
-
             onShoot?.Invoke(currentTarget, _damageAmount);
+            yield return new WaitForSeconds(1);
 
             _isAttacking = false;
         }

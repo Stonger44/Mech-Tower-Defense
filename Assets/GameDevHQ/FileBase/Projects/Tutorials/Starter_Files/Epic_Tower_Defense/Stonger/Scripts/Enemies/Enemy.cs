@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private Vector3 _spawnPoint;
     private Vector3 _endPoint;
     private Vector3 _standbyPoint;
+    private Vector3 _junkyard;
 
     private NavMeshAgent _navMeshAgent;
 
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _warFund;
     public int warFund { get; private set; }
     [SerializeField] private bool _onStandby = false;
+    [SerializeField] private bool _inJunkyard = false;
 
     [SerializeField] private GameObject _explosionObject;
     [SerializeField] private AudioSource _explosionSound;
@@ -28,7 +30,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _isDying;
     [SerializeField] private GameObject _skin;
 
-    public static event Action<GameObject> onDeath;
+    public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
+    public static event Action<GameObject> onExplosion; //GameManager uses this to decrement enemyCount and add warFund
+    public static event Action<GameObject> onDeath; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
 
     private void OnEnable()
     {
@@ -39,16 +43,7 @@ public class Enemy : MonoBehaviour
         _spawnPoint = SpawnManager.Instance.spawnPoint.transform.position;
         _endPoint = SpawnManager.Instance.endPoint.transform.position;
         _standbyPoint = SpawnManager.Instance.standbyPoint.transform.position;
-
-        _health = _initialHealth;
-        _skin.SetActive(true);
-        _animator.SetBool("IsDying", false);
-
-        if (_explosionObject == null)
-            Debug.LogError("_explosionObject is NULL.");
-
-        _explosionSound.Stop();
-        _explosionObject.SetActive(false);
+        _junkyard = SpawnManager.Instance.junkyard.transform.position;
 
         SetToStandby();
     }
@@ -65,11 +60,6 @@ public class Enemy : MonoBehaviour
         warFund = _warFund;
     }
 
-    public GameObject GetSkin()
-    {
-        return _skin;
-    }
-
     public void SetToAttack()
     {
         _onStandby = false;
@@ -80,13 +70,42 @@ public class Enemy : MonoBehaviour
 
     public void SetToStandby()
     {
+        DisableNavMesh();
+
+        this.transform.position = _standbyPoint;
+        _onStandby = true;
+
+        ResetEnemy();
+    }
+
+    private void SendToJunkyard()
+    {
+        DisableNavMesh();
+
+        this.transform.position = _junkyard;
+        _inJunkyard = true;
+
+        ResetEnemy();
+    }
+
+    private void DisableNavMesh()
+    {
         if (_navMeshAgent == null)
             _navMeshAgent = this.GetComponent<NavMeshAgent>();
 
         _navMeshAgent.enabled = false;
-        this.transform.position = _standbyPoint;
+    }
 
-        _onStandby = true;
+    private void ResetEnemy()
+    {
+        if (_explosionObject == null)
+            Debug.LogError("_explosionObject is NULL.");
+
+        _explosionObject.SetActive(false);
+
+        _health = _initialHealth;
+        _skin.SetActive(true);
+        _animator.SetBool("IsDying", false);
     }
 
     public bool IsOnStandby() => _onStandby;
@@ -121,41 +140,35 @@ public class Enemy : MonoBehaviour
         //Death Animation
         _animator.SetBool("IsDying", true);
 
-        //Different animations between Mech types, so different WaitForSeconds
-        if (this.gameObject.tag == "Mech1")
-            yield return new WaitForSeconds(0.5f);
-        else if (this.gameObject.tag == "Mech2")
-            yield return new WaitForSeconds(2.5f);
-
         //Stop moving forward
+        yield return new WaitForSeconds(0.2f);
         _navMeshAgent.isStopped = true;
 
-        //Single death (basically to get towers to stop shooting at the enemy, it's already dying/dead)
+        //Single death (basically to get towers to stop shooting at the enemy, it's already dying, so it's already dead)
         yield return new WaitForSeconds(0.5f);
-        onDeath?.Invoke(this.gameObject);
+        onDying?.Invoke(this.gameObject);
 
-        //Different animations between Mech types, so different WaitForSeconds
-        if (this.gameObject.tag == "Mech1")
-            yield return new WaitForSeconds(1.5f);
-        else if (this.gameObject.tag == "Mech2")
-            yield return new WaitForSeconds(1.5f);
+        //Wait for death animation to finish
+        yield return new WaitForSeconds(4.0f);
 
-        //Death Explosion
+        //...Explosion!
         _explosionObject.SetActive(true);
         _explosionSound.Play();
 
-        yield return new WaitForSeconds(0.44f);
-
+        //Hide enemy (because it exploded)
+        yield return new WaitForSeconds(0.5f);
         _skin.SetActive(false);
-        //onDeath?.Invoke(this.gameObject);
+        onExplosion?.Invoke(this.gameObject);
 
-        if (PoolManager.Instance.enemyPool.Contains(this.gameObject))
-            PoolManager.Instance.enemyPool.Remove(this.gameObject);
-
+        //Wait for smoke animation to finish
         yield return new WaitForSeconds(4.44f);
+        SendToJunkyard();
 
-        //this.gameObject.SetActive(false);
-        //_isDying = false;
-        Destroy(this.gameObject);
+        //Wait for animation to reset to running
+        yield return new WaitForSeconds(0.5f);
+        this.gameObject.SetActive(false);
+        onDeath?.Invoke(this.gameObject);
+
+        _isDying = false;
     }
 }

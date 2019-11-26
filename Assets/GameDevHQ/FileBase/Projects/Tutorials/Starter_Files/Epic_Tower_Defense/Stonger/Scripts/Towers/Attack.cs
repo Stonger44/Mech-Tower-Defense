@@ -28,12 +28,12 @@ public class Attack : MonoBehaviour
 
     private void OnEnable()
     {
-        Enemy.onDeath += CheckCurrentTarget;
+        Enemy.onDying += CheckCurrentTarget;
     }
 
     private void OnDisable()
     {
-        Enemy.onDeath -= CheckCurrentTarget;
+        Enemy.onDying -= CheckCurrentTarget;
     }
 
     // Start is called before the first frame update
