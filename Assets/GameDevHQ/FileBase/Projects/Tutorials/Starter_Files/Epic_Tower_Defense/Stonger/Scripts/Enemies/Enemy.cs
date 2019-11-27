@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
     [SerializeField] private GameObject _skin;
+    [SerializeField] private float _navMeshRadius;
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
     public static event Action<GameObject> onExplosion; //GameManager uses this to decrement enemyCount and add warFund
@@ -63,10 +64,16 @@ public class Enemy : MonoBehaviour
         warFund = _warFund;
     }
 
+    private void Update()
+    {
+
+    }
+
     public void SetToAttack()
     {
         _onStandby = false;
         _navMeshAgent.enabled = true;
+        _navMeshAgent.radius = _navMeshRadius;
         _navMeshAgent.Warp(_spawnPoint);
         _navMeshAgent.SetDestination(_endPoint);
     }
@@ -77,41 +84,10 @@ public class Enemy : MonoBehaviour
 
         this.transform.position = _standbyPoint;
         _onStandby = true;
-
-        ResetEnemy();
-    }
-
-    private void SendToJunkyard()
-    {
-        DisableNavMesh();
-
-        this.transform.position = _junkyard;
-        _inJunkyard = true;
-
-        ResetEnemy();
-    }
-
-    private void DisableNavMesh()
-    {
-        if (_navMeshAgent == null)
-            _navMeshAgent = this.GetComponent<NavMeshAgent>();
-
-        _navMeshAgent.enabled = false;
-    }
-
-    private void ResetEnemy()
-    {
-        if (_explosionObject == null)
-            Debug.LogError("_explosionObject is NULL.");
-
-        _explosionObject.SetActive(false);
-
-        _health = _initialHealth;
-        _skin.SetActive(true);
-        _animator.SetBool("IsDying", false);
     }
 
     public bool IsOnStandby() => _onStandby;
+    public bool IsInJunkyard() => _inJunkyard;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -139,6 +115,36 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void SendToJunkyard()
+    {
+        DisableNavMesh();
+
+        this.transform.position = _junkyard;
+        _inJunkyard = true;
+    }
+
+    private void ResetEnemy()
+    {
+        if (_explosionObject == null)
+            Debug.LogError("_explosionObject is NULL.");
+
+        _explosionObject.SetActive(false);
+
+        _skin.SetActive(true);
+
+        _health = _initialHealth;
+
+        _animator.SetBool("IsDying", false);
+    }
+
+    private void DisableNavMesh()
+    {
+        if (_navMeshAgent == null)
+            _navMeshAgent = this.GetComponent<NavMeshAgent>();
+
+        _navMeshAgent.enabled = false;
+    }
+
     private IEnumerator DieRoutine()
     {
         //Death Animation
@@ -162,14 +168,16 @@ public class Enemy : MonoBehaviour
         //Hide enemy (because it exploded)
         yield return new WaitForSeconds(0.5f);
         _skin.SetActive(false);
+        _navMeshAgent.radius = 0f;
+        //yield return new WaitForSeconds(0.5f);
         onExplosion?.Invoke(this.gameObject);
 
         //Wait for smoke animation to finish
         yield return new WaitForSeconds(4.44f);
         SendToJunkyard();
-
+        ResetEnemy();
         //Wait for animation to reset to running
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
         this.gameObject.SetActive(false);
         onDeath?.Invoke(this.gameObject);
 

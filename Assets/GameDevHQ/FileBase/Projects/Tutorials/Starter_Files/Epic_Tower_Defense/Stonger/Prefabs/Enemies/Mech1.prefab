@@ -1542,11 +1542,13 @@ MonoBehaviour:
   _health: 10
   _warFund: 100
   _onStandby: 0
+  _inJunkyard: 0
   _explosionObject: {fileID: 6621983265223197090}
   _explosionSound: {fileID: 6541027603941864238}
   _animator: {fileID: 1569259853865098464}
   _isDying: 0
   _skin: {fileID: 1483233297392953710}
+  _navMeshRadius: 2
 --- !u!1 &1483659976317538464
 GameObject:
   m_ObjectHideFlags: 0

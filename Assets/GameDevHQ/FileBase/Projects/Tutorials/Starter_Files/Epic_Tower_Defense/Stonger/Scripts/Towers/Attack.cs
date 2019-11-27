@@ -114,8 +114,11 @@ public class Attack : MonoBehaviour
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
 
-            SlerpAim();
-            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+            if (_currentTarget != null)
+            {
+                SlerpAim();
+                onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+            }
         }
     }
 
@@ -149,6 +152,7 @@ public class Attack : MonoBehaviour
         if (_currentTarget == null && _targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
+
             SlerpAim();
             onTargetInRange?.Invoke(_towerRoot, _currentTarget);
         }

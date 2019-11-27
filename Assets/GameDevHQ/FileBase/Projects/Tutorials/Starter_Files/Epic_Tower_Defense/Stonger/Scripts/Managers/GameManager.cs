@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -10,6 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
     public int totalWarFund;
 
     private int _initialWave = 1;
+    [SerializeField] private int _wave; //This is only here so I can see it in the inspector
     public int wave { get; private set; }
     
 
@@ -26,7 +28,7 @@ public class GameManager : MonoSingleton<GameManager>
     public override void Init()
     {
         wave = _initialWave;
-
+        _wave = wave;
         ResetPlayerHealthAndWaveEnemyCount();
     }
 
@@ -34,8 +36,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         //Subscribe to events
         EndPoint.onEndPointReached += TakeDamage;
+        Enemy.onExplosion += OnEnemyExplosion;
         Enemy.onDeath += OnEnemyDeath;
-        Enemy.onDying += OnEnemyExplosion;
         TowerLocation.onPurchaseTower += SpendWarFund;
     }
 
@@ -68,20 +70,19 @@ public class GameManager : MonoSingleton<GameManager>
         waveRunning = true;
         waveSuccess = false;
 
+        _wave = wave;
+
         onStartWave?.Invoke();
         Debug.Log("Wave " + wave + " started.");
     }
 
-    private IEnumerator WaveComplete()
+    private void WaveComplete()
     {
-        //Must wait for all enemies to reset themselves for the next wave
-        yield return new WaitForSeconds(5);
-
         waveRunning = false;
         waveSuccess = true;
-        Debug.Log("Wave " + wave + " complete!");
-        
         wave++;
+
+        Debug.Log("Wave " + (wave - 1) + " complete! Press [Space] to start Wave " + wave + ".");
     }
 
     private void TakeDamage()
@@ -116,9 +117,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void OnEnemyDeath(GameObject enemy)
     {
-        if (_currentWaveCurrentEnemyCount <= 0)
+        if (Enemy.enemyCount <= 0)
         {
-            StartCoroutine(WaveComplete());
+            WaveComplete();
+            //StartCoroutine(WaveComplete());
         }
     }
 
