@@ -47,15 +47,6 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
         }
 
-        private void OnEnable()
-        {
-            _initialLaunchTime = Time.time + 1.0f; //set the initial launch time
-            _fuseOut = true; //set fuseOut to true
-            _launched = true; //set the launch bool to true 
-            _thrust = false; //set thrust bool to false
-        }
-
-
         // Update is called once per frame
         void FixedUpdate()
         {
