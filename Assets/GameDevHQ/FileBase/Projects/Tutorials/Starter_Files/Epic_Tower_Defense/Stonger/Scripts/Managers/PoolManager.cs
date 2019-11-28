@@ -18,6 +18,10 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void Start()
     {
         GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
+
+        //Generate one explosion prefeb for each unique enemy to start
+        foreach (var enemy in _enemyPrefabs)
+            GenerateExplosion(enemy);
     }
 
     /*----------Enemy Pool----------*/
