@@ -28,8 +28,8 @@ public class PoolManager : MonoSingleton<PoolManager>
     #region Enemy Pool
 
     [SerializeField] private List<GameObject> _enemyPrefabs;
-    [SerializeField] private List<GameObject> enemyPool;
-    [SerializeField] private GameObject enemyContainer;
+    [SerializeField] private List<GameObject> _enemyPool;
+    [SerializeField] private GameObject _enemyContainer;
     private int _randomIndex;
     private enum EnemyType { Mech1, Mech2 }
     private Enemy _currentEnemy;
@@ -45,15 +45,15 @@ public class PoolManager : MonoSingleton<PoolManager>
             GameObject enemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
-            enemy.transform.parent = enemyContainer.transform;
+            enemy.transform.parent = _enemyContainer.transform;
 
-            enemyPool.Add(enemy);
+            _enemyPool.Add(enemy);
         }
     }
 
     public GameObject RequestEnemy()
     {
-        foreach (var enemy in enemyPool)
+        foreach (var enemy in _enemyPool)
         {
             _currentEnemy = enemy.GetComponent<Enemy>();
 
@@ -65,7 +65,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         }
 
         //If maximum enemies for the wave has been reached, do not generate more enemies
-        if (enemyPool.Count >= GameManager.Instance.currentWaveTotalEnemyCount)
+        if (_enemyPool.Count >= GameManager.Instance.currentWaveTotalEnemyCount)
             return null;
 
         GenerateEnemies(1);
@@ -75,7 +75,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void SetEnemiesInPoolToStandby()
     {
         //Set current Enemies in Pool to Standby
-        foreach (var enemy in enemyPool)
+        foreach (var enemy in _enemyPool)
         {
             //Reset Switch:
             //Enemy.OnEnable() sets the enemy to Standby, so first disable the enemy, so that it can be enabled.
@@ -91,8 +91,8 @@ public class PoolManager : MonoSingleton<PoolManager>
     #region Explosion Pool
 
     [SerializeField] private List<GameObject> _explosionPrefabs;
-    [SerializeField] private List<GameObject> explosionPool;
-    [SerializeField] private GameObject explosionContainer;
+    [SerializeField] private List<GameObject> _explosionPool;
+    [SerializeField] private GameObject _explosionContainer;
     private int _explosionIndex;
 
 
@@ -102,14 +102,14 @@ public class PoolManager : MonoSingleton<PoolManager>
 
         GameObject explosion = Instantiate(_explosionPrefabs[_explosionIndex]);
         explosion.SetActive(false);
-        explosion.transform.parent = explosionContainer.transform;
+        explosion.transform.parent = _explosionContainer.transform;
 
-        explosionPool.Add(explosion);
+        _explosionPool.Add(explosion);
     }
 
     public GameObject RequestExplosion(GameObject explodingEnemy)
     {
-        foreach (var explosion in explosionPool)
+        foreach (var explosion in _explosionPool)
         {
             if (explosion.activeSelf == false && explosion.name.Contains(explodingEnemy.tag))
             {
@@ -126,10 +126,19 @@ public class PoolManager : MonoSingleton<PoolManager>
         //Turn off explosion
         explosion.SetActive(false);
         //Set position to explosion container
-        explosion.transform.position = explosionContainer.transform.position;
+        explosion.transform.position = _explosionContainer.transform.position;
     }
 
     #endregion
     /*----------Explosion Pool----------*/
+
+    /*----------Missile Pool----------*/
+    #region Missile Pool
+
+    [SerializeField] private GameObject _missilePrefab;
+    [SerializeField] private List<GameObject> _missilePool;
+
+    #endregion
+    /*----------Missile Pool----------*/
 
 }

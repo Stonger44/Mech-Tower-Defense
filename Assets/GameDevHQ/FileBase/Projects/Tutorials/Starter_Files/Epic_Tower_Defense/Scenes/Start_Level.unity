@@ -4960,13 +4960,15 @@ MonoBehaviour:
   _enemyPrefabs:
   - {fileID: 1483520609388399124, guid: 4a75b7382c80c904aa74de18ef774e38, type: 3}
   - {fileID: 2870730364675067733, guid: ff9e032f70969e346bebfbb3f67b2b61, type: 3}
-  enemyPool: []
-  enemyContainer: {fileID: 1469157413}
+  _enemyPool: []
+  _enemyContainer: {fileID: 1469157413}
   _explosionPrefabs:
   - {fileID: 1760529020144346780, guid: 798d2f016f233f34397d5e6d857b2994, type: 3}
   - {fileID: 1338826762040423312, guid: 63fc5e6872b805b4fa160f4e16761bf7, type: 3}
-  explosionPool: []
-  explosionContainer: {fileID: 1740277029}
+  _explosionPool: []
+  _explosionContainer: {fileID: 1740277029}
+  _missilePrefab: {fileID: 0}
+  _missilePool: []
 --- !u!1 &856192378
 GameObject:
   m_ObjectHideFlags: 0
@@ -6707,11 +6709,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ccb7f3667eeb645b1771f03d1ac1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialWaveEnemyCount: 2
   _initialHealth: 10
   _health: 10
   totalWarFund: 3000
   _wave: 0
-  _initialWaveEnemyCount: 2
+  _currentWaveTotalEnemyCount: 0
   _currentWaveCurrentEnemyCount: 0
 --- !u!4 &1121363925
 Transform:
