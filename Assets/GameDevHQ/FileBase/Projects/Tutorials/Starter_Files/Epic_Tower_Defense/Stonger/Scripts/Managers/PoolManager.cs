@@ -5,15 +5,6 @@ using System.Linq;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
-    private int _randomIndex;
-
-    [SerializeField] private List<GameObject> _enemyPrefabs;
-    public List<GameObject> enemyPool;
-    
-    public GameObject enemyContainer;
-
-    private Enemy _currentEnemy;
-
     private void OnEnable()
     {
         GameManager.onStartWave += SetEnemiesInPoolToStandby;
@@ -29,12 +20,23 @@ public class PoolManager : MonoSingleton<PoolManager>
         GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
     }
 
+    /*----------Enemy Pool----------*/
+    #region Enemy Pool
+
+    [SerializeField] private List<GameObject> _enemyPrefabs;
+    [SerializeField] private List<GameObject> enemyPool;
+    [SerializeField] private GameObject enemyContainer;
+    private int _randomIndex;
+    private enum EnemyType { Mech1, Mech2 }
+    private Enemy _currentEnemy;
+
+
     private void GenerateEnemies(int numberOfEnemiesToGenerate)
     {
         for (int i = 0; i < numberOfEnemiesToGenerate; i++)
         {
             //I only want to spawn the bigger mechs 25% of the time
-            _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? 0 : 1;
+            _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
 
             GameObject enemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
@@ -58,9 +60,6 @@ public class PoolManager : MonoSingleton<PoolManager>
             }
         }
 
-        ////If we get here, ther are no enemies available.
-        //return null;
-
         //If maximum enemies for the wave has been reached, do not generate more enemies
         if (enemyPool.Count >= GameManager.Instance.currentWaveTotalEnemyCount)
             return null;
@@ -80,4 +79,53 @@ public class PoolManager : MonoSingleton<PoolManager>
             enemy.SetActive(true);
         }
     }
+
+    #endregion
+    /*----------Enemy Pool----------*/
+
+    /*----------Explosion Pool----------*/
+    #region Explosion Pool
+
+    [SerializeField] private List<GameObject> _explosionPrefabs;
+    [SerializeField] private List<GameObject> explosionPool;
+    [SerializeField] private GameObject explosionContainer;
+    private int _explosionIndex;
+
+
+    private void GenerateExplosion(GameObject explodingEnemy)
+    {
+        _explosionIndex = (explodingEnemy.tag == "Mech1") ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
+
+        GameObject explosion = Instantiate(_explosionPrefabs[_explosionIndex]);
+        explosion.SetActive(false);
+        explosion.transform.parent = explosionContainer.transform;
+
+        explosionPool.Add(explosion);
+    }
+
+    public GameObject RequestExplosion(GameObject explodingEnemy)
+    {
+        foreach (var explosion in explosionPool)
+        {
+            if (explosion.activeSelf == false && explosion.name.Contains(explodingEnemy.tag))
+            {
+                return explosion;
+            }
+        }
+
+        GenerateExplosion(explodingEnemy);
+        return RequestExplosion(explodingEnemy);
+    }
+
+    public void ResetExplosion(GameObject explosion)
+    {
+        //Turn off explosion
+        explosion.SetActive(false);
+        //Set position to explosion container
+        explosion.transform.position = explosionContainer.transform.position;
+    }
+
+    #endregion
+    /*----------Explosion Pool----------*/
+
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    [SerializeField] private int _initialWaveEnemyCount;
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
     public int totalWarFund;
@@ -15,7 +16,8 @@ public class GameManager : MonoSingleton<GameManager>
     public int wave { get; private set; }
     
 
-    [SerializeField] private int _initialWaveEnemyCount;
+    
+    [SerializeField] private int _currentWaveTotalEnemyCount;
     public int currentWaveTotalEnemyCount { get; private set; }
     [SerializeField] private int _currentWaveCurrentEnemyCount;
 
@@ -36,8 +38,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         //Subscribe to events
         EndPoint.onEndPointReached += TakeDamage;
-        Enemy.onExplosion += OnEnemyExplosion;
-        Enemy.onDeath += OnEnemyDeath;
+        Enemy.onDeath += OnEnemyExplosion;
+        Enemy.onResetComplete += OnEnemyResetComplete;
         TowerLocation.onPurchaseTower += SpendWarFund;
     }
 
@@ -45,8 +47,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         //Unsubscribe from events
         EndPoint.onEndPointReached -= TakeDamage;
-        Enemy.onDeath -= OnEnemyDeath;
-        Enemy.onDying -= OnEnemyExplosion;
+        Enemy.onDeath -= OnEnemyExplosion;
+        Enemy.onResetComplete -= OnEnemyResetComplete;
         TowerLocation.onPurchaseTower -= SpendWarFund;
     }
 
@@ -58,9 +60,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !waveRunning)
-        {
             StartWave();
-        }
     }
 
     private void StartWave()
@@ -115,19 +115,17 @@ public class GameManager : MonoSingleton<GameManager>
         _currentWaveCurrentEnemyCount--;
     }
 
-    private void OnEnemyDeath(GameObject enemy)
+    private void OnEnemyResetComplete(GameObject enemy)
     {
         if (Enemy.enemyCount <= 0)
-        {
             WaveComplete();
-            //StartCoroutine(WaveComplete());
-        }
     }
 
     private void ResetPlayerHealthAndWaveEnemyCount()
     {
         _health = _initialHealth;
         currentWaveTotalEnemyCount = _initialWaveEnemyCount * wave;
+        _currentWaveTotalEnemyCount = currentWaveTotalEnemyCount;
         _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;
     }
 

@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _onStandby = false;
     [SerializeField] private bool _inJunkyard = false;
 
-    [SerializeField] private GameObject _explosionObject;
+    [SerializeField] private GameObject _explosion;
     [SerializeField] private AudioSource _explosionSound;
 
     [SerializeField] private Animator _animator;
@@ -33,8 +33,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _navMeshRadius;
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
-    public static event Action<GameObject> onExplosion; //GameManager uses this to decrement enemyCount and add warFund
-    public static event Action<GameObject> onDeath; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
+    public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFund
+    public static event Action<GameObject> onResetComplete; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
 
     private void OnEnable()
     {
@@ -115,25 +115,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void SendToJunkyard()
-    {
-        DisableNavMesh();
-
-        this.transform.position = _junkyard;
-        _inJunkyard = true;
-    }
-
     private void ResetEnemy()
     {
-        if (_explosionObject == null)
-            Debug.LogError("_explosionObject is NULL.");
-
-        _explosionObject.SetActive(false);
-
-        _skin.SetActive(true);
-
         _health = _initialHealth;
-
         _animator.SetBool("IsDying", false);
     }
 
@@ -154,33 +138,49 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         _navMeshAgent.isStopped = true;
 
-        //Single death (basically to get towers to stop shooting at the enemy, it's already dying, so it's already dead)
+        //Signal death (basically to get towers to stop shooting at the enemy; it's already dying, so it's already dead)
         yield return new WaitForSeconds(0.5f);
         onDying?.Invoke(this.gameObject);
 
-        //Wait for death animation to finish
-        yield return new WaitForSeconds(4.0f);
+        //Play death animation a bit before the...
+        yield return new WaitForSeconds(1.9f);
 
         //...Explosion!
-        _explosionObject.SetActive(true);
-        _explosionSound.Play();
+        PlayExplosion();
 
         //Hide enemy (because it exploded)
         yield return new WaitForSeconds(0.5f);
-        _skin.SetActive(false);
-        _navMeshAgent.radius = 0f;
-        //yield return new WaitForSeconds(0.5f);
-        onExplosion?.Invoke(this.gameObject);
+        SendToJunkyard();
+        onDeath?.Invoke(this.gameObject);
+        
+        //Must wait until death animation completely finishes before resetting enemy
+        yield return new WaitForSeconds(2.2f);
+        ResetEnemy();
 
         //Wait for smoke animation to finish
-        yield return new WaitForSeconds(4.44f);
-        SendToJunkyard();
-        ResetEnemy();
-        //Wait for animation to reset to running
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.2f);
+        PoolManager.Instance.ResetExplosion(_explosion);
+
         this.gameObject.SetActive(false);
-        onDeath?.Invoke(this.gameObject);
+        onResetComplete?.Invoke(this.gameObject); //This will signal the end of the wave, but enemy must reset first!
 
         _isDying = false;
+    }
+
+    private void PlayExplosion()
+    {
+        _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
+        _explosion.transform.position = this.transform.position;
+        _explosionSound = _explosion.GetComponent<AudioSource>();
+        _explosion.SetActive(true); //Turn explosion visual effects on
+        _explosionSound.Play();
+    }
+
+    private void SendToJunkyard()
+    {
+        DisableNavMesh();
+
+        this.transform.position = _junkyard;
+        _inJunkyard = true;
     }
 }

@@ -4962,6 +4962,11 @@ MonoBehaviour:
   - {fileID: 2870730364675067733, guid: ff9e032f70969e346bebfbb3f67b2b61, type: 3}
   enemyPool: []
   enemyContainer: {fileID: 1469157413}
+  _explosionPrefabs:
+  - {fileID: 1760529020144346780, guid: 798d2f016f233f34397d5e6d857b2994, type: 3}
+  - {fileID: 1338826762040423312, guid: 63fc5e6872b805b4fa160f4e16761bf7, type: 3}
+  explosionPool: []
+  explosionContainer: {fileID: 1740277029}
 --- !u!1 &856192378
 GameObject:
   m_ObjectHideFlags: 0
