@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using GameDevHQ.FileBase.Missle_Launcher.Missle;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
@@ -22,6 +23,29 @@ public class PoolManager : MonoSingleton<PoolManager>
         //Generate one explosion prefeb for each unique enemy to start
         foreach (var enemy in _enemyPrefabs)
             GenerateExplosion(enemy);
+
+        GenerateMissiles(6);
+    }
+
+    //Currently not used
+    public void ResetPoolObject(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+
+        switch (gameObject.name)
+        {
+            case "Explosion_Mech1":
+            case "Explosion_Mech2":
+                gameObject.transform.position = _explosionContainer.transform.position;
+                break;
+            case "Missile":
+                gameObject.transform.position = _missileContainer.transform.position;
+                break;
+            default:
+                break;
+        }
+
+
     }
 
     /*----------Enemy Pool----------*/
@@ -123,9 +147,7 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     public void ResetExplosion(GameObject explosion)
     {
-        //Turn off explosion
         explosion.SetActive(false);
-        //Set position to explosion container
         explosion.transform.position = _explosionContainer.transform.position;
     }
 
@@ -137,6 +159,45 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     [SerializeField] private GameObject _missilePrefab;
     [SerializeField] private List<GameObject> _missilePool;
+    [SerializeField] private GameObject _missileContainer;
+    private Missle _currentMissile;
+
+    private void GenerateMissiles(int numberOfMissilesToGenerate)
+    {
+        for (int i = 0; i < numberOfMissilesToGenerate; i++)
+        {
+            GameObject missile = Instantiate(_missilePrefab);
+            missile.SetActive(false);
+            missile.transform.parent = _missileContainer.transform;
+            missile.transform.position = _missileContainer.transform.position;
+
+            _missilePool.Add(missile);
+        }
+    }
+
+    public GameObject RequestMissile()
+    {
+        foreach (var missile in _missilePool)
+        {
+            //_currentMissile = missile.GetComponent<Missle>();
+
+            if (missile.activeSelf == false) // && _currentMissile != null && _currentMissile.GetIsMissileLaunched() == false)
+            {
+                return missile;
+            }
+        }
+
+        GenerateMissiles(1);
+        return RequestMissile();
+    }
+
+    public void ResetMissile(GameObject missile)
+    {
+        missile.SetActive(false);
+        missile.transform.rotation = _missilePrefab.transform.rotation;
+        missile.transform.parent = _missileContainer.transform;
+        missile.transform.position = _missileContainer.transform.position;
+    }
 
     #endregion
     /*----------Missile Pool----------*/

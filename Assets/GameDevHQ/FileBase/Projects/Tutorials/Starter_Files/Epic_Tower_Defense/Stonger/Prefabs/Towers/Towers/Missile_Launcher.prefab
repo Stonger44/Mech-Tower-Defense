@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3274283456608632469
 MeshFilter:
@@ -244,13 +244,14 @@ MonoBehaviour:
   - {fileID: 3243184797879833359}
   - {fileID: 3243741288729200737}
   - {fileID: 3243349463307397789}
-  _fireDelay: 2
+  _fireDelay: 0.2
   _launchSpeed: 10
   _power: 20
   _fuseDelay: 0
-  _reloadTime: 0
-  _destroyTime: 10
+  _reloadTime: 0.5
+  _destroyTime: 5
   _damageAmount: 10
+  _initialDelay: 1
 --- !u!1 &3243118379741561677
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3278365164074535221
 MeshFilter:
@@ -359,7 +360,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3274306609825881221
 MeshFilter:
@@ -437,7 +438,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3278480676253774979
 MeshFilter:
@@ -657,7 +658,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3274946967638665577
 MeshFilter:
@@ -813,7 +814,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3249231841337573755}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3274661167114369549
 MeshFilter:
@@ -890,12 +891,12 @@ Transform:
   m_LocalPosition: {x: -0, y: -0.061566133, z: 0.30512843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3249294131096840395}
-  - {fileID: 3244969072883130415}
   - {fileID: 3248957660077346831}
-  - {fileID: 3249263968871877925}
   - {fileID: 3249120627974305021}
+  - {fileID: 3244969072883130415}
+  - {fileID: 3249294131096840395}
   - {fileID: 3244849066150814623}
+  - {fileID: 3249263968871877925}
   m_Father: {fileID: 3245354932657389557}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -47,6 +47,14 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
         }
 
+        private void OnEnable()
+        {
+            _initialLaunchTime = Time.time + 1.0f; //set the initial launch time
+            _fuseOut = true; //set fuseOut to true
+            _launched = true; //set the launch bool to true 
+            _thrust = false; //set thrust bool to false
+        }
+
 
         // Update is called once per frame
         void FixedUpdate()
@@ -89,8 +97,22 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             _launchSpeed = launchSpeed; //set the launch speed
             _power = power; //set the power
             _fuseDelay = fuseDelay; //set the fuse delay
-            Destroy(this.gameObject, destroyTimer); //destroy the rocket after destroyTimer 
+
+            //Reset
+            StartCoroutine(ResetMissile(destroyTimer));
+            //Destroy(this.gameObject, destroyTimer); //destroy the rocket after destroyTimer 
         }
+
+        private IEnumerator ResetMissile(float resetTimer)
+        {
+            yield return new WaitForSeconds(resetTimer);
+
+            //If the missile is still active after the resetTime, then reset the missile
+            if (this.gameObject.activeSelf == true)
+                PoolManager.Instance.ResetMissile(this.gameObject);
+        }
+
+        public bool GetIsMissileLaunched() => _launched;
     }
 }
 
