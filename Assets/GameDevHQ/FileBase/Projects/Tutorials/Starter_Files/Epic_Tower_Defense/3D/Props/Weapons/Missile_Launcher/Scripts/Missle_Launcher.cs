@@ -40,7 +40,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher
 
         private void Update()
         {
-            Debug.Log("_launched: " + _launched);
+
         }
 
         IEnumerator FireRocketsRoutine(GameObject currentTarget)
@@ -59,7 +59,6 @@ namespace GameDevHQ.FileBase.Missle_Launcher
                 rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); //set the rotation values to be properly aligned with the rockets forward direction
                 rocket.transform.parent = null; //set the rocket parent to null
 
-                rocket.SetActive(true);
                 rocket.GetComponent<GameDevHQ.FileBase.Missle_Launcher.Missle.Missle>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime); //assign missle properties 
 
                 _misslePositions[i].SetActive(false); //turn off the rocket sitting in the turret to make it look like it fired

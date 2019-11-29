@@ -179,10 +179,9 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         foreach (var missile in _missilePool)
         {
-            //_currentMissile = missile.GetComponent<Missle>();
-
-            if (missile.activeSelf == false) // && _currentMissile != null && _currentMissile.GetIsMissileLaunched() == false)
+            if (missile.activeSelf == false)
             {
+                missile.SetActive(true);
                 return missile;
             }
         }

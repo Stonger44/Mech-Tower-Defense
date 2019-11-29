@@ -47,6 +47,29 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
         }
 
+        private void OnEnable()
+        {
+            _initialLaunchTime = Time.time; //set the initial launch time
+            _fuseOut = true; //set fuseOut to true
+            _launched = true; //set the launch bool to true 
+            _trackRotation = false;
+
+            if (_rigidbody != null)
+            {
+                _rigidbody.detectCollisions = true;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_rigidbody != null)
+            {
+                _rigidbody.detectCollisions = false;
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero; 
+            }
+        }
+
         // Update is called once per frame
         void FixedUpdate()
         {
@@ -100,10 +123,10 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
             //If the missile is still active after the resetTime, then reset the missile
             if (this.gameObject.activeSelf == true)
+            {
                 PoolManager.Instance.ResetMissile(this.gameObject);
+            }
         }
-
-        public bool GetIsMissileLaunched() => _launched;
     }
 }
 
