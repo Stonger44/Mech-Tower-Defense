@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public class Attack : MonoBehaviour
+public class Aim : MonoBehaviour
 {
     [SerializeField] private GameObject _towerRoot;
     [SerializeField] private GameObject _horizontalAimPivot;
@@ -45,7 +45,7 @@ public class Attack : MonoBehaviour
         if (_horizontalAimPivot == null)
             Debug.LogError("_horizontalAimPivot is NULL.");
 
-        if (_verticalAimPivot == null)
+        if (_verticalAimPivot == null && !_towerRoot.name.Contains("Missile"))
             Debug.LogError("_verticalAimPivot is NULL.");
 
         _neutralPosition.x = this.transform.position.x + 10;
@@ -96,13 +96,17 @@ public class Attack : MonoBehaviour
 
         _horizontalOnlyLookDirection.x = _lookDirection.x;
         _horizontalOnlyLookDirection.z = _lookDirection.z;
-        
 
         _horizontalOnlyLookRotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-        _lookRotation = Quaternion.LookRotation(_lookDirection);
-
         _horizontalAimPivot.transform.rotation = Quaternion.Slerp(_horizontalAimPivot.transform.rotation, _horizontalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
-        _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
+
+        //Missile Launchers only have horizontal rotation
+        if (!_towerRoot.name.Contains("Missile"))
+        {
+            _lookRotation = Quaternion.LookRotation(_lookDirection);
+            _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
+        }
+            
     }
 
     private void OnTriggerEnter(Collider other)

@@ -154,11 +154,11 @@ public class Enemy : MonoBehaviour
         onDeath?.Invoke(this.gameObject);
         
         //Must wait until death animation completely finishes before resetting enemy
-        yield return new WaitForSeconds(2.2f);
+        yield return new WaitForSeconds(2.4f);
         ResetEnemy();
 
         //Wait for smoke animation to finish
-        yield return new WaitForSeconds(2.2f);
+        yield return new WaitForSeconds(2.0f);
         PoolManager.Instance.ResetExplosion(_explosion);
 
         this.gameObject.SetActive(false);

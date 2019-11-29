@@ -24,18 +24,18 @@ namespace GameDevHQ.FileBase.Missle_Launcher
 
         [SerializeField] private int _damageAmount;
 
-        [SerializeField] private float _initialDelay;
+        [SerializeField] private float _bufferDelay;
 
         public static event Action<GameObject, int> onMissileHit;
 
         private void OnEnable()
         {
-            Attack.onTargetInRange += FireMissiles;
+            Aim.onTargetInRange += FireMissiles;
         }
 
         private void OnDisable()
         {
-            Attack.onTargetInRange -= FireMissiles;
+            Aim.onTargetInRange -= FireMissiles;
         }
 
         private void Update()
@@ -45,8 +45,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher
 
         IEnumerator FireRocketsRoutine(GameObject currentTarget)
         {
-            //Wait a bit before Rocket barrage launches
-            yield return new WaitForSeconds(_initialDelay);
+            yield return new WaitForSeconds(_bufferDelay);
 
             for (int i = 0; i < _misslePositions.Length; i++) //for loop to iterate through each missle position
             {
@@ -59,7 +58,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher
                 rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); //set the rotation values to be properly aligned with the rockets forward direction
                 rocket.transform.parent = null; //set the rocket parent to null
 
-                rocket.GetComponent<GameDevHQ.FileBase.Missle_Launcher.Missle.Missle>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime); //assign missle properties 
+                rocket.GetComponent<GameDevHQ.FileBase.Missle_Launcher.Missle.Missle>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime, currentTarget); //assign missle properties 
 
                 _misslePositions[i].SetActive(false); //turn off the rocket sitting in the turret to make it look like it fired
                 yield return new WaitForSeconds(_fireDelay); //wait for the firedelay
@@ -74,9 +73,9 @@ namespace GameDevHQ.FileBase.Missle_Launcher
             _launched = false; //set launch bool to false
         }
 
-        private void FireMissiles(GameObject thisTower, GameObject currentTarget)
+        private void FireMissiles(GameObject currentTower, GameObject currentTarget)
         {
-            if (_launched == false) //check if we launched the rockets
+            if (currentTower == this.gameObject && _launched == false) //check if we launched the rockets
             {
                 _launched = true; //set the launch bool to true
                 StartCoroutine(FireRocketsRoutine(currentTarget)); //start a coroutine that fires the rockets. 

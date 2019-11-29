@@ -41,14 +41,14 @@ namespace GameDevHQ.FileBase.Gatling_Gun
 
         private void OnEnable()
         {
-            Attack.onTargetInRange += Shoot;
-            Attack.onNoTargetInRange += StopShooting;
+            Aim.onTargetInRange += Shoot;
+            Aim.onNoTargetInRange += StopShooting;
         }
 
         private void OnDisable()
         {
-            Attack.onTargetInRange -= Shoot;
-            Attack.onNoTargetInRange -= StopShooting;
+            Aim.onTargetInRange -= Shoot;
+            Aim.onNoTargetInRange -= StopShooting;
         }
 
         // Use this for initialization
@@ -74,9 +74,9 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             _gunBarrel.transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
         }
 
-        private void Shoot(GameObject thisTower, GameObject currentTarget)
+        private void Shoot(GameObject currentTower, GameObject currentTarget)
         {
-            if (thisTower == this.gameObject && currentTarget.tag.Contains("Mech"))
+            if (currentTower == this.gameObject && currentTarget.tag.Contains("Mech"))
             {
                 if (!_isAttacking)
                 {

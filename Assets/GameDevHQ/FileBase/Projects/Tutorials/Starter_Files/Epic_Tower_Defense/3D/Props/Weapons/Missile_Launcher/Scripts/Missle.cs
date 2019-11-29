@@ -28,10 +28,18 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
         private bool _fuseOut = false; //bool for if the rocket fuse
         private bool _trackRotation = false; //bool to track rotation of the rocket
 
+        //Extended Code
+        private GameObject _attackAltitude;
+        private GameObject _currentTarget;
+        private Enemy _currentTargetScript;
+        private bool _isSeekingTarget;
+        private Vector3 _lookDirection;
 
         // Use this for initialization
         IEnumerator Start()
         {
+            _attackAltitude = GameObject.Find("AttackAltitude");
+
             _rigidbody = GetComponent<Rigidbody>(); //assign the rigidbody component 
             _audioSource = GetComponent<AudioSource>(); //assign the audiosource component
             _audioSource.pitch = Random.Range(0.7f, 1.9f); //randomize the pitch of the rocket audio
@@ -68,10 +76,22 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.angularVelocity = Vector3.zero; 
             }
+
+            _isSeekingTarget = false;
         }
 
         // Update is called once per frame
         void FixedUpdate()
+        {
+            if (_isSeekingTarget)
+            {
+                LockOnToTarget();
+            }
+
+            MoveMissile();
+        }
+
+        private void MoveMissile()
         {
             if (_fuseOut == false) //check if fuseOut is false
                 return;
@@ -94,27 +114,59 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
                 _thrust = false; //set thrust bool to false
                 _trackRotation = true; //track rotation bool set to true
             }
-             
+
             if (_trackRotation == true) //check track rotation bool
             {
                 _rigidbody.rotation = Quaternion.LookRotation(_rigidbody.velocity); // adjust rotation of rocket based on velocity
-                _rigidbody.AddForce(transform.forward * 100f); //add force to the rocket
+                _rigidbody.AddForce(transform.forward * 2f); //add force to the rocket
             }
-
         }
 
         /// <summary>
         /// This method is used to assign traits to our missle assigned from the launcher.
         /// </summary>
-        public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer)
+        public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject currentTarget)
         {
             _launchSpeed = launchSpeed; //set the launch speed
             _power = power; //set the power
             _fuseDelay = fuseDelay; //set the fuse delay
 
+            _currentTarget = currentTarget;
+
+            if (_currentTarget != null)
+                _currentTargetScript = _currentTarget.GetComponent<Enemy>();
+
+            if (_currentTarget == null)
+                Debug.LogError("_currentTarget is NULL.");
+
             //Reset
             StartCoroutine(ResetMissile(destroyTimer));
-            //Destroy(this.gameObject, destroyTimer); //destroy the rocket after destroyTimer 
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject == _attackAltitude)
+            {
+                _isSeekingTarget = (_currentTarget != null) ? true : false;
+            }
+        }
+
+        private void LockOnToTarget()
+        {
+            //Target lost
+            if (_currentTarget == null)
+            {
+                _isSeekingTarget = false;
+                return;
+            }
+
+            _lookDirection = _currentTarget.transform.position - this.transform.position;
+
+            //_lookDirection.x = _currentTarget.transform.position.x;
+            //_lookDirection.y = _currentTarget.transform.position.y;
+            //_lookDirection.z = _currentTarget.transform.position.z;
+            
+            this.transform.rotation = Quaternion.LookRotation(_lookDirection);
         }
 
         private IEnumerator ResetMissile(float resetTimer)

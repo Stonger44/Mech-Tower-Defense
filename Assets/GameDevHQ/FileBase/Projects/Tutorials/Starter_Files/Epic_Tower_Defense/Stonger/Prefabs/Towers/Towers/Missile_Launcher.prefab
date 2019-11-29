@@ -249,9 +249,9 @@ MonoBehaviour:
   _power: 20
   _fuseDelay: 0
   _reloadTime: 0.5
-  _destroyTime: 5
+  _destroyTime: 10
   _damageAmount: 10
-  _initialDelay: 1
+  _bufferDelay: 0.5
 --- !u!1 &3243118379741561677
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,14 +620,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3243581042090101247}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5527136e-17, y: 0.046343565, z: 0.11227783}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 3.5527136e-17, y: 0.25, z: 0.11227783}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3249231841337573755}
   m_Father: {fileID: 3249307019204528709}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &3243616553120152513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1022,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _verticalAimPivot
       value: 
-      objectReference: {fileID: 3243581042090101247}
+      objectReference: {fileID: 0}
     - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
         type: 3}
       propertyPath: _towerRoot
