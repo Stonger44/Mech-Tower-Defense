@@ -37,9 +37,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
         private bool _isSeekingTarget;
         private Vector3 _lookDirection;
         private int _damageAmount;
-
-        //[SerializeField] protected GameObject _explosion;
-        //[SerializeField] protected AudioSource _explosionSound;
+        private bool _isMissileDetonating;
 
         public static event Action<GameObject, int> onTargetHit;
 
@@ -73,20 +71,14 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
             if (_rigidbody != null)
             {
+                _rigidbody.useGravity = true;
                 _rigidbody.detectCollisions = true;
             }
         }
 
         private void OnDisable()
         {
-            if (_rigidbody != null)
-            {
-                _rigidbody.detectCollisions = false;
-                _rigidbody.velocity = Vector3.zero;
-                _rigidbody.angularVelocity = Vector3.zero; 
-            }
-
-            _isSeekingTarget = false;
+            
         }
 
         // Update is called once per frame
@@ -162,12 +154,11 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
             if (other.gameObject == _detonationAltitude || other.gameObject.tag.Contains("Mech"))
             {
-                Debug.Log("Hit: " + other.gameObject.name);
-
-                //Detonate:
-                //PlayExplosion(); //Instantiate Missile Explosion
-                PoolManager.Instance.ResetMissile(this.gameObject); //Hide/Reset Missile
-                onTargetHit?.Invoke(_currentTarget, _damageAmount); //Broadcast for enemy damage
+                if (!_isMissileDetonating)
+                {
+                    _isMissileDetonating = true;
+                    StartCoroutine(DetonateMissileRoutine(other));
+                }
             }
 
         }
@@ -182,7 +173,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             }
 
             _lookDirection = _currentTarget.transform.position - this.transform.position;
-            
+
             this.transform.rotation = Quaternion.LookRotation(_lookDirection);
         }
 
@@ -197,14 +188,41 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             }
         }
 
-        //protected virtual void PlayExplosion()
-        //{
-        //    _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
-        //    _explosion.transform.position = this.transform.position;
-        //    _explosionSound = _explosion.GetComponent<AudioSource>();
-        //    _explosion.SetActive(true); //Turn explosion visual effects on
-        //    _explosionSound.Play();
-        //}
+        private IEnumerator DetonateMissileRoutine(Collider other)
+        {
+            //Detonate:
+            PlayExplosion();
+
+            if (other.tag.Contains("Mech"))
+                onTargetHit?.Invoke(_currentTarget, _damageAmount);
+
+            ResetMissile();
+
+            //wait for explosion animation to finish
+            yield return new WaitForSeconds(4.44f);
+            PoolManager.Instance.ResetExplosion(_explosion);
+
+            _isMissileDetonating = false;
+            this.gameObject.SetActive(false);
+        }
+
+        private void ResetMissile()
+        {
+            _fuseOut = false;
+            this._audioSource.Stop();
+            _currentTarget = null;
+            _isSeekingTarget = false;
+
+            if (_rigidbody != null)
+            {
+                _rigidbody.useGravity = false;
+                _rigidbody.detectCollisions = false;
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
+            
+            PoolManager.Instance.ResetMissile(this.gameObject);
+        }
     }
 }
 

@@ -24,9 +24,6 @@ public class Enemy : Explodable
     [SerializeField] private bool _onStandby = false;
     [SerializeField] private bool _inJunkyard = false;
 
-    //[SerializeField] private GameObject _explosion;
-    //[SerializeField] private AudioSource _explosionSound;
-
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
     [SerializeField] private GameObject _skin;
@@ -166,15 +163,6 @@ public class Enemy : Explodable
 
         _isDying = false;
     }
-
-    //private void PlayExplosion()
-    //{
-    //    _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
-    //    _explosion.transform.position = this.transform.position;
-    //    _explosionSound = _explosion.GetComponent<AudioSource>();
-    //    _explosion.SetActive(true); //Turn explosion visual effects on
-    //    _explosionSound.Play();
-    //}
 
     private void SendToJunkyard()
     {

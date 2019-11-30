@@ -249,7 +249,7 @@ MonoBehaviour:
   _power: 20
   _fuseDelay: 0
   _reloadTime: 0.75
-  _destroyTime: 30
+  _destroyTime: 10
   _damageAmount: 5
   _bufferDelay: 0.5
 --- !u!1 &3243118379741561677

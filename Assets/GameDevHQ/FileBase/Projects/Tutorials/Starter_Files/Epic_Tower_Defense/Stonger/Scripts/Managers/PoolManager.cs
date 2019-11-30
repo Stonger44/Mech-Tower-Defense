@@ -117,11 +117,26 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private List<GameObject> _explosionPool;
     [SerializeField] private GameObject _explosionContainer;
     private int _explosionIndex;
+    private enum ExplosionType { Mech1, Mech2, Missile };
 
 
-    private void GenerateExplosion(GameObject explodingEnemy)
+    private void GenerateExplosion(GameObject explodingObject)
     {
-        _explosionIndex = (explodingEnemy.tag == "Mech1") ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
+        switch (explodingObject.name)
+        {
+            case "Explosion_Mech1":
+                _explosionIndex = (int)ExplosionType.Mech1;
+                break;
+            case "Explosion_Mech2":
+                _explosionIndex = (int)ExplosionType.Mech2;
+                break;
+            case "Explosion_Missile":
+                _explosionIndex = (int)ExplosionType.Missile;
+                break;
+            default:
+                Debug.LogError("Type of explosion not found.");
+                break;
+        }
 
         GameObject explosion = Instantiate(_explosionPrefabs[_explosionIndex]);
         explosion.SetActive(false);
@@ -194,7 +209,6 @@ public class PoolManager : MonoSingleton<PoolManager>
         missile.transform.rotation = _missilePrefab.transform.rotation;
         missile.transform.parent = _missileContainer.transform;
         missile.transform.position = _missileContainer.transform.position;
-        missile.SetActive(false);
     }
 
     #endregion
