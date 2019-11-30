@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 {
     [RequireComponent(typeof(Rigidbody))] //require rigidbody
     [RequireComponent(typeof(AudioSource))] //require audiosource
-    public class Missle : MonoBehaviour
+    public class Missle : Explodable
     {
         [SerializeField]
         private ParticleSystem _particle; //reference to the particle system
@@ -30,19 +31,27 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
         //Extended Code
         private GameObject _attackAltitude;
+        private GameObject _detonationAltitude;
         private GameObject _currentTarget;
         private Enemy _currentTargetScript;
         private bool _isSeekingTarget;
         private Vector3 _lookDirection;
+        private int _damageAmount;
+
+        //[SerializeField] protected GameObject _explosion;
+        //[SerializeField] protected AudioSource _explosionSound;
+
+        public static event Action<GameObject, int> onTargetHit;
 
         // Use this for initialization
         IEnumerator Start()
         {
             _attackAltitude = GameObject.Find("AttackAltitude");
+            _detonationAltitude = GameObject.Find("DetonationAltitude");
 
             _rigidbody = GetComponent<Rigidbody>(); //assign the rigidbody component 
             _audioSource = GetComponent<AudioSource>(); //assign the audiosource component
-            _audioSource.pitch = Random.Range(0.7f, 1.9f); //randomize the pitch of the rocket audio
+            _audioSource.pitch = UnityEngine.Random.Range(0.7f, 1.9f); //randomize the pitch of the rocket audio
             _particle.Play(); //play the particles of the rocket
             _audioSource.Play(); //play the rocket sound
 
@@ -111,27 +120,28 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             {
                 _rigidbody.useGravity = true; //enable gravity 
                 _rigidbody.velocity = transform.forward * _power; //set velocity multiplied by the power variable
-                _thrust = false; //set thrust bool to false
+                //_thrust = false; //set thrust bool to false
                 _trackRotation = true; //track rotation bool set to true
             }
 
             if (_trackRotation == true) //check track rotation bool
             {
                 _rigidbody.rotation = Quaternion.LookRotation(_rigidbody.velocity); // adjust rotation of rocket based on velocity
-                _rigidbody.AddForce(transform.forward * 2f); //add force to the rocket
+                _rigidbody.AddForce(transform.forward * 50f); //add force to the rocket
             }
         }
 
         /// <summary>
         /// This method is used to assign traits to our missle assigned from the launcher.
         /// </summary>
-        public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject currentTarget)
+        public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject currentTarget, int damagAmount)
         {
             _launchSpeed = launchSpeed; //set the launch speed
             _power = power; //set the power
             _fuseDelay = fuseDelay; //set the fuse delay
 
             _currentTarget = currentTarget;
+            _damageAmount = damagAmount;
 
             if (_currentTarget != null)
                 _currentTargetScript = _currentTarget.GetComponent<Enemy>();
@@ -149,6 +159,17 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             {
                 _isSeekingTarget = (_currentTarget != null) ? true : false;
             }
+
+            if (other.gameObject == _detonationAltitude || other.gameObject.tag.Contains("Mech"))
+            {
+                Debug.Log("Hit: " + other.gameObject.name);
+
+                //Detonate:
+                //PlayExplosion(); //Instantiate Missile Explosion
+                PoolManager.Instance.ResetMissile(this.gameObject); //Hide/Reset Missile
+                onTargetHit?.Invoke(_currentTarget, _damageAmount); //Broadcast for enemy damage
+            }
+
         }
 
         private void LockOnToTarget()
@@ -161,10 +182,6 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             }
 
             _lookDirection = _currentTarget.transform.position - this.transform.position;
-
-            //_lookDirection.x = _currentTarget.transform.position.x;
-            //_lookDirection.y = _currentTarget.transform.position.y;
-            //_lookDirection.z = _currentTarget.transform.position.z;
             
             this.transform.rotation = Quaternion.LookRotation(_lookDirection);
         }
@@ -179,6 +196,15 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
                 PoolManager.Instance.ResetMissile(this.gameObject);
             }
         }
+
+        //protected virtual void PlayExplosion()
+        //{
+        //    _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
+        //    _explosion.transform.position = this.transform.position;
+        //    _explosionSound = _explosion.GetComponent<AudioSource>();
+        //    _explosion.SetActive(true); //Turn explosion visual effects on
+        //    _explosionSound.Play();
+        //}
     }
 }
 

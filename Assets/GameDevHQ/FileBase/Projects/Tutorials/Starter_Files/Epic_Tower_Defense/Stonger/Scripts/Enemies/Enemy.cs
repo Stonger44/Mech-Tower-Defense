@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using GameDevHQ.FileBase.Gatling_Gun;
-using GameDevHQ.FileBase.Missle_Launcher;
+using GameDevHQ.FileBase.Missle_Launcher.Missle;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Explodable
 {
     public static int enemyCount;
 
@@ -24,8 +24,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _onStandby = false;
     [SerializeField] private bool _inJunkyard = false;
 
-    [SerializeField] private GameObject _explosion;
-    [SerializeField] private AudioSource _explosionSound;
+    //[SerializeField] private GameObject _explosion;
+    //[SerializeField] private AudioSource _explosionSound;
 
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         Gatling_Gun.onShoot += TakeDamage;
-        Missle_Launcher.onMissileHit += TakeDamage;
+        Missle.onTargetHit += TakeDamage;
 
         enemyCount++;
 
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     private void OnDisable()
     {
         Gatling_Gun.onShoot -= TakeDamage;
-        Missle_Launcher.onMissileHit -= TakeDamage;
+        Missle.onTargetHit -= TakeDamage;
 
         enemyCount--;
     }
@@ -167,14 +167,14 @@ public class Enemy : MonoBehaviour
         _isDying = false;
     }
 
-    private void PlayExplosion()
-    {
-        _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
-        _explosion.transform.position = this.transform.position;
-        _explosionSound = _explosion.GetComponent<AudioSource>();
-        _explosion.SetActive(true); //Turn explosion visual effects on
-        _explosionSound.Play();
-    }
+    //private void PlayExplosion()
+    //{
+    //    _explosion = PoolManager.Instance.RequestExplosion(this.gameObject);
+    //    _explosion.transform.position = this.transform.position;
+    //    _explosionSound = _explosion.GetComponent<AudioSource>();
+    //    _explosion.SetActive(true); //Turn explosion visual effects on
+    //    _explosionSound.Play();
+    //}
 
     private void SendToJunkyard()
     {

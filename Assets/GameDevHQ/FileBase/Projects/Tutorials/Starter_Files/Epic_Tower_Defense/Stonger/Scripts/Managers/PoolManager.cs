@@ -20,9 +20,8 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
 
-        //Generate one explosion prefeb for each unique enemy to start
-        foreach (var enemy in _enemyPrefabs)
-            GenerateExplosion(enemy);
+        foreach (var explosion in _explosionPrefabs)
+            GenerateExplosion(explosion);
 
         GenerateMissiles(6);
     }
@@ -131,18 +130,18 @@ public class PoolManager : MonoSingleton<PoolManager>
         _explosionPool.Add(explosion);
     }
 
-    public GameObject RequestExplosion(GameObject explodingEnemy)
+    public GameObject RequestExplosion(GameObject explodingObject)
     {
         foreach (var explosion in _explosionPool)
         {
-            if (explosion.activeSelf == false && explosion.name.Contains(explodingEnemy.tag))
+            if (explosion.activeSelf == false && explosion.name.Contains(explodingObject.tag))
             {
                 return explosion;
             }
         }
 
-        GenerateExplosion(explodingEnemy);
-        return RequestExplosion(explodingEnemy);
+        GenerateExplosion(explodingObject);
+        return RequestExplosion(explodingObject);
     }
 
     public void ResetExplosion(GameObject explosion)
@@ -192,10 +191,10 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     public void ResetMissile(GameObject missile)
     {
-        missile.SetActive(false);
         missile.transform.rotation = _missilePrefab.transform.rotation;
         missile.transform.parent = _missileContainer.transform;
         missile.transform.position = _missileContainer.transform.position;
+        missile.SetActive(false);
     }
 
     #endregion
