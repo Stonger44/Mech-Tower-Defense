@@ -122,15 +122,15 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void GenerateExplosion(GameObject explodingObject)
     {
-        switch (explodingObject.name)
+        switch (explodingObject.tag)
         {
-            case "Explosion_Mech1":
+            case "Mech1":
                 _explosionIndex = (int)ExplosionType.Mech1;
                 break;
-            case "Explosion_Mech2":
+            case "Mech2":
                 _explosionIndex = (int)ExplosionType.Mech2;
                 break;
-            case "Explosion_Missile":
+            case "Missile":
                 _explosionIndex = (int)ExplosionType.Missile;
                 break;
             default:

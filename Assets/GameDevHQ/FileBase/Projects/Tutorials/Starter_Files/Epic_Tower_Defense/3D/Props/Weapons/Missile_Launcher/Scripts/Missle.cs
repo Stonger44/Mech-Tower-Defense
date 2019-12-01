@@ -149,7 +149,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
         {
             if (other.gameObject == _attackAltitude)
             {
-                _isSeekingTarget = (_currentTarget != null) ? true : false;
+                _isSeekingTarget = IsCurrentEnemyAnActiveTarget();
             }
 
             if (other.gameObject == _detonationAltitude || other.gameObject.tag.Contains("Mech"))
@@ -166,7 +166,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
         private void LockOnToTarget()
         {
             //Target lost
-            if (_currentTarget == null)
+            if (IsCurrentEnemyAnActiveTarget() == false)
             {
                 _isSeekingTarget = false;
                 return;
@@ -184,7 +184,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             //If the missile is still active after the resetTime, then reset the missile
             if (this.gameObject.activeSelf == true)
             {
-                PoolManager.Instance.ResetMissile(this.gameObject);
+                ResetMissile();
             }
         }
 
@@ -222,6 +222,21 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
             }
             
             PoolManager.Instance.ResetMissile(this.gameObject);
+        }
+
+        private bool IsCurrentEnemyAnActiveTarget()
+        {
+            bool currentEnemyIsActiveTarget = false;
+
+            if (_currentTarget != null && _currentTarget.activeSelf != false)
+            {
+                if (_currentTargetScript != null && _currentTargetScript.IsOnStandby() == false && _currentTargetScript.IsInJunkyard() == false)
+                {
+                    currentEnemyIsActiveTarget = true;
+                }
+            }
+
+            return currentEnemyIsActiveTarget;
         }
     }
 }

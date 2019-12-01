@@ -54,6 +54,8 @@ public class Enemy : Explodable
         Missle.onTargetHit -= TakeDamage;
 
         enemyCount--;
+
+        _onStandby = false;
     }
 
     private void Start()
@@ -80,6 +82,7 @@ public class Enemy : Explodable
         DisableNavMesh();
 
         this.transform.position = _standbyPoint;
+        _inJunkyard = false;
         _onStandby = true;
     }
 
