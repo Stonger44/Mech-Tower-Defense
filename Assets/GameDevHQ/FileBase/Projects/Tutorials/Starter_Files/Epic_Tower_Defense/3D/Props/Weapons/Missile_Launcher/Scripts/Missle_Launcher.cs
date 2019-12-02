@@ -54,7 +54,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher
                 rocket.transform.parent = _misslePositions[i].transform; //set the rockets parent to the missle launch position 
                 rocket.transform.localPosition = Vector3.zero; //set the rocket position values to zero
                 rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); //set the rotation values to be properly aligned with the rockets forward direction
-                rocket.transform.parent = null; //set the rocket parent to null
+                rocket.transform.parent = PoolManager.Instance.missileContainer.transform; //set the rocket parent to null
 
                 rocket.GetComponent<GameDevHQ.FileBase.Missle_Launcher.Missle.Missle>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime, currentTarget, _damageAmount); //assign missle properties 
 

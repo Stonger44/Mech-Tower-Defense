@@ -115,12 +115,6 @@ public class Enemy : Explodable
         }
     }
 
-    private void ResetEnemy()
-    {
-        _health = _initialHealth;
-        _animator.SetBool("IsDying", false);
-    }
-
     private void DisableNavMesh()
     {
         if (_navMeshAgent == null)
@@ -154,7 +148,7 @@ public class Enemy : Explodable
         onDeath?.Invoke(this.gameObject);
         
         //Must wait until death animation completely finishes before resetting enemy
-        yield return new WaitForSeconds(2.4f);
+        yield return new WaitForSeconds(3.0f);
         ResetEnemy();
 
         //Wait for smoke animation to finish
@@ -173,5 +167,11 @@ public class Enemy : Explodable
 
         this.transform.position = _junkyard;
         _inJunkyard = true;
+    }
+
+    private void ResetEnemy()
+    {
+        _health = _initialHealth;
+        _animator.SetBool("IsDying", false);
     }
 }

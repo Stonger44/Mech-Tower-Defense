@@ -20,8 +20,9 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
 
-        foreach (var explosion in _explosionPrefabs)
+        foreach (var explosion in _enemyPrefabs)
             GenerateExplosion(explosion);
+        GenerateExplosion(_missilePrefab);
 
         GenerateMissiles(6);
     }
@@ -38,7 +39,7 @@ public class PoolManager : MonoSingleton<PoolManager>
                 gameObject.transform.position = _explosionContainer.transform.position;
                 break;
             case "Missile":
-                gameObject.transform.position = _missileContainer.transform.position;
+                gameObject.transform.position = missileContainer.transform.position;
                 break;
             default:
                 break;
@@ -173,7 +174,7 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     [SerializeField] private GameObject _missilePrefab;
     [SerializeField] private List<GameObject> _missilePool;
-    [SerializeField] private GameObject _missileContainer;
+    public GameObject missileContainer;
     private Missle _currentMissile;
 
     private void GenerateMissiles(int numberOfMissilesToGenerate)
@@ -182,8 +183,8 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             GameObject missile = Instantiate(_missilePrefab);
             missile.SetActive(false);
-            missile.transform.parent = _missileContainer.transform;
-            missile.transform.position = _missileContainer.transform.position;
+            missile.transform.parent = missileContainer.transform;
+            missile.transform.position = missileContainer.transform.position;
 
             _missilePool.Add(missile);
         }
@@ -207,8 +208,8 @@ public class PoolManager : MonoSingleton<PoolManager>
     public void ResetMissile(GameObject missile)
     {
         missile.transform.rotation = _missilePrefab.transform.rotation;
-        missile.transform.parent = _missileContainer.transform;
-        missile.transform.position = _missileContainer.transform.position;
+        missile.transform.parent = missileContainer.transform;
+        missile.transform.position = missileContainer.transform.position;
     }
 
     #endregion

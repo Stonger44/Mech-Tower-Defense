@@ -9,6 +9,9 @@ TagManager:
   - Mech2
   - TowerLocation
   - Missile
+  - Explosion_Mech1
+  - Explosion_Mech2
+  - Explosion_Missile
   layers:
   - Default
   - TransparentFX
