@@ -152,7 +152,7 @@ public class Enemy : Explodable
         ResetEnemy();
 
         //Wait for smoke animation to finish
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.75f);
         PoolManager.Instance.ResetExplosion(_explosion);
 
         this.gameObject.SetActive(false);

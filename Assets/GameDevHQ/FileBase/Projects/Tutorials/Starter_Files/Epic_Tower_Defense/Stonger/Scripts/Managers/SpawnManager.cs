@@ -44,6 +44,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
                     seconds = _mech2SpawnDelayTime;
             }
 
+
             _waveRunning = GameManager.Instance.waveRunning;
         }
         
@@ -52,7 +53,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     private void StartSpawning()
     {
         _waveRunning = GameManager.Instance.waveRunning;
-        StartCoroutine(SpawnEnemyRoutine(1));
+        StartCoroutine(SpawnEnemyRoutine(3));
     }
 
 }
