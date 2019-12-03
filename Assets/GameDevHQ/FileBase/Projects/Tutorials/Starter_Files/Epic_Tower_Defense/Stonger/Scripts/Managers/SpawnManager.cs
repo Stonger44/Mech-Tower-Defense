@@ -13,6 +13,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     [SerializeField] private bool _waveRunning = false;
     [SerializeField] private int _spawnDelayTime;
+    private bool _isSpawningEnemies = false;
 
     private GameObject _enemy;
 
@@ -50,13 +51,21 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
             _waveRunning = GameManager.Instance.waveRunning;
         }
-        
+
+        _isSpawningEnemies = false;
+
+
     }
 
     private void StartSpawning()
     {
         _waveRunning = GameManager.Instance.waveRunning;
-        StartCoroutine(SpawnEnemyRoutine(3));
+
+        if (_isSpawningEnemies == false)
+        {
+            _isSpawningEnemies = true;
+            StartCoroutine(SpawnEnemyRoutine(3));
+        }
     }
 
 }

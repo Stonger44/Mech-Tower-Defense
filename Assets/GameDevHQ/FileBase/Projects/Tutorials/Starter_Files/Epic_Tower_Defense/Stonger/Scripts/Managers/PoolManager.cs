@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using GameDevHQ.FileBase.Missle_Launcher.Missle;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
@@ -175,7 +174,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private GameObject _missilePrefab;
     [SerializeField] private List<GameObject> _missilePool;
     public GameObject missileContainer;
-    private Missle _currentMissile;
+    private Missile _currentMissile;
 
     private void GenerateMissiles(int numberOfMissilesToGenerate)
     {

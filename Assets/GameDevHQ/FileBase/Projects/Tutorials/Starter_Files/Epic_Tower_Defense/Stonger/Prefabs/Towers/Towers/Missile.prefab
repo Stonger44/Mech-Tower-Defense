@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7430469068612711459}
   - component: {fileID: 7481528040265121171}
   - component: {fileID: 7364258391887685021}
-  - component: {fileID: 7387538181689507625}
   - component: {fileID: 8049564071577119965}
+  - component: {fileID: 2911718805923192037}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Missile
@@ -147,24 +147,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7387538181689507625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7428010706307105043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe06e3cac478bf44b3877657b5b8b4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _explosion: {fileID: 0}
-  _explosionSound: {fileID: 0}
-  _particle: {fileID: 7336739445786577407}
-  _launchSpeed: 0
-  _power: 0
-  _fuseDelay: 0
 --- !u!136 &8049564071577119965
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -179,6 +161,24 @@ CapsuleCollider:
   m_Height: 0
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.55}
+--- !u!114 &2911718805923192037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428010706307105043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb7b05d1ee173049984ceb294a26b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosion: {fileID: 0}
+  _explosionSound: {fileID: 0}
+  _particle: {fileID: 7336739445786577407}
+  _launchSpeed: 0
+  _power: 0
+  _fuseDelay: 0
 --- !u!1 &7428324586168007313
 GameObject:
   m_ObjectHideFlags: 0

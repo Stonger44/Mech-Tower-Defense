@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using GameDevHQ.FileBase.Gatling_Gun;
 using GameDevHQ.FileBase.Dual_Gatling_Gun;
-using GameDevHQ.FileBase.Missle_Launcher.Missle;
 
 public class Enemy : Explodable
 {
@@ -29,6 +28,7 @@ public class Enemy : Explodable
     [SerializeField] private bool _isDying;
     [SerializeField] private GameObject _skin;
     [SerializeField] private float _navMeshRadius;
+    private Quaternion _originalRotation;
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
     public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFund
@@ -38,7 +38,7 @@ public class Enemy : Explodable
     {
         Gatling_Gun.onShoot += TakeDamage;
         Dual_Gatling_Gun.onShoot += TakeDamage;
-        Missle.onTargetHit += TakeDamage;
+        Missile.onTargetHit += TakeDamage;
 
         enemyCount++;
 
@@ -53,7 +53,7 @@ public class Enemy : Explodable
     private void OnDisable()
     {
         Gatling_Gun.onShoot -= TakeDamage;
-        Missle.onTargetHit -= TakeDamage;
+        Missile.onTargetHit -= TakeDamage;
 
         enemyCount--;
 
@@ -63,6 +63,7 @@ public class Enemy : Explodable
     private void Start()
     {
         warFund = _warFund;
+        _originalRotation = this.gameObject.transform.rotation;
     }
 
     private void Update()
@@ -168,6 +169,7 @@ public class Enemy : Explodable
         DisableNavMesh();
 
         this.transform.position = _junkyard;
+        this.transform.rotation = _originalRotation;
         _inJunkyard = true;
     }
 
