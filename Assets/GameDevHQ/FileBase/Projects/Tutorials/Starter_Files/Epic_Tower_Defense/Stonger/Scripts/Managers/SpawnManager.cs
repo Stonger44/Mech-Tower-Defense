@@ -12,6 +12,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     [SerializeField] private int _mech2SpawnDelayTime;
 
     [SerializeField] private bool _waveRunning = false;
+    [SerializeField] private int _spawnDelayTime;
 
     private GameObject _enemy;
 
@@ -29,9 +30,11 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public IEnumerator SpawnEnemyRoutine(int seconds)
     {
+        _spawnDelayTime = seconds;
+
         while (_waveRunning)
         {
-            yield return new WaitForSeconds(seconds);
+            yield return new WaitForSeconds(_spawnDelayTime);
 
             _enemy = PoolManager.Instance.RequestEnemy();
 
@@ -39,9 +42,9 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             {
                 //Mech2 (The bigger Mech) is slower, so give it more time before the next spawn
                 if (_enemy.tag == "Mech1")
-                    seconds = _mech1SpawnDelayTime;
+                    _spawnDelayTime = _mech1SpawnDelayTime;
                 else
-                    seconds = _mech2SpawnDelayTime;
+                    _spawnDelayTime = _mech2SpawnDelayTime;
             }
 
 
