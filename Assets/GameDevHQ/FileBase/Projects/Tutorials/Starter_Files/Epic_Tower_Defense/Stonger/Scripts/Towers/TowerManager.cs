@@ -71,12 +71,25 @@ public class TowerManager : MonoSingleton<TowerManager>
             }
             else if (CurrentTowerImage == _towerImageList[0])
             {
-                //Missle Launcher
+                //Gatling Gun Upgrade
+                CurrentTowerImage = _towerImageList[1];
+                CurrentTower = _towerList[1];
+            }
+            else if (CurrentTowerImage == _towerImageList[1])
+            {
+                //Missile Launcher
                 CurrentTowerImage = _towerImageList[2];
                 CurrentTower = _towerList[2];
             }
             else if (CurrentTowerImage == _towerImageList[2])
             {
+                //Missile Launcher Upgrade
+                CurrentTowerImage = _towerImageList[3];
+                CurrentTower = _towerList[3];
+            }
+            else if (CurrentTowerImage == _towerImageList[3])
+            {
+                //No Tower Selected
                 CurrentTowerImage = null;
                 CurrentTower = null;
             }

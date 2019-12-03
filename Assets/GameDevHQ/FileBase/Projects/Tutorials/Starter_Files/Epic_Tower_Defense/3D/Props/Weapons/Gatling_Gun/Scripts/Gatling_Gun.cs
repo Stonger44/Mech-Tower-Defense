@@ -74,9 +74,9 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             _gunBarrel.transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
         }
 
-        private void Shoot(GameObject currentTower, GameObject currentTarget)
+        private void Shoot(GameObject attackingTower, GameObject currentTarget)
         {
-            if (currentTower == this.gameObject && currentTarget.tag.Contains("Mech"))
+            if (attackingTower == this.gameObject && currentTarget.tag.Contains("Mech"))
             {
                 if (!_isAttacking)
                 {
@@ -96,9 +96,9 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             }
         }
 
-        private void StopShooting(GameObject thisTower)
+        private void StopShooting(GameObject attackingTower)
         {
-            if (thisTower == this.gameObject)
+            if (attackingTower == this.gameObject)
             {
                 Muzzle_Flash.SetActive(false); //turn off muzzle flash particle effect
                 _audioSource.Stop(); //stop the sound effect from playing

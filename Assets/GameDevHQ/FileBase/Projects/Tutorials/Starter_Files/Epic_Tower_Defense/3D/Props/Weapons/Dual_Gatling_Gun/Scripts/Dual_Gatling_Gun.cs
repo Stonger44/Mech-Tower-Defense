@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,9 +22,6 @@ namespace GameDevHQ.FileBase.Dual_Gatling_Gun
     [RequireComponent(typeof(AudioSource))] //Require Audio Source component
     public class Dual_Gatling_Gun : MonoBehaviour, ITower
     {
-        public int WarFundCost { get; set; } = 1000;
-        public int WarFundSellValue { get; set; } = 500;
-
         [SerializeField]
         private Transform[] _gunBarrel; //Reference to hold the gun barrel
         [SerializeField]
@@ -35,6 +33,27 @@ namespace GameDevHQ.FileBase.Dual_Gatling_Gun
 
         private AudioSource _audioSource; //reference to the audio source component
         private bool _startWeaponNoise = true;
+
+        //Extended Code
+        public int WarFundCost { get; set; } = 1000;
+        public int WarFundSellValue { get; set; } = 500;
+
+        private bool _isAttacking;
+        [SerializeField] private int _damageAmount;
+
+        public static event Action<GameObject, int> onShoot;
+
+        private void OnEnable()
+        {
+            Aim.onTargetInRange += Shoot;
+            Aim.onNoTargetInRange += StopShooting;
+        }
+
+        private void OnDisable()
+        {
+            Aim.onTargetInRange -= Shoot;
+            Aim.onNoTargetInRange -= StopShooting;
+        }
 
         // Use this for initialization
         void Start()
@@ -50,12 +69,30 @@ namespace GameDevHQ.FileBase.Dual_Gatling_Gun
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButton(0)) //Check for left click (held) user input
-            { 
+
+        }
+
+        // Method to rotate gun barrel 
+        void RotateBarrel() 
+        {
+            _gunBarrel[0].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
+            _gunBarrel[1].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
+        }
+
+        private void Shoot(GameObject attackingTower, GameObject currentTarget)
+        {
+            if (attackingTower == this.gameObject && currentTarget.tag.Contains("Mech"))
+            {
+                if (!_isAttacking)
+                {
+                    _isAttacking = true;
+                    StartCoroutine(AttackRoutine(currentTarget));
+                }
+
                 RotateBarrel(); //Call the rotation function responsible for rotating our gun barrel
 
                 //for loop to iterate through all muzzle flash objects
-                for(int i = 0; i < _muzzleFlash.Length; i++)
+                for (int i = 0; i < _muzzleFlash.Length; i++)
                 {
                     _muzzleFlash[i].SetActive(true); //enable muzzle effect particle effect
                     _bulletCasings[i].Emit(1); //Emit the bullet casing particle effect   
@@ -66,9 +103,12 @@ namespace GameDevHQ.FileBase.Dual_Gatling_Gun
                     _audioSource.Play(); //play audio clip attached to audio source
                     _startWeaponNoise = false; //set the start weapon noise value to false to prevent calling it again
                 }
-
             }
-            else if (Input.GetMouseButtonUp(0)) //Check for left click (release) user input
+        }
+
+        private void StopShooting(GameObject attackingTower)
+        {
+            if (attackingTower == this.gameObject)
             {
                 //for loop to iterate through all muzzle flash objects
                 for (int i = 0; i < _muzzleFlash.Length; i++)
@@ -80,12 +120,12 @@ namespace GameDevHQ.FileBase.Dual_Gatling_Gun
             }
         }
 
-        // Method to rotate gun barrel 
-        void RotateBarrel() 
+        private IEnumerator AttackRoutine(GameObject currentTarget)
         {
-            _gunBarrel[0].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
-            _gunBarrel[1].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
+            onShoot?.Invoke(currentTarget, _damageAmount);
+            yield return new WaitForSeconds(1);
+
+            _isAttacking = false;
         }
     }
-
 }
