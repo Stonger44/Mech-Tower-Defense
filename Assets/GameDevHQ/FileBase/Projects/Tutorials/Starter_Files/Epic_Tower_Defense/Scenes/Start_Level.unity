@@ -1188,6 +1188,7 @@ MonoBehaviour:
   _mech1SpawnDelayTime: 5
   _mech2SpawnDelayTime: 7
   _waveRunning: 0
+  _spawnDelayTime: 0
 --- !u!4 &126891189
 Transform:
   m_ObjectHideFlags: 0
@@ -6896,7 +6897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ccb7f3667eeb645b1771f03d1ac1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialWaveEnemyCount: 2
+  _initialWaveEnemyCount: 3
   _initialHealth: 10
   _health: 10
   totalWarFund: 9000
