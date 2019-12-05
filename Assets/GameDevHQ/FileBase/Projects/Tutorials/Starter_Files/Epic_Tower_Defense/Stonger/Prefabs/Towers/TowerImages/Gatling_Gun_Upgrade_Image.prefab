@@ -29429,9 +29429,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5847722652066140923}
-  - component: {fileID: 5818607607496717313}
   - component: {fileID: 5767937405934787213}
   - component: {fileID: -6802242228814087143}
+  - component: {fileID: 4456488514181615149}
   m_Layer: 0
   m_Name: Gatling_Gun_Upgrade_Image
   m_TagString: Untagged
@@ -29456,28 +29456,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &5818607607496717313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849817933919098679}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa87186eb31905c4fa207e5970b35579, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gunBarrel:
-  - {fileID: 5852644093940810475}
-  - {fileID: 5852534271711300679}
-  _muzzleFlash:
-  - {fileID: 5849704429293676413}
-  - {fileID: 5849522806983854099}
-  _bulletCasings:
-  - {fileID: 6046135552599612345}
-  - {fileID: 6046730514927282493}
-  _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
 --- !u!82 &5767937405934787213
 AudioSource:
   m_ObjectHideFlags: 0
@@ -29588,6 +29566,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _towerRangeGreen: {fileID: 0}
   _towerRangeRed: {fileID: 0}
+--- !u!114 &4456488514181615149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849817933919098679}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e55fe665c4fe34a9f4705f1e5530a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gunBarrel:
+  - {fileID: 0}
+  - {fileID: 0}
+  _muzzleFlash:
+  - {fileID: 0}
+  - {fileID: 0}
+  _bulletCasings:
+  - {fileID: 0}
+  - {fileID: 0}
+  _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
+  _warFundCost: 4000
+  _warFundSellValue: 500
+  _damageAmount: 4
 --- !u!1 &5849887407086285683
 GameObject:
   m_ObjectHideFlags: 0

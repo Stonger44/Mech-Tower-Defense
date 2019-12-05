@@ -29460,8 +29460,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4701209728832975361}
-  - component: {fileID: 4658583872502584571}
   - component: {fileID: 4616912070874839671}
+  - component: {fileID: 1365559943367914556}
   m_Layer: 0
   m_Name: Gatling_Gun_Upgrade
   m_TagString: Untagged
@@ -29487,29 +29487,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &4658583872502584571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4699506181887915981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa87186eb31905c4fa207e5970b35579, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gunBarrel:
-  - {fileID: 4693174504220402193}
-  - {fileID: 4693073495263653053}
-  _muzzleFlash:
-  - {fileID: 4699249735407454087}
-  - {fileID: 4698639331454806249}
-  _bulletCasings:
-  - {fileID: 4895823822052408131}
-  - {fileID: 4896266901444495815}
-  _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
-  _damageAmount: 4
 --- !u!82 &4616912070874839671
 AudioSource:
   m_ObjectHideFlags: 0
@@ -29606,6 +29583,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1365559943367914556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4699506181887915981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e55fe665c4fe34a9f4705f1e5530a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gunBarrel:
+  - {fileID: 4693174504220402193}
+  - {fileID: 4693073495263653053}
+  _muzzleFlash:
+  - {fileID: 4699249735407454087}
+  - {fileID: 4698639331454806249}
+  _bulletCasings:
+  - {fileID: 4895823822052408131}
+  - {fileID: 4896266901444495815}
+  _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
+  _warFundCost: 4000
+  _warFundSellValue: 500
+  _damageAmount: 4
 --- !u!1001 &772088761667623421
 PrefabInstance:
   m_ObjectHideFlags: 0

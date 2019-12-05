@@ -66,7 +66,7 @@ public class TowerLocation : MonoBehaviour
         onLocationMouseExit?.Invoke();
     }
 
-    private void OnMouseDown()
+    private void OnMouseUp()
     {
         PlaceTower();
     }
@@ -110,6 +110,14 @@ public class TowerLocation : MonoBehaviour
             onInsufficientWarFunds?.Invoke();
             return;
         }
+
+        //Check 5: Makse sure the Tower Image (mouse pointer) is still in position
+        if (this.transform.position != TowerManager.Instance.CurrentTowerImage.transform.position)
+        {
+            Debug.Log("Tower not in Position");
+            return;
+        }
+        
 
         //PASS: If we get here, we passed all the pre-requisites and may place a tower.
         _isOccupied = true;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using GameDevHQ.FileBase.Gatling_Gun;
-using GameDevHQ.FileBase.Dual_Gatling_Gun;
 
 public class Enemy : Explodable
 {
@@ -37,7 +36,6 @@ public class Enemy : Explodable
     private void OnEnable()
     {
         Gatling_Gun.onShoot += TakeDamage;
-        Dual_Gatling_Gun.onShoot += TakeDamage;
         Missile.onTargetHit += TakeDamage;
 
         enemyCount++;
