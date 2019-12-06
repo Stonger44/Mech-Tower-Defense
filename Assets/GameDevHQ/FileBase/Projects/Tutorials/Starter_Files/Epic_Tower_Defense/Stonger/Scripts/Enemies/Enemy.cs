@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using GameDevHQ.FileBase.Gatling_Gun;
 
 public class Enemy : Explodable
 {

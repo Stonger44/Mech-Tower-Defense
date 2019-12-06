@@ -197,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3249254172378108675}
-  - component: {fileID: 3211091193424498333}
+  - component: {fileID: 4322096389120511577}
   m_Layer: 0
   m_Name: Missile_Launcher
   m_TagString: Untagged
@@ -223,7 +223,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &3211091193424498333
+--- !u!114 &4322096389120511577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3243110382537594043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37f75a662e08584192823355ae4ac73, type: 3}
+  m_Script: {fileID: 11500000, guid: 6698ec7eefa695a4eb1340e16900e228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _missilePrefab: {fileID: 7428010706307105043, guid: 590e572075a0a8248a16433b66e60805,
@@ -251,7 +251,7 @@ MonoBehaviour:
   _reloadTime: 0.75
   _destroyTime: 10
   _damageAmount: 5
-  _bufferDelay: 0.5
+  _lockOnDelayTime: 1
 --- !u!1 &3243118379741561677
 GameObject:
   m_ObjectHideFlags: 0

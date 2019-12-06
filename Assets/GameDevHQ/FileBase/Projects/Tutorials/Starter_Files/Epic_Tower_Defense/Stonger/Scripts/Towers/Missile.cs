@@ -183,6 +183,7 @@ public class Missile : Explodable
         if (this.gameObject.activeSelf == true)
         {
             ResetMissile();
+            this.gameObject.SetActive(false);
         }
     }
 

@@ -10,24 +10,15 @@ namespace GameDevHQ.FileBase.Missle_Launcher_Dual_Turret
         public int WarFundCost { get; set; } = 4000;
         public int WarFundSellValue { get; set; } = 2000;
 
-        [SerializeField]
-        private GameObject _missilePrefab; //holds the missle gameobject to clone
-        [SerializeField]
-        private GameObject[] _misslePositionsLeft; //array to hold the rocket positions on the turret
-        [SerializeField]
-        private GameObject[] _misslePositionsRight; //array to hold the rocket positions on the turret
-        [SerializeField]
-        private float _fireDelay; //fire delay between rockets
-        [SerializeField]
-        private float _launchSpeed; //initial launch speed of the rocket
-        [SerializeField]
-        private float _power; //power to apply to the force of the rocket
-        [SerializeField]
-        private float _fuseDelay; //fuse delay before the rocket launches
-        [SerializeField]
-        private float _reloadTime; //time in between reloading the rockets
-        [SerializeField]
-        private float _destroyTime = 10.0f; //how long till the rockets get cleaned up
+        [SerializeField] private GameObject _missilePrefab; //holds the missle gameobject to clone
+        [SerializeField] private GameObject[] _misslePositionsLeft; //array to hold the rocket positions on the turret
+        [SerializeField] private GameObject[] _misslePositionsRight; //array to hold the rocket positions on the turret
+        [SerializeField] private float _fireDelay; //fire delay between rockets
+        [SerializeField] private float _launchSpeed; //initial launch speed of the rocket
+        [SerializeField] private float _power; //power to apply to the force of the rocket
+        [SerializeField] private float _fuseDelay; //fuse delay before the rocket launches
+        [SerializeField] private float _reloadTime; //time in between reloading the rockets
+        [SerializeField] private float _destroyTime = 10.0f; //how long till the rockets get cleaned up
         private bool _launched; //bool to check if we launched the rockets
 
         private void Update()
