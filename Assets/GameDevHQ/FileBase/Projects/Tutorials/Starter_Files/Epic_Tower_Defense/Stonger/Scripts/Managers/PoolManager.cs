@@ -24,6 +24,8 @@ public class PoolManager : MonoSingleton<PoolManager>
         GenerateExplosion(_missilePrefab);
 
         GenerateMissiles(6);
+
+        GenerateAllTowers(_numberOfEachTowerToGenerate);
     }
 
     //Currently not used
@@ -55,6 +57,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private GameObject _enemyContainer;
     private int _randomIndex;
     private enum EnemyType { Mech1, Mech2 }
+    private GameObject _generatedEnemy;
     private Enemy _currentEnemy;
 
 
@@ -65,12 +68,12 @@ public class PoolManager : MonoSingleton<PoolManager>
             //I only want to spawn the bigger mechs 25% of the time
             _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
 
-            GameObject enemy = Instantiate(_enemyPrefabs[_randomIndex]);
+            _generatedEnemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
-            enemy.transform.parent = _enemyContainer.transform;
+            _generatedEnemy.transform.parent = _enemyContainer.transform;
 
-            _enemyPool.Add(enemy);
+            _enemyPool.Add(_generatedEnemy);
         }
     }
 
@@ -214,4 +217,47 @@ public class PoolManager : MonoSingleton<PoolManager>
     #endregion
     /*----------Missile Pool----------*/
 
+    /*----------Tower Pool----------*/
+    #region Tower Pool
+
+    [SerializeField] private List<GameObject> _towerPrefabs;
+    [SerializeField] private List<GameObject> _towerPool;
+    [SerializeField] private GameObject _towerContainer;
+    [SerializeField] private int _numberOfEachTowerToGenerate;
+
+    private enum TowerType { GatlingGun, GatlingGunUpgrade, MissileLauncher, MissileLauncherUpgrade }
+    private GameObject _currentTower;
+
+    private void GenerateAllTowers(int numberOfEachTowerToGenerate)
+    {
+        foreach (var tower in _towerPrefabs)
+        {
+            for (int i = 0; i < numberOfEachTowerToGenerate; i++)
+            {
+                _currentTower = Instantiate(tower, _towerContainer.transform.position, Quaternion.Euler(0, 90, 0));
+                _currentTower.transform.parent = _towerContainer.transform;
+                _currentTower.SetActive(false);
+                _towerPool.Add(_currentTower);
+            }
+        }
+    }
+
+    public GameObject RequestTower(GameObject requestedTower)
+    {
+        foreach (var tower in _towerPool)
+        {
+            if (tower.activeSelf == false && tower.tag == requestedTower.tag)
+            {
+                tower.SetActive(true);
+                return tower;
+            }
+        }
+
+        //No Towers available?!
+        Debug.LogError("No towers of requested tower type available!");
+        return null;
+    } 
+
+    #endregion
+    /*----------Tower Pool----------*/
 }

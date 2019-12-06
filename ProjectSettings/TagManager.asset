@@ -12,6 +12,10 @@ TagManager:
   - Explosion_Mech1
   - Explosion_Mech2
   - Explosion_Missile
+  - Gatling_Gun
+  - Gatling_Gun_Upgrade
+  - Missile_Launcher
+  - Missile_Launcher_Upgrade
   layers:
   - Default
   - TransparentFX

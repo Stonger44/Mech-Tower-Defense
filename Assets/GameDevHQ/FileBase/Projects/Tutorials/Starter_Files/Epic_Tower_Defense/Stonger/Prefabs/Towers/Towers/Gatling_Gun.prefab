@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 5553905132133468765}
   m_Layer: 0
   m_Name: Gatling_Gun
-  m_TagString: Untagged
+  m_TagString: Gatling_Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

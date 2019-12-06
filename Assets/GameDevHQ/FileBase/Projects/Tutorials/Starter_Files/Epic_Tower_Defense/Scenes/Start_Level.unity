@@ -5070,6 +5070,14 @@ MonoBehaviour:
     type: 3}
   _missilePool: []
   missileContainer: {fileID: 1018378929}
+  _towerPrefabs:
+  - {fileID: 912176236257442156, guid: f7364e4ed1024f647b6737266b0a9337, type: 3}
+  - {fileID: 4699506181887915981, guid: ed957f47d1a23dd4d938e810192b8946, type: 3}
+  - {fileID: 3243110382537594043, guid: aef17fef0e2b20e4d8710e58bde411d5, type: 3}
+  - {fileID: 4953845180066691442, guid: 2f1b5049765cc0441a11ff3e9c39b527, type: 3}
+  _towerPool: []
+  _towerContainer: {fileID: 1569634591}
+  _numberOfEachTowerToGenerate: 24
 --- !u!1 &856192378
 GameObject:
   m_ObjectHideFlags: 0
@@ -6079,7 +6087,7 @@ Transform:
   - {fileID: 1456979620}
   - {fileID: 1761127646}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1017998260
 PrefabInstance:
@@ -7221,7 +7229,7 @@ Transform:
   - {fileID: 294418921}
   - {fileID: 1404002996}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209883009
 GameObject:
@@ -9536,7 +9544,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1470183088
 GameObject:
@@ -10445,11 +10453,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569634591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -54, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1569708590
 PrefabInstance:
@@ -12176,7 +12184,7 @@ Transform:
   - {fileID: 258706184}
   - {fileID: 1511023690}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1706649505
 GameObject:
