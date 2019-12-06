@@ -5,7 +5,7 @@ using System;
 
 namespace GameDevHQ.FileBase.Missle_Launcher
 {
-    public class Missle_Launcher : MonoBehaviour, ITower
+    public class Missle_Launcher : MonoBehaviour
     {
         [SerializeField] private GameObject _missilePrefab; //holds the missle gameobject to clone
         [SerializeField] private GameObject[] _misslePositions; //array to hold the rocket positions on the turret

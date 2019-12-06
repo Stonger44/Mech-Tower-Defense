@@ -87,9 +87,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2341045195820179886}
-  - component: {fileID: 2448341427761832568}
   - component: {fileID: 2399051844748996424}
   - component: {fileID: 9218565488704627152}
+  - component: {fileID: 1169468744738564719}
   m_Layer: 0
   m_Name: Gatling_Gun_Image
   m_TagString: Untagged
@@ -115,22 +115,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &2448341427761832568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2335246054913302906}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11c7edd4816764b2cb111ea15f8f117a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Muzzle_Flash: {fileID: 2336138074739088796}
-  bulletCasings: {fileID: 2498706103785663902}
-  fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
-  _damageAmount: 0
 --- !u!82 &2399051844748996424
 AudioSource:
   m_ObjectHideFlags: 0
@@ -241,6 +225,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _towerRangeGreen: {fileID: 0}
   _towerRangeRed: {fileID: 0}
+--- !u!114 &1169468744738564719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2335246054913302906}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e55fe665c4fe34a9f4705f1e5530a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gunBarrel: []
+  _muzzleFlash: []
+  _bulletCasings: []
+  _fireSound: {fileID: 0}
+  _damageAmount: 0
 --- !u!1 &2335298879985478632
 GameObject:
   m_ObjectHideFlags: 0

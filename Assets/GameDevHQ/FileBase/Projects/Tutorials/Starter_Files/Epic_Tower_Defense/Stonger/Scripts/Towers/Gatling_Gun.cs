@@ -22,6 +22,11 @@ public class Gatling_Gun : MonoBehaviour, ITower
     public int WarFundCost { get; set; } = 500;
     public int WarFundSellValue { get; set; } = 250;
 
+    public int UpgradeWarFundCost { get; set; } = 1000;
+    public int UpgradeWarFundSellValue { get; set; } = 500;
+
+    public bool IsActive { get; set; } = false;
+
     private bool _isAttacking;
     [SerializeField] private int _damageAmount;
 
@@ -42,8 +47,11 @@ public class Gatling_Gun : MonoBehaviour, ITower
     // Use this for initialization
     void Start()
     {
-        _muzzleFlash[0].SetActive(false); //setting the initial state of the muzzle flash effect to off
-        _muzzleFlash[1].SetActive(false); //setting the initial state of the muzzle flash effect to off
+        foreach (var muzzle in _muzzleFlash)
+        {
+            muzzle.SetActive(false);
+        }
+
         _audioSource = GetComponent<AudioSource>(); //ssign the Audio Source to the reference variable
         _audioSource.playOnAwake = false; //disabling play on awake
         _audioSource.loop = true; //making sure our sound effect loops
@@ -59,8 +67,10 @@ public class Gatling_Gun : MonoBehaviour, ITower
     // Method to rotate gun barrel 
     void RotateBarrel()
     {
-        _gunBarrel[0].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
-        _gunBarrel[1].transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f); //rotate the gun barrel along the "forward" (z) axis at 500 meters per second
+        foreach (var gunBarrel in _gunBarrel)
+        {
+            gunBarrel.transform.Rotate(Vector3.forward * Time.deltaTime * -500.0f);
+        }
     }
 
     private void Shoot(GameObject attackingTower, GameObject currentTarget)

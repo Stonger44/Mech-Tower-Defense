@@ -5,7 +5,7 @@ using GameDevHQ.FileBase.Missle_Launcher_Dual_Turret.Missle;
 
 namespace GameDevHQ.FileBase.Missle_Launcher_Dual_Turret
 {
-    public class Missle_Launcher : MonoBehaviour, ITower
+    public class Missle_Launcher : MonoBehaviour
     {
         public int WarFundCost { get; set; } = 4000;
         public int WarFundSellValue { get; set; } = 2000;
