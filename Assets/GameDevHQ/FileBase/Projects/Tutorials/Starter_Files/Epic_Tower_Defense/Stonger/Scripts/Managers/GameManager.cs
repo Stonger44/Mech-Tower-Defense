@@ -9,7 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private int _initialWaveEnemyCount;
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
-    public int totalWarFund;
+    public int totalWarFunds;
 
     private int _initialWave = 1;
     [SerializeField] private int _wave; //This is only here so I can see it in the inspector
@@ -40,7 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
         EndPoint.onEndPointReached += TakeDamage;
         Enemy.onDeath += OnEnemyExplosion;
         Enemy.onResetComplete += OnEnemyResetComplete;
-        TowerLocation.onPurchaseTower += SpendWarFund;
+        TowerLocation.onPurchaseTower += SpendWarFunds;
     }
 
     private void OnDisable()
@@ -49,12 +49,13 @@ public class GameManager : MonoSingleton<GameManager>
         EndPoint.onEndPointReached -= TakeDamage;
         Enemy.onDeath -= OnEnemyExplosion;
         Enemy.onResetComplete -= OnEnemyResetComplete;
-        TowerLocation.onPurchaseTower -= SpendWarFund;
+        TowerLocation.onPurchaseTower -= SpendWarFunds;
     }
 
     private void Start()
     {
         Debug.Log("Press [Space] to start Wave " + wave + ".");
+        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
     }
 
     private void Update()
@@ -110,7 +111,8 @@ public class GameManager : MonoSingleton<GameManager>
         if (enemyScript == null)
             Debug.Log("enemyScript is NULL.");
 
-        totalWarFund += enemyScript.warFund;
+        totalWarFunds += enemyScript.warFunds;
+        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
 
         _currentWaveCurrentEnemyCount--;
     }
@@ -129,9 +131,10 @@ public class GameManager : MonoSingleton<GameManager>
         _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;
     }
 
-    private void SpendWarFund(int amount)
+    private void SpendWarFunds(int amount)
     {
-        totalWarFund -= amount;
+        totalWarFunds -= amount;
+        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
     }
 
     public int GetCurrentWaveCurrentEnemyCount() => _currentWaveCurrentEnemyCount;

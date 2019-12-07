@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 91309199}
   - component: {fileID: 91309198}
   m_Layer: 5
-  m_Name: WarFunds
+  m_Name: WarFundsLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1850,9 +1850,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Good
-
-'
+  m_Text: "\xAF\\_(\u30C4)_/\xAF \n"
 --- !u!222 &254106826
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3983,13 +3981,14 @@ GameObject:
   - component: {fileID: 592720671}
   - component: {fileID: 592720670}
   - component: {fileID: 592720669}
+  - component: {fileID: 592720673}
   m_Layer: 5
-  m_Name: Canvas-UI
+  m_Name: UI_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &592720669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4078,6 +4077,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &592720673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592720668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7236f4bf678bf5c48a5d2db7e133ff93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _warFunds: {fileID: 2109062355}
 --- !u!1001 &595690249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5341,7 +5353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &909662580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6447,7 +6459,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: $500
+  m_Text: $1000
 --- !u!222 &1054502605
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6913,7 +6925,7 @@ MonoBehaviour:
   _initialWaveEnemyCount: 3
   _initialHealth: 10
   _health: 10
-  totalWarFund: 9000
+  totalWarFunds: 2000
   _wave: 0
   _currentWaveTotalEnemyCount: 0
   _currentWaveCurrentEnemyCount: 0
@@ -8026,7 +8038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1353408164
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9095,7 +9107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1432688603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14170,7 +14182,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: $200
+  m_Text: $500
 --- !u!222 &1969830998
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14575,7 +14587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2105959596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14699,7 +14711,7 @@ GameObject:
   - component: {fileID: 2109062356}
   - component: {fileID: 2109062355}
   m_Layer: 5
-  m_Name: Funds
+  m_Name: WarFunds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14755,7 +14767,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 350
+  m_Text: 0
 --- !u!222 &2109062356
 CanvasRenderer:
   m_ObjectHideFlags: 0

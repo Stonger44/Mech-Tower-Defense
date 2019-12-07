@@ -17,8 +17,8 @@ public class Enemy : Explodable
 
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
-    [SerializeField] private int _warFund;
-    public int warFund { get; private set; }
+    [SerializeField] private int _warFunds;
+    public int warFunds { get; private set; }
     [SerializeField] private bool _onStandby = false;
     [SerializeField] private bool _inJunkyard = false;
 
@@ -29,7 +29,7 @@ public class Enemy : Explodable
     private Quaternion _originalRotation;
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
-    public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFund
+    public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFunds
     public static event Action<GameObject> onResetComplete; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
 
     private void OnEnable()
@@ -59,7 +59,7 @@ public class Enemy : Explodable
 
     private void Start()
     {
-        warFund = _warFund;
+        warFunds = _warFunds;
         _originalRotation = this.gameObject.transform.rotation;
     }
 

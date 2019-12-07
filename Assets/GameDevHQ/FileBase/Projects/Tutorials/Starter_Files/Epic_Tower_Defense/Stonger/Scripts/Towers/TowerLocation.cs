@@ -47,10 +47,10 @@ public class TowerLocation : MonoBehaviour
 
             //Check if enough WarFunds are available (basically in order to change the tower range color appropriately)
             ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
-            bool hasSufficientWarFund = false;
+            bool hasSufficientWarFunds = false;
             if (currentTower != null)
-                hasSufficientWarFund = GameManager.Instance.totalWarFund >= currentTower.WarFundCost;
-            onLocationMouseOver?.Invoke(hasSufficientWarFund && !_isOccupied);
+                hasSufficientWarFunds = GameManager.Instance.totalWarFunds >= currentTower.WarFundCost;
+            onLocationMouseOver?.Invoke(hasSufficientWarFunds && !_isOccupied);
         }
     }
 
@@ -97,9 +97,9 @@ public class TowerLocation : MonoBehaviour
         }
 
         //Check 4: Is there enough WarFund available?
-        if (currentTower.WarFundCost > GameManager.Instance.totalWarFund)
+        if (currentTower.WarFundCost > GameManager.Instance.totalWarFunds)
         {
-            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFund + ".");
+            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFunds + ".");
             onInsufficientWarFunds?.Invoke();
             return;
         }

@@ -15,11 +15,11 @@ public class Missile_Launcher : MonoBehaviour, ITower
     private bool _launched; //bool to check if we launched the rockets
 
     //Extended Code
-    public int WarFundCost { get; set; } = 2000;
-    public int WarFundSellValue { get; set; } = 1000;
+    public int WarFundCost { get; set; } = 1000;
+    public int WarFundSellValue { get; set; } = 500;
 
-    public int UpgradeWarFundCost { get; set; } = 4000;
-    public int UpgradeWarFundSellValue { get; set; } = 2000;
+    public int UpgradeWarFundCost { get; set; } = 2000;
+    public int UpgradeWarFundSellValue { get; set; } = 1000;
 
     public bool IsActive { get; set; } = false;
 
