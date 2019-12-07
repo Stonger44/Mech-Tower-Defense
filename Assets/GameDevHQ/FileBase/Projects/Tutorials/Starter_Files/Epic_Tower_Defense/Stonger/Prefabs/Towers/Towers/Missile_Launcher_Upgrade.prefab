@@ -1083,7 +1083,7 @@ MonoBehaviour:
   _launchSpeed: 10
   _power: 20
   _fuseDelay: 0
-  _reloadTime: 0.75
+  _reloadTime: 0.7
   _destroyTime: 10
   _damageAmount: 5
   _lockOnDelayTime: 1
