@@ -53,76 +53,104 @@ public class TowerManager : MonoSingleton<TowerManager>
     // Update is called once per frame
     void Update()
     {
-        SelectTower();
-        SelectTowerLocation();
+        //SelectTower();
+
+        if (IsPlacingTower)
+            SelectTowerLocation();
     }
 
-    //Test Code
-    private void SelectTower()
+    ////Test Code
+    //private void SelectTower()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        //Cycle through GatlingGun, MissleLauncher, and NoTower (null)
+    //        if (CurrentTowerImage == null)
+    //        {
+    //            //Gatling Gun
+    //            CurrentTowerImage = _towerImageList[0];
+    //            CurrentTower = _towerList[0];
+    //        }
+    //        else if (CurrentTowerImage == _towerImageList[0])
+    //        {
+    //            //Gatling Gun Upgrade
+    //            CurrentTowerImage = _towerImageList[1];
+    //            CurrentTower = _towerList[1];
+    //        }
+    //        else if (CurrentTowerImage == _towerImageList[1])
+    //        {
+    //            //Missile Launcher
+    //            CurrentTowerImage = _towerImageList[2];
+    //            CurrentTower = _towerList[2];
+    //        }
+    //        else if (CurrentTowerImage == _towerImageList[2])
+    //        {
+    //            //Missile Launcher Upgrade
+    //            CurrentTowerImage = _towerImageList[3];
+    //            CurrentTower = _towerList[3];
+    //        }
+    //        else if (CurrentTowerImage == _towerImageList[3])
+    //        {
+    //            //No Tower Selected
+    //            CurrentTowerImage = null;
+    //            CurrentTower = null;
+    //        }
+
+    //        //Update IsPlacingTower boolean appropriately
+    //        IsPlacingTower = (CurrentTowerImage != null) ? true : false;
+    //        onBrowsingTowerLocations?.Invoke(IsPlacingTower);
+
+    //        //Put un-used images back in container (off screen)
+    //        ResetTowerImages(false);
+    //    }
+    //}
+
+    public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        CurrentTowerImage = selectedTowerImage;
+
+        switch (CurrentTowerImage.name)
         {
-            //Cycle through GatlingGun, MissleLauncher, and NoTower (null)
-            if (CurrentTowerImage == null)
-            {
-                //Gatling Gun
-                CurrentTowerImage = _towerImageList[0];
+            case "Gatling_Gun_Image":
                 CurrentTower = _towerList[0];
-            }
-            else if (CurrentTowerImage == _towerImageList[0])
-            {
-                //Gatling Gun Upgrade
-                CurrentTowerImage = _towerImageList[1];
-                CurrentTower = _towerList[1];
-            }
-            else if (CurrentTowerImage == _towerImageList[1])
-            {
-                //Missile Launcher
-                CurrentTowerImage = _towerImageList[2];
+                break;
+            case "Missile_Launcher_Image":
                 CurrentTower = _towerList[2];
-            }
-            else if (CurrentTowerImage == _towerImageList[2])
-            {
-                //Missile Launcher Upgrade
-                CurrentTowerImage = _towerImageList[3];
-                CurrentTower = _towerList[3];
-            }
-            else if (CurrentTowerImage == _towerImageList[3])
-            {
-                //No Tower Selected
-                CurrentTowerImage = null;
-                CurrentTower = null;
-            }
-
-            //Update IsPlacingTower boolean appropriately
-            IsPlacingTower = (CurrentTowerImage != null) ? true : false;
-            onBrowsingTowerLocations?.Invoke(IsPlacingTower);
-
-            //Put un-used images back in container (off screen)
-            ResetTowerImages(false);
+                break;
+            default:
+                Debug.LogError("CurrentTowerImage name not recognized.");
+                break;
         }
+
+
+        //CurrentTowerImage = _towerImageList[0];
+        //CurrentTower = _towerList[0];
+
+        //Update IsPlacingTower boolean appropriately
+        IsPlacingTower = (CurrentTowerImage != null) ? true : false;
+        onBrowsingTowerLocations?.Invoke(IsPlacingTower);
+
+        //Put un-used images back in container (off screen)
+        ResetTowerImages(false);
     }
 
     private void SelectTowerLocation()
     {
-        if (IsPlacingTower)
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                StopBrowsingTowerLocations();
-                return;
-            }
+            StopBrowsingTowerLocations();
+            return;
+        }
 
-            if (!_onVacantLocation)
-            {
-                //Cast a ray from the mouse position on the screen into the game world. Whoa.
-                _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!_onVacantLocation)
+        {
+            //Cast a ray from the mouse position on the screen into the game world. Whoa.
+            _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(_rayOrigin, out _hitInfo))
-                {
-                    //Update position of decoy tower (follow mouse position)
-                    CurrentTowerImage.transform.position = _hitInfo.point;
-                } 
+            if (Physics.Raycast(_rayOrigin, out _hitInfo))
+            {
+                //Update position of decoy tower (follow mouse position)
+                CurrentTowerImage.transform.position = _hitInfo.point;
             }
         }
     }
