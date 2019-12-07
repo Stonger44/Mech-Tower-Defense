@@ -128,8 +128,8 @@ public class Aim : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //if (other.tag.Contains("Mech") && _targetList.Contains(other.gameObject) == false)
-        //    _targetList.Add(other.gameObject);
+        if (other.tag.Contains("Mech") && _targetList.Contains(other.gameObject) == false)
+            _targetList.Add(other.gameObject);
 
         if (_currentTarget == null && _targetList.Contains(other.gameObject))
             _currentTarget = other.gameObject;
