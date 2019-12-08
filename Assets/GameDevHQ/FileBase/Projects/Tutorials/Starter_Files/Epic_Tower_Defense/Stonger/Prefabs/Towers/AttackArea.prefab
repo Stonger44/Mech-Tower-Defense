@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6029197046494637145}
   - component: {fileID: 7878035016058059166}
   - component: {fileID: 7673390017998760845}
-  - component: {fileID: 8553609974961502618}
   - component: {fileID: 1611310132736693290}
   - component: {fileID: 9215071692465604564}
+  - component: {fileID: 2598605870035061096}
   m_Layer: 2
   m_Name: AttackArea
   m_TagString: Untagged
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &8553609974961502618
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 456968759846326199}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.50000024
-  m_Center: {x: 0.0000038146973, y: 0, z: 0}
 --- !u!54 &1611310132736693290
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -122,9 +109,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b8e1a601c6cc54283161a9747fe6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _towerRoot: {fileID: 0}
   _horizontalAimPivot: {fileID: 0}
   _verticalAimPivot: {fileID: 0}
   _rotationSpeed: 0
   _standbySpeed: 3
   _trackingSpeed: 5
+  _targetList: []
   _currentTarget: {fileID: 0}
+--- !u!136 &2598605870035061096
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456968759846326199}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

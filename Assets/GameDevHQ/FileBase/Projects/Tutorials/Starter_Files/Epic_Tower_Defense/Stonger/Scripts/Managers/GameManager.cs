@@ -31,7 +31,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         wave = _initialWave;
         _wave = wave;
-        ResetPlayerHealthAndWaveEnemyCount();
+        ResetWaveEnemyCount();
     }
 
     private void OnEnable()
@@ -66,7 +66,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartWave()
     {
-        ResetPlayerHealthAndWaveEnemyCount();
+        ResetWaveEnemyCount();
+
+        if (_health <= 0)
+            _health = _initialHealth;
 
         waveRunning = true;
         waveSuccess = false;
@@ -123,9 +126,8 @@ public class GameManager : MonoSingleton<GameManager>
             WaveComplete();
     }
 
-    private void ResetPlayerHealthAndWaveEnemyCount()
+    private void ResetWaveEnemyCount()
     {
-        _health = _initialHealth;
         currentWaveTotalEnemyCount = _initialWaveEnemyCount * wave;
         _currentWaveTotalEnemyCount = currentWaveTotalEnemyCount;
         _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;

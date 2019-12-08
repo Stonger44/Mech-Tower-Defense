@@ -9,10 +9,6 @@ public class TowerLocation : MonoBehaviour
     [SerializeField] private GameObject _vacantParticleEffect;
     [SerializeField] private GameObject _currentPlacedTower;
 
-    //public static List<GameObject> UI_UpgradeTowerList;
-    //public static GameObject UI_UpgradeGatlingGun;
-    //public static GameObject UI_UpgradeMissileLauncher;
-
     public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
     public static event Action onOccupiedLocationMouseOver;
 
@@ -36,14 +32,6 @@ public class TowerLocation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //UI_UpgradeGatlingGun = GameObject.Find("UI_Upgrade_Gatling_Gun");
-        //if (UI_UpgradeGatlingGun == null)
-        //    Debug.LogError("UI_Upgrade_Gatling_Gun is NULL.");
-
-        //UI_UpgradeGatlingGun = GameObject.Find("UI_Upgrade_Gatling_Gun");
-        //if (UI_UpgradeGatlingGun == null)
-        //    Debug.LogError("UI_Upgrade_Gatling_Gun is NULL.");
-
         _vacantParticleEffect.SetActive(false);
     }
 
@@ -73,20 +61,16 @@ public class TowerLocation : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (TowerManager.Instance.IsPlacingTower == true)
+        if (TowerManager.Instance.IsPlacingTower == true && _isOccupied == false)
         {
             PlaceTower();
         }
-        else if (_isOccupied)
-        {
-            ShowUpgradeTowerOptions();
-        }
-        
-    }
 
-    private void ShowUpgradeTowerOptions()
-    {
-        
+        if (_isOccupied == true && _currentPlacedTower != null)
+        {
+            //Show Tower Options in UI
+            //Show Tower Range
+        }
     }
 
     private void ToggleVacantParticleEffect(bool isPlacingTower)
@@ -99,14 +83,7 @@ public class TowerLocation : MonoBehaviour
 
     private void PlaceTower()
     {
-        //Check 1: Is this tower location occupied?
-        if (_isOccupied == true)
-        {
-            Debug.Log("TowerLocation is occupied with " + _currentPlacedTower.name + ".");
-            return;
-        }
-
-        //Check 2: Is a tower selected?
+        //Check 1: Is a tower selected?
         ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
         if (currentTower == null)
         {
@@ -114,7 +91,7 @@ public class TowerLocation : MonoBehaviour
             return;
         }
 
-        //Check 3: Is there enough WarFund available?
+        //Check 2: Is there enough WarFund available?
         if (currentTower.WarFundCost > GameManager.Instance.totalWarFunds)
         {
             Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFunds + ".");
@@ -122,7 +99,7 @@ public class TowerLocation : MonoBehaviour
             return;
         }
 
-        //Check 4: Makse sure the Tower Image (mouse pointer) is still in position
+        //Check 3: Make sure the Tower Image (mouse pointer) is still in position
         if (this.transform.position != TowerManager.Instance.CurrentTowerImage.transform.position)
         {
             Debug.Log("Tower not in Position");

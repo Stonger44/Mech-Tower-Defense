@@ -12,10 +12,16 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _UI_MissileLauncher;
     [SerializeField] private GameObject _UI_MissileLauncher_Disabled;
 
+    [SerializeField] private GameObject _UI_DismantleTower;
+    [SerializeField] private GameObject _UI_UpgradeGatlingGun;
+    [SerializeField] private GameObject _UI_UpgradeGatlingGun_Disabled;
+    [SerializeField] private GameObject _UI_UpgradeMissileLauncher;
+    [SerializeField] private GameObject _UI_UpgradeMissileLauncher_Disabled;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -62,5 +68,10 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             _UI_GatlingGun_Disabled.SetActive(true);
             _UI_MissileLauncher_Disabled.SetActive(true);
         }
+    }
+
+    public void ShowTowerOptions()
+    {
+
     }
 }
