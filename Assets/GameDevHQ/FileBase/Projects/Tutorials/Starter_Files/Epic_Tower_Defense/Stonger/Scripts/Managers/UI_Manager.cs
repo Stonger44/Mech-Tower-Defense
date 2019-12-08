@@ -55,6 +55,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                     _UI_UpgradeGatlingGun_Disabled.SetActive(true);
                 }
 
+                _UI_UpgradeMissileLauncher.SetActive(false);
+                _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
+
                 break;
             case "Missile_Launcher":
                 if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
@@ -65,6 +68,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 {
                     _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
                 }
+
+                _UI_UpgradeGatlingGun.SetActive(false);
+                _UI_UpgradeGatlingGun_Disabled.SetActive(false);
 
                 break;
             default:
