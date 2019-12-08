@@ -80,7 +80,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                StopViewingTower(CurrentlyViewedTower);
+                StopViewingTower();
             }
         }
     }
@@ -93,17 +93,23 @@ public class TowerManager : MonoSingleton<TowerManager>
         CurrentlyViewedTower = currentlyViewedTower;
     }
 
-    private void StopViewingTower(GameObject currentlyViewedTower)
+    public void StopViewingTower()
     {
         IsViewingTower = false;
-        onStopViewingTower?.Invoke(currentlyViewedTower);
+        onStopViewingTower?.Invoke(CurrentlyViewedTower);
         onStopViewingTowerUI?.Invoke();
+        CurrentlyViewedTower = null;
     }
 
     public void UpgradeTower()
     {
         //Upgrade appropriate Tower
         Debug.Log("Upgrading " + CurrentlyViewedTower + ".");
+    }
+
+    public void DismantleTower()
+    {
+        Debug.Log("Dismantling " + CurrentlyViewedTower + ".");
     }
 
     /*----------Tower Options----------*/
