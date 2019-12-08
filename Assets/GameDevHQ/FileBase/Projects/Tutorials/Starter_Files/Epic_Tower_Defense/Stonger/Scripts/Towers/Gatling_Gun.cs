@@ -56,6 +56,13 @@ public class Gatling_Gun : MonoBehaviour, ITower
         {
             _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
         }
+        else
+        {
+            if (_towerRange.activeSelf == true)
+            {
+                _towerRange.SetActive(false);
+            }
+        }
     }
 
     // Use this for initialization

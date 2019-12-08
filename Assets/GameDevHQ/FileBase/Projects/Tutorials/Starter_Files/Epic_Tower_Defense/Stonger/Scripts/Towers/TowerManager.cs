@@ -76,8 +76,6 @@ public class TowerManager : MonoSingleton<TowerManager>
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("IsViewingTower: " + IsViewingTower);
-
         if (IsPlacingTower)
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))

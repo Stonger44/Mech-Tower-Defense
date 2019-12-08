@@ -48,6 +48,13 @@ public class Missile_Launcher : MonoBehaviour, ITower
         {
             _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
         }
+        else
+        {
+            if (_towerRange.activeSelf == true)
+            {
+                _towerRange.SetActive(false);
+            }
+        }
     }
 
     private void Update()
