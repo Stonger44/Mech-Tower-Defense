@@ -62,19 +62,6 @@ public class TowerManager : MonoSingleton<TowerManager>
         TowerLocation.onViewingCurrentTower -= StartViewingTower;
     }
 
-    private void StartViewingTower(GameObject currentlyViewedTower)
-    {
-        IsViewingTower = true;
-        CurrentlyViewedTower = currentlyViewedTower;
-    }
-
-    private void StopViewingTower(GameObject currentlyViewedTower)
-    {
-        IsViewingTower = false;
-        onStopViewingTower?.Invoke(currentlyViewedTower);
-        onStopViewingTowerUI?.Invoke();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -98,6 +85,30 @@ public class TowerManager : MonoSingleton<TowerManager>
         }
     }
 
+    /*----------Tower Options----------*/
+
+    private void StartViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = true;
+        CurrentlyViewedTower = currentlyViewedTower;
+    }
+
+    private void StopViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = false;
+        onStopViewingTower?.Invoke(currentlyViewedTower);
+        onStopViewingTowerUI?.Invoke();
+    }
+
+    public void UpgradeTower()
+    {
+        //Upgrade appropriate Tower
+        Debug.Log("Upgrading " + CurrentlyViewedTower + ".");
+    }
+
+    /*----------Tower Options----------*/
+
+    /*----------Tower Placement----------*/
     public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
     {
         CurrentTowerImage = selectedTowerImage;
@@ -170,4 +181,5 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     private void UpdateTowerImageToFollowMouse()
         => _onVacantLocation = false;
+    /*----------Tower Placement----------*/
 }
