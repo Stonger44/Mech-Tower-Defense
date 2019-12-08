@@ -27,6 +27,8 @@ public class Gatling_Gun : MonoBehaviour, ITower
 
     public bool IsActive { get; set; } = false;
 
+    [SerializeField] private GameObject _towerRange;
+
     private bool _isAttacking;
     [SerializeField] private int _damageAmount;
 
@@ -36,12 +38,24 @@ public class Gatling_Gun : MonoBehaviour, ITower
     {
         Aim.onTargetInRange += Shoot;
         Aim.onNoTargetInRange += StopShooting;
+        TowerLocation.onViewingCurrentTower += ToggleTowerRange;
+        TowerManager.onStopViewingTower += ToggleTowerRange;
     }
 
     private void OnDisable()
     {
         Aim.onTargetInRange -= Shoot;
         Aim.onNoTargetInRange -= StopShooting;
+        TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
+        TowerManager.onStopViewingTower -= ToggleTowerRange;
+    }
+
+    public void ToggleTowerRange(GameObject currentlyViewedTower)
+    {
+        if (currentlyViewedTower == this.gameObject)
+        {
+            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
+        }
     }
 
     // Use this for initialization

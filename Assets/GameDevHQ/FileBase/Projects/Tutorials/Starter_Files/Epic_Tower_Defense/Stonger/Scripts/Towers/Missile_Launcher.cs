@@ -23,17 +23,31 @@ public class Missile_Launcher : MonoBehaviour, ITower
 
     public bool IsActive { get; set; } = false;
 
+    [SerializeField] private GameObject _towerRange;
+
     [SerializeField] private int _damageAmount;
     [SerializeField] private float _lockOnDelayTime;
 
     private void OnEnable()
     {
         Aim.onTargetInRange += FireMissiles;
+        TowerLocation.onViewingCurrentTower += ToggleTowerRange;
+        TowerManager.onStopViewingTower += ToggleTowerRange;
     }
 
     private void OnDisable()
     {
         Aim.onTargetInRange -= FireMissiles;
+        TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
+        TowerManager.onStopViewingTower -= ToggleTowerRange;
+    }
+
+    public void ToggleTowerRange(GameObject currentlyViewedTower)
+    {
+        if (currentlyViewedTower == this.gameObject)
+        {
+            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
+        }
     }
 
     private void Update()

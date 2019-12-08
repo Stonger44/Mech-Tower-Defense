@@ -1013,8 +1013,8 @@ Transform:
   m_Children:
   - {fileID: 8844499597387171847}
   - {fileID: 4947329876982536374}
-  - {fileID: 615264282851857689}
   - {fileID: 5881369035322958602}
+  - {fileID: 615264282851857689}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -1085,6 +1085,7 @@ MonoBehaviour:
   _fuseDelay: 0
   _reloadTime: 0.7
   _destroyTime: 10
+  _towerRange: {fileID: 5881369035322958603}
   _damageAmount: 5
   _lockOnDelayTime: 1
 --- !u!1 &4953918216854742598
@@ -1485,7 +1486,7 @@ PrefabInstance:
     - target: {fileID: 409793204580464584, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 409793204580464584, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
         type: 3}
@@ -1675,7 +1676,7 @@ PrefabInstance:
     - target: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,
         type: 3}
@@ -1704,6 +1705,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02453672ddde7664a8b9f5b61b4854b8, type: 3}
+--- !u!1 &5881369035322958603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7100209509656424068, guid: 02453672ddde7664a8b9f5b61b4854b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 3681643304233192847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5881369035322958602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,

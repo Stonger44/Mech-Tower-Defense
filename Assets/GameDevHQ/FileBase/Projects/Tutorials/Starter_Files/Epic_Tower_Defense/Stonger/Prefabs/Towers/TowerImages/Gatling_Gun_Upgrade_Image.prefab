@@ -29451,8 +29451,8 @@ Transform:
   m_LocalScale: {x: 0.44, y: 0.44, z: 0.44}
   m_Children:
   - {fileID: 5847798793476328967}
-  - {fileID: 409793205191466454}
   - {fileID: 5448375637484775813}
+  - {fileID: 409793205191466454}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -29564,8 +29564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71441800fd621db46b03c0bc2bbd12c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerRangeGreen: {fileID: 0}
-  _towerRangeRed: {fileID: 0}
+  _towerRangeGreen: {fileID: 5448375637484775812}
+  _towerRangeRed: {fileID: 409793205191466453}
 --- !u!114 &4456488514181615149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29588,6 +29588,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
+  _towerRange: {fileID: 0}
   _damageAmount: 4
 --- !u!1 &5849887407086285683
 GameObject:
@@ -29670,7 +29671,7 @@ PrefabInstance:
     - target: {fileID: 409793204580464584, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 409793204580464584, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
         type: 3}
@@ -29699,6 +29700,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7, type: 3}
+--- !u!1 &409793205191466453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 409793204580464587, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 749562398}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &409793205191466454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 409793204580464584, guid: 8bfd7ed5684d4794c924ea2c7d5df2b7,
@@ -29755,7 +29762,7 @@ PrefabInstance:
     - target: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,
         type: 3}
@@ -29784,6 +29791,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02453672ddde7664a8b9f5b61b4854b8, type: 3}
+--- !u!1 &5448375637484775812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7100209509656424068, guid: 02453672ddde7664a8b9f5b61b4854b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2960419839623546624}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5448375637484775813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,

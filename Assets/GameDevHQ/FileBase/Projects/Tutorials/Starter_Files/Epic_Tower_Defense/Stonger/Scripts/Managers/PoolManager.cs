@@ -224,8 +224,6 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private List<GameObject> _towerPool;
     [SerializeField] private GameObject _towerContainer;
     [SerializeField] private int _numberOfEachTowerToGenerate;
-
-    private enum TowerType { GatlingGun, GatlingGunUpgrade, MissileLauncher, MissileLauncherUpgrade }
     private GameObject _currentTower;
 
     private void GenerateAllTowers(int numberOfEachTowerToGenerate)

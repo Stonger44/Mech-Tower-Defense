@@ -16,45 +16,86 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     [SerializeField] private List<GameObject> _towerList;
     public GameObject CurrentTower { get; private set; }
-
+    private GameObject _currentlyViewedTower;
     public GameObject TowerImagesContainer { get; set; }
     
     public bool IsPlacingTower { get; private set; }
+    public bool IsViewingTower { get; private set; }
 
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
     
     public static event Action<bool> onBrowsingTowerLocations; //When in "Placing Tower" Mode
+    public static event Action<GameObject> onStopViewingTower; //Right click, or upgraded or dismantled tower
 
     private bool _onVacantLocation;
 
     public override void Init()
     {
         IsPlacingTower = false;
+        IsViewingTower = false;
         TowerImagesContainer = GameObject.Find("TowerImagesContainer");
     }
 
     private void OnEnable()
     {
+        //Place Tower
         TowerLocation.onVacantLocationMouseOver_Vector3 += SnapTowerImageToTowerLocation;
         TowerLocation.onOccupiedLocationMouseOver += UpdateTowerImageToFollowMouse;
         TowerLocation.onLocationMouseExit += UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower += StopBrowsingTowerLocations;
+
+        //View Tower
+        TowerLocation.onViewingCurrentTower += StartViewingTower;
     }
 
     private void OnDisable()
     {
+        //Place Tower
         TowerLocation.onVacantLocationMouseOver_Vector3 -= SnapTowerImageToTowerLocation;
         TowerLocation.onOccupiedLocationMouseOver -= UpdateTowerImageToFollowMouse;
         TowerLocation.onLocationMouseExit -= UpdateTowerImageToFollowMouse;
         TowerLocation.onPlaceTower -= StopBrowsingTowerLocations;
+
+        //View Tower
+        TowerLocation.onViewingCurrentTower -= StartViewingTower;
+    }
+
+    private void StartViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = true;
+        _currentlyViewedTower = currentlyViewedTower;
+    }
+
+    private void StopViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = false;
+        onStopViewingTower?.Invoke(currentlyViewedTower);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("IsViewingTower: " + IsViewingTower);
+
         if (IsPlacingTower)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StopBrowsingTowerLocations();
+                return;
+            }
+
             SelectTowerLocation();
+        }
+
+        if (IsViewingTower)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StopViewingTower(_currentlyViewedTower);
+            }
+        }
     }
 
     public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
@@ -84,12 +125,6 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     private void SelectTowerLocation()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            StopBrowsingTowerLocations();
-            return;
-        }
-
         if (!_onVacantLocation)
         {
             //Cast a ray from the mouse position on the screen into the game world. Whoa.

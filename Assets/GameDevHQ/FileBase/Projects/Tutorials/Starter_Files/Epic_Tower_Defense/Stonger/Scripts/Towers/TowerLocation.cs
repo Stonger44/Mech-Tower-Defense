@@ -8,6 +8,7 @@ public class TowerLocation : MonoBehaviour
     [SerializeField] private bool _isOccupied;
     [SerializeField] private GameObject _vacantParticleEffect;
     [SerializeField] private GameObject _currentPlacedTower;
+    private ITower _currentPlacedTowerInterface;
 
     public static event Action<Vector3> onVacantLocationMouseOver_Vector3;
     public static event Action onOccupiedLocationMouseOver;
@@ -18,6 +19,8 @@ public class TowerLocation : MonoBehaviour
     public static event Action onPlaceTower;
     public static event Action<int> onPurchaseTower;
     public static event Action onInsufficientWarFunds;
+
+    public static event Action<GameObject> onViewingCurrentTower;
 
     private void OnEnable()
     {
@@ -65,11 +68,17 @@ public class TowerLocation : MonoBehaviour
         {
             PlaceTower();
         }
+    }
 
+    private void OnMouseDown()
+    {
         if (_isOccupied == true && _currentPlacedTower != null)
         {
             //Show Tower Options in UI
             //Show Tower Range
+            //_currentPlacedTowerInterface.ToggleTowerRange(true);
+            //broadcast event
+            onViewingCurrentTower?.Invoke(_currentPlacedTower);
         }
     }
 
@@ -113,6 +122,10 @@ public class TowerLocation : MonoBehaviour
 
         _currentPlacedTower = PoolManager.Instance.RequestTower(TowerManager.Instance.CurrentTower);
         _currentPlacedTower.transform.position = this.transform.position;
+
+        _currentPlacedTowerInterface = _currentPlacedTower.GetComponent<ITower>();
+        if (_currentPlacedTowerInterface == null)
+            Debug.LogError("_currentPlacedTowerInterface is NULL.");
 
         onPlaceTower?.Invoke();
         onPurchaseTower?.Invoke(currentTower.WarFundCost);

@@ -11,4 +11,6 @@ public interface ITower
     int UpgradeWarFundSellValue { get; set; }
 
     bool IsActive { get; set; }
+
+    void ToggleTowerRange(GameObject currentlyViewedTower);
 }

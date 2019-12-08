@@ -341,6 +341,7 @@ MonoBehaviour:
   _bulletCasings:
   - {fileID: 1039743723131286920}
   _fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
+  _towerRange: {fileID: 8127870583735715059}
   _damageAmount: 2
 --- !u!1 &912225716815252022
 GameObject:
@@ -15120,6 +15121,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02453672ddde7664a8b9f5b61b4854b8, type: 3}
+--- !u!1 &8127870583735715059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7100209509656424068, guid: 02453672ddde7664a8b9f5b61b4854b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1315893135603264119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8127870583735715058 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7100209509656424069, guid: 02453672ddde7664a8b9f5b61b4854b8,
