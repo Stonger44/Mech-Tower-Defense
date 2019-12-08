@@ -76,8 +76,6 @@ public class TowerLocation : MonoBehaviour
         {
             //Show Tower Options in UI
             //Show Tower Range
-            //_currentPlacedTowerInterface.ToggleTowerRange(true);
-            //broadcast event
             onViewingCurrentTower?.Invoke(_currentPlacedTower);
         }
     }

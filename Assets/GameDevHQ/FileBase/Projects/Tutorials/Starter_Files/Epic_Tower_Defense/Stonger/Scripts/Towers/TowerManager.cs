@@ -16,7 +16,7 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     [SerializeField] private List<GameObject> _towerList;
     public GameObject CurrentTower { get; private set; }
-    private GameObject _currentlyViewedTower;
+    public GameObject CurrentlyViewedTower { get; private set; }
     public GameObject TowerImagesContainer { get; set; }
     
     public bool IsPlacingTower { get; private set; }
@@ -27,6 +27,7 @@ public class TowerManager : MonoSingleton<TowerManager>
     
     public static event Action<bool> onBrowsingTowerLocations; //When in "Placing Tower" Mode
     public static event Action<GameObject> onStopViewingTower; //Right click, or upgraded or dismantled tower
+    public static event Action onStopViewingTowerUI; //Right click, or upgraded or dismantled tower
 
     private bool _onVacantLocation;
 
@@ -64,13 +65,14 @@ public class TowerManager : MonoSingleton<TowerManager>
     private void StartViewingTower(GameObject currentlyViewedTower)
     {
         IsViewingTower = true;
-        _currentlyViewedTower = currentlyViewedTower;
+        CurrentlyViewedTower = currentlyViewedTower;
     }
 
     private void StopViewingTower(GameObject currentlyViewedTower)
     {
         IsViewingTower = false;
         onStopViewingTower?.Invoke(currentlyViewedTower);
+        onStopViewingTowerUI?.Invoke();
     }
 
     // Update is called once per frame
@@ -91,7 +93,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                StopViewingTower(_currentlyViewedTower);
+                StopViewingTower(CurrentlyViewedTower);
             }
         }
     }
