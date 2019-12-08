@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UI_Manager : MonoSingleton<UI_Manager>
 {
     [SerializeField] private Text _warFunds;
+    [SerializeField] private Text _dismantledWarFundsRecieved;
 
     [SerializeField] private GameObject _UI_GatlingGun;
     [SerializeField] private GameObject _UI_GatlingGun_Disabled;
@@ -40,9 +41,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
         HideAllTowerPlacementUI();
 
-        _UI_DismantleTower.SetActive(true);
-        //Set WarFunds amount on UI
-
         switch (currentlyViewedTower.tag)
         {
             case "Gatling_Gun":
@@ -58,6 +56,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 _UI_UpgradeMissileLauncher.SetActive(false);
                 _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
 
+                _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+
                 break;
             case "Missile_Launcher":
                 if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
@@ -72,11 +72,26 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 _UI_UpgradeGatlingGun.SetActive(false);
                 _UI_UpgradeGatlingGun_Disabled.SetActive(false);
 
+                _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+
+                break;
+            case "Missile_Launcher_Upgrade":
+            case "Gatling_Gun_Upgrade":
+                _UI_UpgradeGatlingGun.SetActive(false);
+                _UI_UpgradeGatlingGun_Disabled.SetActive(false);
+
+                _UI_UpgradeMissileLauncher.SetActive(false);
+                _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
+
+                _dismantledWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
+
                 break;
             default:
                 Debug.LogError("currentlyViewedTower.tag not recognized.");
                 break;
         }
+
+        _UI_DismantleTower.SetActive(true);
     }
 
     private void ResetArmoryToDefaultState()

@@ -21,13 +21,16 @@ public class TowerManager : MonoSingleton<TowerManager>
     
     public bool IsPlacingTower { get; private set; }
     public bool IsViewingTower { get; private set; }
+    public bool IsDismantlingTower { get; private set; }
 
     private Ray _rayOrigin;
     private RaycastHit _hitInfo;
     
     public static event Action<bool> onBrowsingTowerLocations; //When in "Placing Tower" Mode
-    public static event Action<GameObject> onStopViewingTower; //Right click, or upgraded or dismantled tower
-    public static event Action onStopViewingTowerUI; //Right click, or upgraded or dismantled tower
+
+    public static event Action<GameObject> onStopViewingTower;
+    public static event Action onStopViewingTowerUI;
+    public static event Action<GameObject> onDismantleTower;
 
     private bool _onVacantLocation;
 
@@ -62,6 +65,38 @@ public class TowerManager : MonoSingleton<TowerManager>
         TowerLocation.onViewingCurrentTower -= StartViewingTower;
     }
 
+    /*----------View Tower----------*/
+
+    private void StartViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = true;
+        CurrentlyViewedTower = currentlyViewedTower;
+    }
+
+    public void StopViewingTower()
+    {
+        IsViewingTower = false;
+        IsDismantlingTower = false;
+        onStopViewingTower?.Invoke(CurrentlyViewedTower);
+        onStopViewingTowerUI?.Invoke();
+        CurrentlyViewedTower = null;
+    }
+
+    public void UpgradeTower()
+    {
+        Debug.Log("Upgrading " + CurrentlyViewedTower + ".");
+    }
+
+    public void DismantleTower()
+    {
+        Debug.Log("Dismantling " + CurrentlyViewedTower + ".");
+        IsDismantlingTower = true;
+        onDismantleTower?.Invoke(CurrentlyViewedTower);
+        StopViewingTower();
+    }
+
+    /*----------View Tower----------*/
+
     // Update is called once per frame
     void Update()
     {
@@ -85,36 +120,9 @@ public class TowerManager : MonoSingleton<TowerManager>
         }
     }
 
-    /*----------Tower Options----------*/
 
-    private void StartViewingTower(GameObject currentlyViewedTower)
-    {
-        IsViewingTower = true;
-        CurrentlyViewedTower = currentlyViewedTower;
-    }
 
-    public void StopViewingTower()
-    {
-        IsViewingTower = false;
-        onStopViewingTower?.Invoke(CurrentlyViewedTower);
-        onStopViewingTowerUI?.Invoke();
-        CurrentlyViewedTower = null;
-    }
-
-    public void UpgradeTower()
-    {
-        //Upgrade appropriate Tower
-        Debug.Log("Upgrading " + CurrentlyViewedTower + ".");
-    }
-
-    public void DismantleTower()
-    {
-        Debug.Log("Dismantling " + CurrentlyViewedTower + ".");
-    }
-
-    /*----------Tower Options----------*/
-
-    /*----------Tower Placement----------*/
+    /*----------Place Tower----------*/
     public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
     {
         CurrentTowerImage = selectedTowerImage;
@@ -187,5 +195,5 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     private void UpdateTowerImageToFollowMouse()
         => _onVacantLocation = false;
-    /*----------Tower Placement----------*/
+    /*----------Place Tower----------*/
 }

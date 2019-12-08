@@ -48,6 +48,8 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange -= StopShooting;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
+
+        _towerRange.SetActive(false);
     }
 
     public void ToggleTowerRange(GameObject currentlyViewedTower)

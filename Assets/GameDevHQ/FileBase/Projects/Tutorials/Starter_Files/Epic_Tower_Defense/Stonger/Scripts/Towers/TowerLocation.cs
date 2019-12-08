@@ -21,16 +21,39 @@ public class TowerLocation : MonoBehaviour
     public static event Action onInsufficientWarFunds;
 
     public static event Action<GameObject> onViewingCurrentTower;
+    public static event Action<int> onDismantledCurrentTower;
 
     private void OnEnable()
     {
         TowerManager.onBrowsingTowerLocations += ToggleVacantParticleEffect;
+        TowerManager.onDismantleTower += DismantleTower;
     }
 
     private void OnDisable()
     {
         TowerManager.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
+        TowerManager.onDismantleTower -= DismantleTower;
     }
+
+    private void DismantleTower(GameObject towerToBeDismantled)
+    {
+        if (towerToBeDismantled == _currentPlacedTower)
+        {
+            //Dismantle Tower:
+            PoolManager.Instance.ResetTower(_currentPlacedTower);
+
+            //For Game manager to update WarFunds
+            if (_currentPlacedTower.tag.Contains("Upgrade"))
+                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundSellValue);
+            else
+                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundSellValue);
+
+            _isOccupied = false;
+            _currentPlacedTower = null;
+            _currentPlacedTowerInterface = null;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -74,8 +97,6 @@ public class TowerLocation : MonoBehaviour
     {
         if (_isOccupied == true && _currentPlacedTower != null)
         {
-            //Show Tower Options in UI
-            //Show Tower Range
             onViewingCurrentTower?.Invoke(_currentPlacedTower);
         }
     }

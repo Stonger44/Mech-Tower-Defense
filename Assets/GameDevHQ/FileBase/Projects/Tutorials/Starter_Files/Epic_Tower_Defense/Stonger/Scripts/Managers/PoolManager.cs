@@ -28,27 +28,6 @@ public class PoolManager : MonoSingleton<PoolManager>
         GenerateAllTowers(_numberOfEachTowerToGenerate);
     }
 
-    //Currently not used
-    public void ResetPoolObject(GameObject gameObject)
-    {
-        gameObject.SetActive(false);
-
-        switch (gameObject.name)
-        {
-            case "Explosion_Mech1":
-            case "Explosion_Mech2":
-                gameObject.transform.position = _explosionContainer.transform.position;
-                break;
-            case "Missile":
-                gameObject.transform.position = missileContainer.transform.position;
-                break;
-            default:
-                break;
-        }
-
-
-    }
-
     /*----------Enemy Pool----------*/
     #region Enemy Pool
 
@@ -254,7 +233,13 @@ public class PoolManager : MonoSingleton<PoolManager>
         //No Towers available?!
         Debug.LogError("No towers of requested tower type available!");
         return null;
-    } 
+    }
+
+    public void ResetTower(GameObject dismantledTower)
+    {
+        dismantledTower.transform.position = _towerContainer.transform.position;
+        dismantledTower.SetActive(false);
+    }
 
     #endregion
     /*----------Tower Pool----------*/

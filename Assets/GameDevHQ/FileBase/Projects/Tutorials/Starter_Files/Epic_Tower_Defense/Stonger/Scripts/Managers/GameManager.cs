@@ -41,6 +41,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onDeath += OnEnemyExplosion;
         Enemy.onResetComplete += OnEnemyResetComplete;
         TowerLocation.onPurchaseTower += SpendWarFunds;
+        TowerLocation.onDismantledCurrentTower += CollectDismantledTowerWarFunds;
     }
 
     private void OnDisable()
@@ -50,6 +51,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onDeath -= OnEnemyExplosion;
         Enemy.onResetComplete -= OnEnemyResetComplete;
         TowerLocation.onPurchaseTower -= SpendWarFunds;
+        TowerLocation.onDismantledCurrentTower -= CollectDismantledTowerWarFunds;
     }
 
     private void Start()
@@ -133,9 +135,15 @@ public class GameManager : MonoSingleton<GameManager>
         _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;
     }
 
-    private void SpendWarFunds(int amount)
+    private void SpendWarFunds(int warFundsSpent)
     {
-        totalWarFunds -= amount;
+        totalWarFunds -= warFundsSpent;
+        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+    }
+
+    private void CollectDismantledTowerWarFunds(int warFundsAcquired)
+    {
+        totalWarFunds += warFundsAcquired;
         UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
     }
 

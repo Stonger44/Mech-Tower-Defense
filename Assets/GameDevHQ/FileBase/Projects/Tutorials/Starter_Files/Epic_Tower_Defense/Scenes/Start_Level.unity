@@ -4857,6 +4857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _warFunds: {fileID: 2109062355}
+  _dismantledWarFundsRecieved: {fileID: 1700177798}
   _UI_GatlingGun: {fileID: 150529098}
   _UI_GatlingGun_Disabled: {fileID: 410423489}
   _UI_MissileLauncher: {fileID: 1416097948}
