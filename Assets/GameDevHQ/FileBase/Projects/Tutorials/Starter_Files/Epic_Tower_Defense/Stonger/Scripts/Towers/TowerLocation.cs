@@ -141,6 +141,7 @@ public class TowerLocation : MonoBehaviour
 
         _currentPlacedTower = PoolManager.Instance.RequestTower(TowerManager.Instance.CurrentTower);
         _currentPlacedTower.transform.position = this.transform.position;
+        _currentPlacedTower.SetActive(true);
 
         _currentPlacedTowerInterface = _currentPlacedTower.GetComponent<ITower>();
         if (_currentPlacedTowerInterface == null)

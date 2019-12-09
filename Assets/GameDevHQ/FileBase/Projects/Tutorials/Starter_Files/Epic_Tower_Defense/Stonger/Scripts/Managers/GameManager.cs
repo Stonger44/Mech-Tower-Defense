@@ -56,8 +56,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
-        Debug.Log("Press [Space] to start Wave " + wave + ".");
+        _health = _initialHealth;
         UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+
+        Debug.Log("Press [Space] to start Wave " + wave + ".");
     }
 
     private void Update()

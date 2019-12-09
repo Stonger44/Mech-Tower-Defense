@@ -29,15 +29,23 @@ public class Aim : MonoBehaviour
     private void OnEnable()
     {
         Enemy.onDying += CheckCurrentTarget;
+
+        SetNeutralPosition();
     }
 
     private void OnDisable()
     {
         Enemy.onDying -= CheckCurrentTarget;
+
+        _targetList.Clear();
+        _currentTarget = null;
+
+        //Reset tower position
+        SetNeutralPosition();
+        NoSlerpAim();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetNeutralPosition()
     {
         if (_towerRoot == null)
             Debug.LogError("_towerRoot is NULL.");
@@ -53,6 +61,12 @@ public class Aim : MonoBehaviour
         _neutralPosition.z = this.transform.position.z;
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -64,21 +78,20 @@ public class Aim : MonoBehaviour
         }
     }
 
-    #region Aim() with no Slerp, currently not in use
-    //private void Aim()
-    //{
-    //    if (_currentTarget != null)
-    //        _lookDirection = _currentTarget.transform.position - this.transform.position;
-    //    else
-    //        _lookDirection = _neutralPosition - this.transform.position;
+    private void NoSlerpAim()
+    {
+        if (_currentTarget != null)
+            _lookDirection = _currentTarget.transform.position - this.transform.position;
+        else
+            _lookDirection = _neutralPosition - this.transform.position;
 
-    //    _horizontalOnlyLookDirection.x = _lookDirection.x;
-    //    _horizontalOnlyLookDirection.z = _lookDirection.z;
+        _horizontalOnlyLookDirection.x = _lookDirection.x;
+        _horizontalOnlyLookDirection.z = _lookDirection.z;
 
-    //    _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-    //    _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
-    //}
-    #endregion
+        _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
+        if (!_towerRoot.name.Contains("Missile"))
+            _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
+    }
 
     private void SlerpAim()
     {

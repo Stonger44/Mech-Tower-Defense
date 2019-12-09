@@ -41,6 +41,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
 
+        _launched = false;
         _towerRange.SetActive(false);
     }
 

@@ -225,7 +225,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             if (tower.activeSelf == false && tower.tag == requestedTower.tag)
             {
-                tower.SetActive(true);
+                //tower.SetActive(true);
                 return tower;
             }
         }
