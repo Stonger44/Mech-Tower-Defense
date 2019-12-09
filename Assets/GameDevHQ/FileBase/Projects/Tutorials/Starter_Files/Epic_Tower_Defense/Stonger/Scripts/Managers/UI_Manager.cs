@@ -25,12 +25,14 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI += ResetArmoryToDefaultState;
+        TowerLocation.onUpgradedCurrentTower += ShowCurrentTowerOptions;
     }
 
     private void OnDisable()
     {
         TowerLocation.onViewingCurrentTower -= ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI -= ResetArmoryToDefaultState;
+        TowerLocation.onUpgradedCurrentTower += ShowCurrentTowerOptions;
     }
 
     private void ShowCurrentTowerOptions(GameObject currentlyViewedTower)

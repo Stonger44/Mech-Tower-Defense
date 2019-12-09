@@ -42,6 +42,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onResetComplete += OnEnemyResetComplete;
         TowerLocation.onPurchaseTower += SpendWarFunds;
         TowerLocation.onDismantledCurrentTower += CollectDismantledTowerWarFunds;
+        TowerLocation.onPurchaseTowerUpgrade += SpendWarFunds;
     }
 
     private void OnDisable()
@@ -52,6 +53,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onResetComplete -= OnEnemyResetComplete;
         TowerLocation.onPurchaseTower -= SpendWarFunds;
         TowerLocation.onDismantledCurrentTower -= CollectDismantledTowerWarFunds;
+        TowerLocation.onPurchaseTowerUpgrade -= SpendWarFunds;
     }
 
     private void Start()

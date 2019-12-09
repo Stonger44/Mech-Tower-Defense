@@ -31,6 +31,7 @@ public class TowerManager : MonoSingleton<TowerManager>
     public static event Action<GameObject> onStopViewingTower;
     public static event Action onStopViewingTowerUI;
     public static event Action<GameObject> onDismantleTower;
+    public static event Action<GameObject, GameObject> onUpgradeTower;
 
     private bool _onVacantLocation;
 
@@ -65,38 +66,6 @@ public class TowerManager : MonoSingleton<TowerManager>
         TowerLocation.onViewingCurrentTower -= StartViewingTower;
     }
 
-    /*----------View Tower----------*/
-
-    private void StartViewingTower(GameObject currentlyViewedTower)
-    {
-        IsViewingTower = true;
-        CurrentlyViewedTower = currentlyViewedTower;
-    }
-
-    public void StopViewingTower()
-    {
-        IsViewingTower = false;
-        IsDismantlingTower = false;
-        onStopViewingTower?.Invoke(CurrentlyViewedTower);
-        onStopViewingTowerUI?.Invoke();
-        CurrentlyViewedTower = null;
-    }
-
-    public void UpgradeTower()
-    {
-        Debug.Log("Upgrading " + CurrentlyViewedTower + ".");
-    }
-
-    public void DismantleTower()
-    {
-        Debug.Log("Dismantling " + CurrentlyViewedTower + ".");
-        IsDismantlingTower = true;
-        onDismantleTower?.Invoke(CurrentlyViewedTower);
-        StopViewingTower();
-    }
-
-    /*----------View Tower----------*/
-
     // Update is called once per frame
     void Update()
     {
@@ -120,7 +89,49 @@ public class TowerManager : MonoSingleton<TowerManager>
         }
     }
 
+    /*----------View Tower----------*/
+    private void StartViewingTower(GameObject currentlyViewedTower)
+    {
+        IsViewingTower = true;
+        CurrentlyViewedTower = currentlyViewedTower;
+    }
 
+    public void StopViewingTower()
+    {
+        IsViewingTower = false;
+        IsDismantlingTower = false;
+        onStopViewingTower?.Invoke(CurrentlyViewedTower);
+        onStopViewingTowerUI?.Invoke();
+        CurrentlyViewedTower = null;
+    }
+
+    public void UpgradeTower()
+    {
+        GameObject towerToUpgradeTo = null;
+
+        switch (CurrentlyViewedTower.tag)
+        {
+            case "Gatling_Gun":
+                towerToUpgradeTo = _towerList[1]; //Gatling_Gun_Upgrade
+                break;
+            case "Missile_Launcher":
+                towerToUpgradeTo = _towerList[3]; //Missile_Launcher_Upgrade
+                break;
+            default:
+                Debug.LogError("CurrentlyViewedTower.tag not recognized!");
+                break;
+        }
+
+        onUpgradeTower?.Invoke(CurrentlyViewedTower, towerToUpgradeTo);
+    }
+
+    public void DismantleTower()
+    {
+        IsDismantlingTower = true;
+        onDismantleTower?.Invoke(CurrentlyViewedTower);
+        StopViewingTower();
+    }
+    /*----------View Tower----------*/
 
     /*----------Place Tower----------*/
     public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)

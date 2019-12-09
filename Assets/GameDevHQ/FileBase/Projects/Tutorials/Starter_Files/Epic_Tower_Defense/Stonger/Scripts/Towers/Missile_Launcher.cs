@@ -33,6 +33,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
         Aim.onTargetInRange += FireMissiles;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+        TowerLocation.onUpgradedCurrentTower += ToggleTowerRange;
     }
 
     private void OnDisable()
@@ -40,6 +41,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
         Aim.onTargetInRange -= FireMissiles;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
+        TowerLocation.onUpgradedCurrentTower -= ToggleTowerRange;
 
         _launched = false;
         _towerRange.SetActive(false);

@@ -22,38 +22,23 @@ public class TowerLocation : MonoBehaviour
 
     public static event Action<GameObject> onViewingCurrentTower;
     public static event Action<int> onDismantledCurrentTower;
+    public static event Action<GameObject> onUpgradedCurrentTower;
+    public static event Action<int> onPurchaseTowerUpgrade;
+    
 
     private void OnEnable()
     {
         TowerManager.onBrowsingTowerLocations += ToggleVacantParticleEffect;
         TowerManager.onDismantleTower += DismantleTower;
+        TowerManager.onUpgradeTower += UpgradeTower;
     }
 
     private void OnDisable()
     {
         TowerManager.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
         TowerManager.onDismantleTower -= DismantleTower;
+        TowerManager.onUpgradeTower -= UpgradeTower;
     }
-
-    private void DismantleTower(GameObject towerToBeDismantled)
-    {
-        if (towerToBeDismantled == _currentPlacedTower)
-        {
-            //Dismantle Tower:
-            PoolManager.Instance.ResetTower(_currentPlacedTower);
-
-            //For Game manager to update WarFunds
-            if (_currentPlacedTower.tag.Contains("Upgrade"))
-                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundSellValue);
-            else
-                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundSellValue);
-
-            _isOccupied = false;
-            _currentPlacedTower = null;
-            _currentPlacedTowerInterface = null;
-        }
-    }
-
 
     // Start is called before the first frame update
     void Start()
@@ -133,7 +118,7 @@ public class TowerLocation : MonoBehaviour
             Debug.Log("Tower not in Position");
             return;
         }
-        
+
 
         //PASS: If we get here, we passed all the pre-requisites and may place a tower.
         _isOccupied = true;
@@ -149,5 +134,45 @@ public class TowerLocation : MonoBehaviour
 
         onPlaceTower?.Invoke();
         onPurchaseTower?.Invoke(currentTower.WarFundCost);
+    }
+
+    private void DismantleTower(GameObject towerToBeDismantled)
+    {
+        if (towerToBeDismantled == _currentPlacedTower)
+        {
+            //Dismantle Tower:
+            PoolManager.Instance.ResetTower(_currentPlacedTower);
+
+            //For Game manager to update WarFunds
+            if (_currentPlacedTower.tag.Contains("Upgrade"))
+                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundSellValue);
+            else
+                onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundSellValue);
+
+            _isOccupied = false;
+            _currentPlacedTower = null;
+            _currentPlacedTowerInterface = null;
+        }
+    }
+
+    private void UpgradeTower(GameObject currentlyViewedTower, GameObject towerToUpgradeTo)
+    {
+        if (currentlyViewedTower == _currentPlacedTower)
+        {
+            //remove and reset current tower
+            PoolManager.Instance.ResetTower(_currentPlacedTower);
+
+            //place new upgraded tower
+            _currentPlacedTower = PoolManager.Instance.RequestTower(towerToUpgradeTo);
+            _currentPlacedTower.transform.position = this.transform.position;
+            _currentPlacedTower.SetActive(true);
+
+            _currentPlacedTowerInterface = _currentPlacedTower.GetComponent<ITower>();
+            if (_currentPlacedTowerInterface == null)
+                Debug.LogError("_currentPlacedTowerInterface is NULL.");
+
+            onUpgradedCurrentTower?.Invoke(_currentPlacedTower);
+            onPurchaseTowerUpgrade?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundCost);
+        }
     }
 }

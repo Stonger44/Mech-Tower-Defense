@@ -3195,7 +3195,7 @@ MonoBehaviour:
   _explosionSound: {fileID: 2859961013635314454}
   _initialHealth: 50
   _health: 50
-  _warFunds: 100
+  _warFunds: 150
   _onStandby: 0
   _inJunkyard: 0
   _animator: {fileID: 2775925118558770885}

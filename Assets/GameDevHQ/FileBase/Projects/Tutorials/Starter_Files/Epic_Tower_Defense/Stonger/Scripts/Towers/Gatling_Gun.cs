@@ -40,6 +40,7 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange += StopShooting;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+        TowerLocation.onUpgradedCurrentTower += ToggleTowerRange;
     }
 
     private void OnDisable()
@@ -48,24 +49,10 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange -= StopShooting;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
+        TowerLocation.onUpgradedCurrentTower -= ToggleTowerRange;
 
         _isAttacking = false;
         _towerRange.SetActive(false);
-    }
-
-    public void ToggleTowerRange(GameObject currentlyViewedTower)
-    {
-        if (currentlyViewedTower == this.gameObject)
-        {
-            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
-        }
-        else
-        {
-            if (_towerRange.activeSelf == true)
-            {
-                _towerRange.SetActive(false);
-            }
-        }
     }
 
     // Use this for initialization
@@ -144,5 +131,20 @@ public class Gatling_Gun : MonoBehaviour, ITower
         yield return new WaitForSeconds(1);
 
         _isAttacking = false;
+    }
+
+    public void ToggleTowerRange(GameObject currentlyViewedTower)
+    {
+        if (currentlyViewedTower == this.gameObject)
+        {
+            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
+        }
+        else
+        {
+            if (_towerRange.activeSelf == true)
+            {
+                _towerRange.SetActive(false);
+            }
+        }
     }
 }
