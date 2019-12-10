@@ -109,6 +109,7 @@ public class Enemy : Explodable
                 if (!_isDying)
                 {
                     _isDying = true;
+                    _animator.SetBool("IsShooting", false);
                     StartCoroutine(DieRoutine());
                 }
             }
@@ -126,7 +127,6 @@ public class Enemy : Explodable
     private IEnumerator DieRoutine()
     {
         //Death Animation
-        _animator.SetBool("IsShooting", false);
         _animator.SetBool("IsDying", true);
 
         //Stop moving forward

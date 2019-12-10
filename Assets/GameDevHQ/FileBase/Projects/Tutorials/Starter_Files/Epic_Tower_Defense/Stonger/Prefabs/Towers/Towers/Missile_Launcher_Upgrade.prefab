@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 7113028931355415603}
   m_Layer: 0
   m_Name: Missile_Launcher_Upgrade
-  m_TagString: Missile_Launcher_Upgrade
+  m_TagString: Tower_Missile_Launcher_Upgrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1613,6 +1613,16 @@ PrefabInstance:
       propertyPath: _horizontalAimPivot
       value: 
       objectReference: {fileID: 4953918216854742598}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _objectRoot
+      value: 
+      objectReference: {fileID: 4953845180066691442}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _standbySpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}
 --- !u!4 &8844499597387171847 stripped

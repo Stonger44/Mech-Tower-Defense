@@ -6,7 +6,7 @@ using System;
 
 public class Aim : MonoBehaviour
 {
-    [SerializeField] private GameObject _towerRoot;
+    [SerializeField] private GameObject _objectRoot;
     [SerializeField] private GameObject _horizontalAimPivot;
     [SerializeField] private GameObject _verticalAimPivot;
 
@@ -15,6 +15,7 @@ public class Aim : MonoBehaviour
     [SerializeField] private float _trackingSpeed;
 
     private Vector3 _neutralPosition;
+    [SerializeField] private GameObject _neutralLookPosition;
     private Vector3 _lookDirection;
     private Vector3 _horizontalOnlyLookDirection;
     private Quaternion _horizontalOnlyLookRotation;
@@ -22,6 +23,8 @@ public class Aim : MonoBehaviour
 
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
+
+    private string _targetName;
 
     public static event Action<GameObject, GameObject> onTargetInRange;
     public static event Action<GameObject> onNoTargetInRange;
@@ -40,20 +43,20 @@ public class Aim : MonoBehaviour
         _targetList.Clear();
         _currentTarget = null;
 
-        //Reset tower position
+        //Reset object position
         SetNeutralPosition();
-        NoSlerpAim();
+        //NoSlerpAim();
     }
 
     public void SetNeutralPosition()
     {
-        if (_towerRoot == null)
-            Debug.LogError("_towerRoot is NULL.");
+        if (_objectRoot == null)
+            Debug.LogError("_objectRoot is NULL.");
 
         if (_horizontalAimPivot == null)
             Debug.LogError("_horizontalAimPivot is NULL.");
 
-        if (_verticalAimPivot == null && !_towerRoot.name.Contains("Missile"))
+        if (_verticalAimPivot == null && !_objectRoot.name.Contains("Missile"))
             Debug.LogError("_verticalAimPivot is NULL.");
 
         _neutralPosition.x = this.transform.position.x + 10;
@@ -64,7 +67,10 @@ public class Aim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (_objectRoot.tag.Contains("Mech"))
+            _targetName = "Tower";
+        else
+            _targetName = "Mech";
     }
 
     // Update is called once per frame
@@ -73,8 +79,12 @@ public class Aim : MonoBehaviour
         //if no targets, move back to standby position
         if (_targetList.Count <= 0)
         {
-            SlerpAim();
-            onNoTargetInRange?.Invoke(_towerRoot);
+            if (_objectRoot.tag == "Mech1")
+                MechAim();
+            else
+                SlerpAim();
+
+            onNoTargetInRange?.Invoke(_objectRoot);
         }
     }
 
@@ -89,7 +99,7 @@ public class Aim : MonoBehaviour
         _horizontalOnlyLookDirection.z = _lookDirection.z;
 
         _horizontalAimPivot.transform.rotation = Quaternion.LookRotation(_horizontalOnlyLookDirection);
-        if (!_towerRoot.name.Contains("Missile"))
+        if (!_objectRoot.name.Contains("Missile"))
             _verticalAimPivot.transform.rotation = Quaternion.LookRotation(_lookDirection);
     }
 
@@ -114,7 +124,7 @@ public class Aim : MonoBehaviour
         _horizontalAimPivot.transform.rotation = Quaternion.Slerp(_horizontalAimPivot.transform.rotation, _horizontalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
 
         //Missile Launchers only have horizontal rotation
-        if (!_towerRoot.name.Contains("Missile"))
+        if (!_objectRoot.name.Contains("Missile"))
         {
             _lookRotation = Quaternion.LookRotation(_lookDirection);
             _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
@@ -122,9 +132,38 @@ public class Aim : MonoBehaviour
             
     }
 
+    private void MechAim()
+    {
+        if (_currentTarget != null)
+        {
+            _lookDirection = _currentTarget.transform.position - this.transform.position;
+            _rotationSpeed = _trackingSpeed;
+        }
+        else
+        {
+            _lookDirection = _neutralLookPosition.transform.position - this.transform.position;
+            _rotationSpeed = _standbySpeed;
+        }
+        
+        Vector3 lookDirection = new Vector3();
+
+        //normal: y positive is right, y negative is left, x positive is down, x negative is up
+        //mech: z negative is right, z positive is left, y negative is up, y positive is down
+        lookDirection.x = -_lookDirection.z;
+        lookDirection.z = _lookDirection.y; //horizontal pivot 2.695f
+        lookDirection.y = -_lookDirection.x; //vertical pivot
+
+        //lookDirection = _lookDirection;
+        Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
+
+        _lookRotation = Quaternion.LookRotation(lookDirection);
+
+        _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Contains("Mech") && _targetList.Contains(other.gameObject) == false)
+        if (other.tag.Contains(_targetName) && _targetList.Contains(other.gameObject) == false)
             _targetList.Add(other.gameObject);
 
         if (_currentTarget == null && _targetList.Count > 0)
@@ -134,14 +173,14 @@ public class Aim : MonoBehaviour
             if (_currentTarget != null)
             {
                 SlerpAim();
-                onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+                onTargetInRange?.Invoke(_objectRoot, _currentTarget);
             }
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag.Contains("Mech") && _targetList.Contains(other.gameObject) == false)
+        if (other.tag.Contains(_targetName) && _targetList.Contains(other.gameObject) == false)
             _targetList.Add(other.gameObject);
 
         if (_currentTarget == null && _targetList.Contains(other.gameObject))
@@ -150,7 +189,7 @@ public class Aim : MonoBehaviour
         if (other.gameObject == _currentTarget)
         {
             SlerpAim();
-            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+            onTargetInRange?.Invoke(_objectRoot, _currentTarget);
         }
     }
 
@@ -159,7 +198,7 @@ public class Aim : MonoBehaviour
         if (_targetList.Count > 0 && _targetList.Contains(other.gameObject))
         {
             _targetList.Remove(other.gameObject);
-            onNoTargetInRange?.Invoke(_towerRoot);
+            onNoTargetInRange?.Invoke(_objectRoot);
         }
 
         if (other.gameObject == _currentTarget)
@@ -171,7 +210,7 @@ public class Aim : MonoBehaviour
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
 
             SlerpAim();
-            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+            onTargetInRange?.Invoke(_objectRoot, _currentTarget);
         }
     }
 
@@ -186,11 +225,11 @@ public class Aim : MonoBehaviour
         if (_targetList.Count > 0)
         {
             _currentTarget = _targetList.FirstOrDefault(x => x.gameObject);
-            onTargetInRange?.Invoke(_towerRoot, _currentTarget);
+            onTargetInRange?.Invoke(_objectRoot, _currentTarget);
         }
         else
         {
-            onNoTargetInRange?.Invoke(_towerRoot);
+            onNoTargetInRange?.Invoke(_objectRoot);
         }
 
         SlerpAim();

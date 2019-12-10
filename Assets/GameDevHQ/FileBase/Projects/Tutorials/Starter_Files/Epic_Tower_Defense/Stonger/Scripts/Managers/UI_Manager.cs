@@ -45,7 +45,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
         switch (currentlyViewedTower.tag)
         {
-            case "Gatling_Gun":
+            case "Tower_Gatling_Gun":
                 if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
                 {
                     _UI_UpgradeGatlingGun.SetActive(true);
@@ -61,7 +61,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
-            case "Missile_Launcher":
+            case "Tower_Missile_Launcher":
                 if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
                 {
                     _UI_UpgradeMissileLauncher.SetActive(true);
@@ -77,8 +77,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
-            case "Missile_Launcher_Upgrade":
-            case "Gatling_Gun_Upgrade":
+            case "Tower_Missile_Launcher_Upgrade":
+            case "Tower_Gatling_Gun_Upgrade":
                 _UI_UpgradeGatlingGun.SetActive(false);
                 _UI_UpgradeGatlingGun_Disabled.SetActive(false);
 

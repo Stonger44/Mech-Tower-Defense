@@ -109,11 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b8e1a601c6cc54283161a9747fe6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerRoot: {fileID: 0}
+  _objectRoot: {fileID: 0}
   _horizontalAimPivot: {fileID: 0}
   _verticalAimPivot: {fileID: 0}
   _rotationSpeed: 0
-  _standbySpeed: 3
+  _standbySpeed: 1
   _trackingSpeed: 5
   _targetList: []
   _currentTarget: {fileID: 0}

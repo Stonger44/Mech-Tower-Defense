@@ -111,10 +111,10 @@ public class TowerManager : MonoSingleton<TowerManager>
 
         switch (CurrentlyViewedTower.tag)
         {
-            case "Gatling_Gun":
+            case "Tower_Gatling_Gun":
                 towerToUpgradeTo = _towerList[1]; //Gatling_Gun_Upgrade
                 break;
-            case "Missile_Launcher":
+            case "Tower_Missile_Launcher":
                 towerToUpgradeTo = _towerList[3]; //Missile_Launcher_Upgrade
                 break;
             default:

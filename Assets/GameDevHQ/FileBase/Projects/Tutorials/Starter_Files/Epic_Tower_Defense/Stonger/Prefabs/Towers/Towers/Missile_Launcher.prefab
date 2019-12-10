@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 4322096389120511577}
   m_Layer: 0
   m_Name: Missile_Launcher
-  m_TagString: Missile_Launcher
+  m_TagString: Tower_Missile_Launcher
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1029,6 +1029,16 @@ PrefabInstance:
       propertyPath: _towerRoot
       value: 
       objectReference: {fileID: 3243110382537594043}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _objectRoot
+      value: 
+      objectReference: {fileID: 3243110382537594043}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _standbySpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}
 --- !u!4 &6623175787182486441 stripped

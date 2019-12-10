@@ -16,6 +16,10 @@ TagManager:
   - Gatling_Gun_Upgrade
   - Missile_Launcher
   - Missile_Launcher_Upgrade
+  - Tower_Gatling_Gun
+  - Tower_Gatling_Gun_Upgrade
+  - Tower_Missile_Launcher
+  - Tower_Missile_Launcher_Upgrade
   layers:
   - Default
   - TransparentFX

@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 5553905132133468765}
   m_Layer: 0
   m_Name: Gatling_Gun
-  m_TagString: Gatling_Gun
+  m_TagString: Tower_Gatling_Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14993,7 +14993,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913784690144518056}
-  m_LocalRotation: {x: 0, y: -5.192827e-32, z: 4.3222345e-26, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.004159235, y: 0.2792407, z: 0.015021309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -15280,11 +15280,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8553609974961502618, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
         type: 3}
       propertyPath: _horizontalAimPivot
@@ -15305,6 +15300,21 @@ PrefabInstance:
       propertyPath: _towerRoot
       value: 
       objectReference: {fileID: 912176236257442156}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _objectRoot
+      value: 
+      objectReference: {fileID: 912176236257442156}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _standbySpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553609974961502618, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8553609974961502618, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}

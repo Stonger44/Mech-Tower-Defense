@@ -29464,7 +29464,7 @@ GameObject:
   - component: {fileID: 1365559943367914556}
   m_Layer: 0
   m_Name: Gatling_Gun_Upgrade
-  m_TagString: Gatling_Gun_Upgrade
+  m_TagString: Tower_Gatling_Gun_Upgrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29890,6 +29890,16 @@ PrefabInstance:
       propertyPath: _towerRoot
       value: 
       objectReference: {fileID: 4699506181887915981}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _objectRoot
+      value: 
+      objectReference: {fileID: 4699506181887915981}
+    - target: {fileID: 9215071692465604564, guid: dc2edfb50bcd60146b2a6fe9ce75b849,
+        type: 3}
+      propertyPath: _standbySpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2edfb50bcd60146b2a6fe9ce75b849, type: 3}
 --- !u!4 &8143338521591280844 stripped
