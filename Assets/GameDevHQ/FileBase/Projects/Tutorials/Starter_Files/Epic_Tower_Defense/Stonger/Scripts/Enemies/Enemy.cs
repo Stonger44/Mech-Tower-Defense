@@ -126,6 +126,7 @@ public class Enemy : Explodable
     private IEnumerator DieRoutine()
     {
         //Death Animation
+        _animator.SetBool("IsShooting", false);
         _animator.SetBool("IsDying", true);
 
         //Stop moving forward

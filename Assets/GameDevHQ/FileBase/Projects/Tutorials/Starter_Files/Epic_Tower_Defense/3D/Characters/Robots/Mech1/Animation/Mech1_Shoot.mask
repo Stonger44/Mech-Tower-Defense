@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mech1_Shoot
+  m_Mask: 00000000000000000000000000000000000000000100000001000000010000000100000000000000000000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Mech_2
+    m_Weight: 0
+  - m_Path: Mech_2/Body
+    m_Weight: 0
+  - m_Path: Mech_2/Cylinder
+    m_Weight: 0
+  - m_Path: Mech_2/Cylinder_1
+    m_Weight: 0
+  - m_Path: Mech_2/Cylinder_2
+    m_Weight: 0
+  - m_Path: Mech_2/Cylinder_3
+    m_Weight: 0
+  - m_Path: Mech_2/Foot
+    m_Weight: 0
+  - m_Path: Mech_2/Foot_1
+    m_Weight: 0
+  - m_Path: Mech_2/Lower_Arm
+    m_Weight: 1
+  - m_Path: Mech_2/Lower_Arm_1
+    m_Weight: 1
+  - m_Path: Mech_2/Shin
+    m_Weight: 0
+  - m_Path: Mech_2/Shin_1
+    m_Weight: 0
+  - m_Path: Mech_2/Shoulder
+    m_Weight: 0
+  - m_Path: Mech_2/Shoulder_1
+    m_Weight: 0
+  - m_Path: Mech_2/Thigh
+    m_Weight: 0
+  - m_Path: Mech_2/Thigh_1
+    m_Weight: 0
+  - m_Path: Mech_2/Upper_Arm
+    m_Weight: 1
+  - m_Path: Mech_2/Upper_Arm_1
+    m_Weight: 1
+  - m_Path: Skeleton
+    m_Weight: 0
+  - m_Path: Skeleton/Hip
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/L_Thigh
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/L_Thigh/L_Knee
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/L_Thigh/L_Knee/L_Ankle
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/L_Thigh/L_Knee/L_Ankle/L_Foot
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/R_Thigh
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/R_Thigh/R_Knee
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/R_Thigh/R_Knee/R_Ankle
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/R_Thigh/R_Knee/R_Ankle/R_Foot
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/L_Shoulder
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/L_Shoulder/L_Elbow
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/L_Shoulder/L_Elbow/L_Hand
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/R_Shoulder
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/R_Shoulder/R_Elbow
+    m_Weight: 1
+  - m_Path: Skeleton/Hip/Waist/Null/Chest/R_Shoulder/R_Elbow/R_Hand
+    m_Weight: 1
