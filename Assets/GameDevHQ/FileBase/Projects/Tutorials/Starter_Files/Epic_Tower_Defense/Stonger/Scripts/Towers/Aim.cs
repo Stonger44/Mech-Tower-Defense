@@ -15,7 +15,6 @@ public class Aim : MonoBehaviour
     [SerializeField] private float _trackingSpeed;
 
     private Vector3 _neutralPosition;
-    [SerializeField] private GameObject _neutralLookPosition;
     private Vector3 _lookDirection;
     private Vector3 _horizontalOnlyLookDirection;
     private Quaternion _horizontalOnlyLookRotation;

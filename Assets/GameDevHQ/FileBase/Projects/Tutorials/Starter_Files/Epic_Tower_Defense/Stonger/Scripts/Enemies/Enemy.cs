@@ -29,6 +29,20 @@ public class Enemy : Explodable
     [SerializeField] private float _navMeshRadius;
     private Quaternion _originalRotation;
 
+    /*----------Aiming----------*/
+    [SerializeField] private GameObject _aimPivot;
+    [SerializeField] private GameObject _neutralLookPointObject;
+
+    [SerializeField] private GameObject _attackingObject;
+    [SerializeField] private GameObject _currentTarget;
+
+    private Vector3 _lookDirection;
+    private Quaternion _lookRotation;
+
+    [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _trackingSpeed;
+    /*----------Aiming----------*/
+
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
     public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFunds
     public static event Action<GameObject> onResetComplete; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
@@ -61,12 +75,11 @@ public class Enemy : Explodable
     private void Start()
     {
         warFunds = _warFunds;
-        _originalRotation = this.gameObject.transform.rotation;
     }
 
     private void Update()
     {
-
+        //Aim();
     }
 
     public void SetToAttack()
@@ -144,7 +157,14 @@ public class Enemy : Explodable
 
     private void Aim()
     {
+        _currentTarget = (_attackingObject == null) ? _neutralLookPointObject : _attackingObject;
 
+        _lookDirection = _currentTarget.transform.position - _aimPivot.transform.position;
+        _rotationSpeed = _trackingSpeed;
+        Debug.DrawRay(_aimPivot.transform.position, _lookDirection, Color.red);
+
+        _lookRotation = Quaternion.LookRotation(_lookDirection);
+        _aimPivot.transform.rotation = Quaternion.Slerp(_aimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
     }
 
     private void DisableNavMesh()
