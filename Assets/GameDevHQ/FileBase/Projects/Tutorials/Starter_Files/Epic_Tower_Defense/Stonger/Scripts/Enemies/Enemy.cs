@@ -131,7 +131,7 @@ public class Enemy : Explodable
     private IEnumerator ShootRoutine()
     {
         //Look/Aim
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         //Shoot
         _animator.SetBool("IsShooting", true);

@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mech2_Shoot
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Mech2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Body_Base
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Body_Upper
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
+    m_Weight: 1
+  - m_Path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Missile
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
+    m_Weight: 1
+  - m_Path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Missile
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LBJoint_3_Goal_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LBJoint_3_Goal_2/Backtoe_3
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LBJoint_3_Goal_2/Fronttoe_3
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LFJoint_3_Goal_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LFJoint_3_Goal_2/Backtoe_4
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/LFJoint_3_Goal_2/Fronttoe_4
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RBJoint_3_Goal_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RBJoint_3_Goal_2/Backtoe_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RBJoint_3_Goal_2/Fronttoe_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RFJoint_3_Goal_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RFJoint_3_Goal_2/Backtoe
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/RFJoint_3_Goal_2/Fronttoe
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Shin
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Shin_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Shin_3
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Shin_4
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Upper_leg
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Upper_leg_1
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Upper_leg_2
+    m_Weight: 0
+  - m_Path: Mech2/Mech_Mesh/Upper_leg_3
+    m_Weight: 0
+  - m_Path: Mech2/Root
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2/LBJoint_3
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2/LBJoint_3/LBJoint_4
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2/LBJoint_3/LBJoint_4/LBJoint_5
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2/LBJoint_3/LBJoint_4_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB/LBJoint_2/LBJoint_3/LBJoint_4_2/LBJoint_5_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LB_Pole
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LBJoint_3_Goal
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2/LBJoint_3_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2/LBJoint_3_2/LBJoint_4_3
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2/LBJoint_3_2/LBJoint_4_3/LBJoint_5_3
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2/LBJoint_3_2/LBJoint_4_4
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF/LBJoint_2_2/LBJoint_3_2/LBJoint_4_4/LBJoint_5_4
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LF_Pole
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/LFJoint_3_Goal
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2/RBJoint_3
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2/RBJoint_3/RBJoint_4
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2/RBJoint_3/RBJoint_4/RBJoint_5
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2/RBJoint_3/RBJoint_4_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB/RBJoint_2/RBJoint_3/RBJoint_4_2/RBJoint_5_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RB_Pole
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RBJoint_3_Goal
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2/RFJoint_3
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2/RFJoint_3/RFJoint_4
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2/RFJoint_3/RFJoint_4/RFJoint_5
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2/RFJoint_3/RFJoint_4_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF/RFJoint_2/RFJoint_3/RFJoint_4_2/RFJoint_5_2
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RF_Pole
+    m_Weight: 0
+  - m_Path: Mech2/Root/Joint/RFJoint_3_Goal
+    m_Weight: 0
+  - m_Path: Sky
+    m_Weight: 0
