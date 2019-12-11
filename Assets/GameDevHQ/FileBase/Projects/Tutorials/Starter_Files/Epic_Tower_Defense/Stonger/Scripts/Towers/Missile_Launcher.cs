@@ -99,7 +99,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
 
     private void FireMissiles(GameObject currentTower, GameObject currentTarget)
     {
-        if (currentTower == this.gameObject && _launched == false) //check if we launched the rockets
+        if (currentTower == this.gameObject && currentTarget.tag == "Mech2" && _launched == false) //check if we launched the rockets
         {
             _launched = true; //set the launch bool to true
             StartCoroutine(FireRocketsRoutine(currentTarget)); //start a coroutine that fires the rockets. 

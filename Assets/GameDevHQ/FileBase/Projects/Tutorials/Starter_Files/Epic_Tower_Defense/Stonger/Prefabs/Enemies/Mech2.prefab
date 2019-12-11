@@ -3194,12 +3194,13 @@ MonoBehaviour:
   _explosion: {fileID: 0}
   _explosionSound: {fileID: 2859961013635314454}
   _initialHealth: 50
-  _health: 50
-  _warFunds: 150
+  _health: 80
+  _warFunds: 200
   _onStandby: 0
   _inJunkyard: 0
   _animator: {fileID: 2775925118558770885}
   _isDying: 0
+  _isShooting: 0
   _skin: {fileID: 2869341433404387527}
   _navMeshRadius: 4
 --- !u!136 &219323676154790158

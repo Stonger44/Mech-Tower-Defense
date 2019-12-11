@@ -142,6 +142,11 @@ public class Enemy : Explodable
         _isShooting = false;
     }
 
+    private void Aim()
+    {
+
+    }
+
     private void DisableNavMesh()
     {
         if (_navMeshAgent == null)
