@@ -45,7 +45,7 @@ public class Aim : MonoBehaviour
 
         //Reset object position
         SetNeutralPosition();
-        //NoSlerpAim();
+        NoSlerpAim();
     }
 
     public void SetNeutralPosition()
@@ -67,10 +67,7 @@ public class Aim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_objectRoot.tag.Contains("Mech"))
-            _targetName = "Tower";
-        else
-            _targetName = "Mech";
+        _targetName = "Mech";
     }
 
     // Update is called once per frame
@@ -79,11 +76,7 @@ public class Aim : MonoBehaviour
         //if no targets, move back to standby position
         if (_targetList.Count <= 0)
         {
-            if (_objectRoot.tag == "Mech1")
-                MechAim();
-            else
-                SlerpAim();
-
+            SlerpAim();
             onNoTargetInRange?.Invoke(_objectRoot);
         }
     }
@@ -130,35 +123,6 @@ public class Aim : MonoBehaviour
             _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
         }
             
-    }
-
-    private void MechAim()
-    {
-        if (_currentTarget != null)
-        {
-            _lookDirection = _currentTarget.transform.position - this.transform.position;
-            _rotationSpeed = _trackingSpeed;
-        }
-        else
-        {
-            _lookDirection = _neutralLookPosition.transform.position - this.transform.position;
-            _rotationSpeed = _standbySpeed;
-        }
-        
-        Vector3 lookDirection = new Vector3();
-
-        //normal: y positive is right, y negative is left, x positive is down, x negative is up
-        //mech: z negative is right, z positive is left, y negative is up, y positive is down
-        lookDirection.x = -_lookDirection.z;
-        lookDirection.z = _lookDirection.y; //horizontal pivot 2.695f
-        lookDirection.y = -_lookDirection.x; //vertical pivot
-
-        //lookDirection = _lookDirection;
-        Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
-
-        _lookRotation = Quaternion.LookRotation(lookDirection);
-
-        _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
