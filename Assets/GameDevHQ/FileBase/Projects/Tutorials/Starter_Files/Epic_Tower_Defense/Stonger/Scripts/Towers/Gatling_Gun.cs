@@ -32,7 +32,7 @@ public class Gatling_Gun : MonoBehaviour, ITower
     private bool _isAttacking;
     [SerializeField] private int _damageAmount;
 
-    public static event Action<GameObject, int> onShoot;
+    public static event Action<GameObject, GameObject, int> onShoot;
 
     private void OnEnable()
     {
@@ -127,7 +127,7 @@ public class Gatling_Gun : MonoBehaviour, ITower
 
     private IEnumerator AttackRoutine(GameObject currentTarget)
     {
-        onShoot?.Invoke(currentTarget, _damageAmount);
+        onShoot?.Invoke(this.gameObject, currentTarget, _damageAmount);
         yield return new WaitForSeconds(1);
 
         _isAttacking = false;

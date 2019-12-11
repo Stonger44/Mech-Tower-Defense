@@ -37,7 +37,9 @@ public class Missile : Explodable
     private int _damageAmount;
     private bool _isMissileDetonating;
 
-    public static event Action<GameObject, int> onTargetHit;
+    private GameObject _missileLauncher;
+
+    public static event Action<GameObject, GameObject, int> onTargetHit;
 
     // Use this for initialization
     IEnumerator Start()
@@ -124,12 +126,13 @@ public class Missile : Explodable
     /// <summary>
     /// This method is used to assign traits to our missle assigned from the launcher.
     /// </summary>
-    public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject currentTarget, int damagAmount)
+    public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject missileLauncher, GameObject currentTarget, int damagAmount)
     {
         _launchSpeed = launchSpeed; //set the launch speed
         _power = power; //set the power
         _fuseDelay = fuseDelay; //set the fuse delay
 
+        _missileLauncher = missileLauncher;
         _currentTarget = currentTarget;
         _damageAmount = damagAmount;
 
@@ -193,7 +196,7 @@ public class Missile : Explodable
         PlayExplosion();
 
         if (other.tag.Contains("Mech"))
-            onTargetHit?.Invoke(_currentTarget, _damageAmount);
+            onTargetHit?.Invoke(_missileLauncher, _currentTarget, _damageAmount);
 
         ResetMissile();
 

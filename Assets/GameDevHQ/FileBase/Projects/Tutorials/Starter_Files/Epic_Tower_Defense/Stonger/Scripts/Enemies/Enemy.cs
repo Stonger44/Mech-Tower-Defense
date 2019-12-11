@@ -24,6 +24,7 @@ public class Enemy : Explodable
 
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
+    [SerializeField] private bool _isShooting;
     [SerializeField] private GameObject _skin;
     [SerializeField] private float _navMeshRadius;
     private Quaternion _originalRotation;
@@ -97,12 +98,13 @@ public class Enemy : Explodable
         }
     }
 
-    private void TakeDamage(GameObject currentTarget, int damageAmount)
+    private void TakeDamage(GameObject attackingObject, GameObject currentTarget, int damageAmount)
     {
         if (this.gameObject == currentTarget)
         {
             _health -= damageAmount;
 
+            //Death
             if (_health <= 0)
             {
                 _health = 0;
@@ -110,10 +112,34 @@ public class Enemy : Explodable
                 {
                     _isDying = true;
                     _animator.SetBool("IsShooting", false);
+                    _isShooting = false;
                     StartCoroutine(DieRoutine());
                 }
             }
+
+            if (_isDying)
+                return;
+
+            if (attackingObject.tag.Contains("Tower"))
+            {
+                _isShooting = true;
+                StartCoroutine(ShootRoutine());
+            }
         }
+    }
+
+    private IEnumerator ShootRoutine()
+    {
+        //Look/Aim
+        yield return new WaitForSeconds(0.5f);
+
+        //Shoot
+        _animator.SetBool("IsShooting", true);
+        yield return new WaitForSeconds(5);
+
+        //Stop Shooting
+        _animator.SetBool("IsShooting", false);
+        _isShooting = false;
     }
 
     private void DisableNavMesh()
