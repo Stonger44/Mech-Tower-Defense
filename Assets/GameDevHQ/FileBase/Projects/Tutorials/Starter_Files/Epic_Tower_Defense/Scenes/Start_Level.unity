@@ -8060,7 +8060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialWaveEnemyCount: 5
-  _initialHealth: 5
+  _initialHealth: 3
   _health: 0
   totalWarFunds: 5000
   _wave: 0

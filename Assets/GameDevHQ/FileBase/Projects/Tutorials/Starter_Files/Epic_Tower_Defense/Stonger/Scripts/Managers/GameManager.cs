@@ -110,7 +110,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         waveRunning = false;
         waveSuccess = false;
-        Debug.Log("Wave " + wave + " failed.");
+        Debug.Log("Wave " + wave + " failed. Press [Space] to try again.");
     }
 
     private void OnEnemyExplosion(GameObject enemy)

@@ -79,6 +79,7 @@ public class Enemy : Explodable
     private void Start()
     {
         warFunds = _warFunds;
+        _originalRotation = this.transform.rotation;
     }
 
     private void Update()
@@ -104,6 +105,7 @@ public class Enemy : Explodable
 
         this.transform.position = _standbyPoint;
         _inJunkyard = false;
+        _health = _initialHealth;
         _onStandby = true;
     }
 
@@ -152,7 +154,7 @@ public class Enemy : Explodable
     private IEnumerator ShootRoutine()
     {
         //Look/Aim
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         _isAiming = true;
 
         //Shoot
