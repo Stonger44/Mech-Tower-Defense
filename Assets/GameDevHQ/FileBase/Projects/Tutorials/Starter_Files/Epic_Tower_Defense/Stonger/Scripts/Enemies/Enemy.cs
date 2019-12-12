@@ -24,7 +24,6 @@ public class Enemy : Explodable
 
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
-    [SerializeField] private bool _isShooting;
     [SerializeField] private GameObject _skin;
     [SerializeField] private float _navMeshRadius;
     private Quaternion _originalRotation;
@@ -41,6 +40,11 @@ public class Enemy : Explodable
 
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _trackingSpeed;
+
+    [SerializeField] private bool _isShooting;
+    [SerializeField] private bool _isAiming;
+
+    [SerializeField] private float _shootTime;
     /*----------Aiming----------*/
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
@@ -80,6 +84,9 @@ public class Enemy : Explodable
     private void Update()
     {
         //Aim();
+
+        if (_isAiming)
+            Aim();
     }
 
     public void SetToAttack()
@@ -133,8 +140,9 @@ public class Enemy : Explodable
             if (_isDying)
                 return;
 
-            if (attackingObject.tag.Contains("Tower"))
+            if (attackingObject.tag.Contains("Tower") && this.gameObject.tag == "Mech1")
             {
+                _attackingObject = attackingObject;
                 _isShooting = true;
                 StartCoroutine(ShootRoutine());
             }
@@ -145,14 +153,20 @@ public class Enemy : Explodable
     {
         //Look/Aim
         yield return new WaitForSeconds(0.25f);
+        _isAiming = true;
 
         //Shoot
         _animator.SetBool("IsShooting", true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(_shootTime);
 
         //Stop Shooting
+        _attackingObject = null;
         _animator.SetBool("IsShooting", false);
         _isShooting = false;
+
+        //Return Mech to neutral look position
+        yield return new WaitForSeconds(1.5f);
+        _isAiming = false;
     }
 
     private void Aim()
@@ -161,7 +175,8 @@ public class Enemy : Explodable
 
         _lookDirection = _currentTarget.transform.position - _aimPivot.transform.position;
         _rotationSpeed = _trackingSpeed;
-        Debug.DrawRay(_aimPivot.transform.position, _lookDirection, Color.red);
+
+        Debug.DrawRay(_aimPivot.transform.position, _lookDirection, Color.green);
 
         _lookRotation = Quaternion.LookRotation(_lookDirection);
         _aimPivot.transform.rotation = Quaternion.Slerp(_aimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
