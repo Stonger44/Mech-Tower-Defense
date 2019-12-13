@@ -142,7 +142,7 @@ public class Enemy : Explodable
             if (_isDying)
                 return;
 
-            if (attackingObject.tag.Contains("Tower") && this.gameObject.tag == "Mech1")
+            if (attackingObject.tag.Contains("Tower")) // && this.gameObject.tag == "Mech1"
             {
                 _attackingObject = attackingObject;
                 _isShooting = true;
