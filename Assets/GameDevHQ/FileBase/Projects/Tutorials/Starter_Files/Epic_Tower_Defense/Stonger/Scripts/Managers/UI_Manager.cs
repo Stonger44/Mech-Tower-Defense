@@ -44,44 +44,27 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         switch (currentlyViewedTower.tag)
         {
             case "Tower_Gatling_Gun":
-                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
-                {
-                    _UI_UpgradeGatlingGun.SetActive(true);
-                }
-                else
-                {
-                    _UI_UpgradeGatlingGun_Disabled.SetActive(true);
-                }
 
-                _UI_UpgradeMissileLauncher.SetActive(false);
-                _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
+                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+                    _UI_UpgradeGatlingGun.SetActive(true);
+                else
+                    _UI_UpgradeGatlingGun_Disabled.SetActive(true);
 
                 _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
             case "Tower_Missile_Launcher":
-                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
-                {
-                    _UI_UpgradeMissileLauncher.SetActive(true);
-                }
-                else
-                {
-                    _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
-                }
 
-                _UI_UpgradeGatlingGun.SetActive(false);
-                _UI_UpgradeGatlingGun_Disabled.SetActive(false);
+                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+                    _UI_UpgradeMissileLauncher.SetActive(true);
+                else
+                    _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
 
                 _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
             case "Tower_Missile_Launcher_Upgrade":
             case "Tower_Gatling_Gun_Upgrade":
-                _UI_UpgradeGatlingGun.SetActive(false);
-                _UI_UpgradeGatlingGun_Disabled.SetActive(false);
-
-                _UI_UpgradeMissileLauncher.SetActive(false);
-                _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
 
                 _dismantledWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
 
