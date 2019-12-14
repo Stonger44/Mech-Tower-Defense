@@ -965,7 +965,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1026,7 +1026,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1078,7 +1078,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -1130,7 +1130,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves:
@@ -2536,7 +2536,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -2639,7 +2639,7 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 481513813
+      path: 1599020550
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2765,28 +2765,28 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 481513813
+      path: 1599020550
       attribute: 2
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3923822802
+      path: 3909350116
       attribute: 2
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3772311987
+      path: 497042418
       attribute: 2
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1057538128
+      path: 3262147089
       attribute: 2
       script: {fileID: 0}
       typeID: 4
@@ -10758,7 +10758,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -10876,7 +10876,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -10994,7 +10994,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11040,7 +11040,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11086,7 +11086,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11132,7 +11132,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11178,7 +11178,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11242,7 +11242,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11306,7 +11306,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11370,7 +11370,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11434,7 +11434,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11489,7 +11489,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11544,7 +11544,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11599,7 +11599,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11654,7 +11654,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11709,7 +11709,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11764,7 +11764,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11819,7 +11819,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -11874,7 +11874,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -14807,7 +14807,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -14853,7 +14853,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -14899,7 +14899,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper
+    path: Mech2/Mech_Mesh/Body_Upper
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -14963,7 +14963,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15027,7 +15027,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15091,7 +15091,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15146,7 +15146,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15201,7 +15201,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15256,7 +15256,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/L_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/L_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15311,7 +15311,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.x
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15366,7 +15366,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.y
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -15421,7 +15421,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAngles.z
-    path: Mech2/Mech_Mesh/AimPivot/Body_Upper/Body_Upper_2/R_Arm
+    path: Mech2/Mech_Mesh/Body_Upper/Body_Upper_2/R_Arm
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

@@ -146,8 +146,11 @@ public class Enemy : Explodable
             if (attackingObject.tag.Contains("Tower")) // && this.gameObject.tag == "Mech1"
             {
                 _attackingObject = attackingObject;
-                _isShooting = true;
-                StartCoroutine(ShootRoutine());
+                if (!_isShooting)
+                {
+                    _isShooting = true;
+                    StartCoroutine(ShootRoutine());
+                }
             }
         }
     }
@@ -174,6 +177,14 @@ public class Enemy : Explodable
 
     private void Aim()
     {
+        if (this.gameObject.tag == "Mech2")
+        {
+            Debug.Log("Aiming...");
+
+
+            return;
+        }
+
         _currentTarget = (_attackingObject == null) ? _neutralLookPointObject : _attackingObject;
 
         _lookDirection = _currentTarget.transform.position - _aimPivot.transform.position;
