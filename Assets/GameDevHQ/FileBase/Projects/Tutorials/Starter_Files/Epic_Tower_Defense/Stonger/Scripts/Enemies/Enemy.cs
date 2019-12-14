@@ -105,14 +105,6 @@ public class Enemy : Explodable
         _inJunkyard = false;
         _health = _initialHealth;
         _onStandby = true;
-        _isAiming = true;
-        StartCoroutine(StandbyAimRoutine());
-    }
-
-    private IEnumerator StandbyAimRoutine()
-    {
-        yield return new WaitForSeconds(2);
-        _isAiming = false;
     }
 
     public bool IsOnStandby() => _onStandby;
@@ -211,8 +203,8 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(0.5f);
         onDying?.Invoke(this.gameObject);
 
-        //Play death animation a bit before the...
-        yield return new WaitForSeconds(1.9f);
+        //Play death animation before the...
+        yield return new WaitForSeconds(3.0f);
 
         //...Explosion!
         PlayExplosion();
@@ -221,13 +213,16 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(0.5f);
         SendToJunkyard();
         onDeath?.Invoke(this.gameObject);
-        
-        //Must wait until death animation completely finishes before resetting enemy
-        yield return new WaitForSeconds(3.0f);
         ResetEnemy();
 
+
+        //Turn off aiming
+        yield return new WaitForSeconds(1.0f);
+        _isAiming = false;
+
         //Wait for smoke animation to finish
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(5.0f);
+        
         PoolManager.Instance.ResetExplosion(_explosion);
 
         this.gameObject.SetActive(false);
@@ -248,6 +243,8 @@ public class Enemy : Explodable
     private void ResetEnemy()
     {
         _health = _initialHealth;
+        _currentTarget = null;
         _animator.SetBool("IsDying", false);
+        _isAiming = true; //reset aim position
     }
 }
