@@ -22,7 +22,6 @@ public class TowerLocation : MonoBehaviour
 
     public static event Action<GameObject> onViewingCurrentTower;
     public static event Action<int> onDismantledCurrentTower;
-    public static event Action<GameObject> onUpgradedCurrentTower;
     public static event Action<int> onPurchaseTowerUpgrade;
     
 
@@ -171,7 +170,6 @@ public class TowerLocation : MonoBehaviour
             if (_currentPlacedTowerInterface == null)
                 Debug.LogError("_currentPlacedTowerInterface is NULL.");
 
-            onUpgradedCurrentTower?.Invoke(_currentPlacedTower);
             onPurchaseTowerUpgrade?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundCost);
         }
     }
