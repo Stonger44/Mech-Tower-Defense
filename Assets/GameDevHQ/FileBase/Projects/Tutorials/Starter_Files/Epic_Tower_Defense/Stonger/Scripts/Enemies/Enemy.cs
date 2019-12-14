@@ -26,7 +26,7 @@ public class Enemy : Explodable
     [SerializeField] private bool _isDying;
     [SerializeField] private GameObject _skin;
     [SerializeField] private float _navMeshRadius;
-    private Quaternion _originalRotation;
+    private Quaternion _defaultRotation;
 
     /*----------Aiming----------*/
     [SerializeField] private GameObject _aimPivot;
@@ -79,13 +79,11 @@ public class Enemy : Explodable
     private void Start()
     {
         warFunds = _warFunds;
-        _originalRotation = this.transform.rotation;
+        _defaultRotation = this.transform.rotation;
     }
 
     private void Update()
     {
-        //Aim();
-
         if (_isAiming)
             Aim();
     }
@@ -107,6 +105,14 @@ public class Enemy : Explodable
         _inJunkyard = false;
         _health = _initialHealth;
         _onStandby = true;
+        _isAiming = true;
+        StartCoroutine(StandbyAimRoutine());
+    }
+
+    private IEnumerator StandbyAimRoutine()
+    {
+        yield return new WaitForSeconds(2);
+        _isAiming = false;
     }
 
     public bool IsOnStandby() => _onStandby;
@@ -235,7 +241,7 @@ public class Enemy : Explodable
         DisableNavMesh();
 
         this.transform.position = _junkyard;
-        this.transform.rotation = _originalRotation;
+        this.transform.rotation = _defaultRotation;
         _inJunkyard = true;
     }
 
