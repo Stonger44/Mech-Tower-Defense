@@ -41,7 +41,7 @@ public class Enemy : Explodable
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _trackingSpeed;
 
-    [SerializeField] private bool _isShooting;
+    [SerializeField] private bool _isReturningFire;
     [SerializeField] private bool _isAiming;
 
     [SerializeField] private float _shootTime;
@@ -135,7 +135,7 @@ public class Enemy : Explodable
                 {
                     _isDying = true;
                     _animator.SetBool("IsShooting", false);
-                    _isShooting = false;
+                    _isReturningFire = false;
                     StartCoroutine(DieRoutine());
                 }
             }
@@ -145,10 +145,10 @@ public class Enemy : Explodable
 
             if (attackingObject.tag.Contains("Tower")) // && this.gameObject.tag == "Mech1"
             {
-                _attackingObject = attackingObject;
-                if (!_isShooting)
+                if (!_isReturningFire)
                 {
-                    _isShooting = true;
+                    _attackingObject = attackingObject;
+                    _isReturningFire = true;
                     StartCoroutine(ShootRoutine());
                 }
             }
@@ -168,23 +168,15 @@ public class Enemy : Explodable
         //Stop Shooting
         _attackingObject = null;
         _animator.SetBool("IsShooting", false);
-        _isShooting = false;
 
         //Return Mech to neutral look position
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         _isAiming = false;
+        _isReturningFire = false;
     }
 
     private void Aim()
     {
-        if (this.gameObject.tag == "Mech2")
-        {
-            Debug.Log("Aiming...");
-
-
-            return;
-        }
-
         _currentTarget = (_attackingObject == null) ? _neutralLookPointObject : _attackingObject;
 
         _lookDirection = _currentTarget.transform.position - _aimPivot.transform.position;
