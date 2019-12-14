@@ -24,7 +24,7 @@ public class Enemy : Explodable
 
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _isDying;
-    [SerializeField] private GameObject _skin;
+    [SerializeField] private Collider _collider;
     [SerializeField] private float _navMeshRadius;
     private Quaternion _defaultRotation;
 
@@ -80,6 +80,9 @@ public class Enemy : Explodable
     {
         warFunds = _warFunds;
         _defaultRotation = this.transform.rotation;
+
+        if (_collider == null)
+            Debug.LogError("_collider is NULL.");
     }
 
     private void Update()
@@ -200,7 +203,8 @@ public class Enemy : Explodable
         _navMeshAgent.isStopped = true;
 
         //Signal death (basically to get towers to stop shooting at the enemy; it's already dying, so it's already dead)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
+        _collider.enabled = false;
         onDying?.Invoke(this.gameObject);
 
         //Play death animation before the...
@@ -221,7 +225,7 @@ public class Enemy : Explodable
         _isAiming = false;
 
         //Wait for smoke animation to finish
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(5.25f);
         
         PoolManager.Instance.ResetExplosion(_explosion);
 
@@ -245,6 +249,7 @@ public class Enemy : Explodable
         _health = _initialHealth;
         _currentTarget = null;
         _animator.SetBool("IsDying", false);
+        _collider.enabled = true;
         _isAiming = true; //reset aim position
     }
 }

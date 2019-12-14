@@ -1639,9 +1639,8 @@ MonoBehaviour:
   _inJunkyard: 0
   _animator: {fileID: 1569259853865098464}
   _isDying: 0
-  _skin: {fileID: 1483233297392953710}
+  _collider: {fileID: 8301687516009011900}
   _navMeshRadius: 2
-  _defaultAimRotation: {x: -0.28, y: -89.955, z: 87.97701, w: 0}
   _aimPivot: {fileID: 6985418190555967737}
   _neutralLookPointObject: {fileID: 48388572228162692}
   _attackingObject: {fileID: 0}

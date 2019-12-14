@@ -201,7 +201,7 @@ public class Missile : Explodable
         ResetMissile();
 
         //wait for explosion animation to finish
-        yield return new WaitForSeconds(4.44f);
+        yield return new WaitForSeconds(5.0f);
         PoolManager.Instance.ResetExplosion(_explosion);
 
         _isMissileDetonating = false;

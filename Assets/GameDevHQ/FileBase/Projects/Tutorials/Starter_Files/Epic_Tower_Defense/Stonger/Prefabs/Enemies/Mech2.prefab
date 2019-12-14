@@ -3201,7 +3201,7 @@ MonoBehaviour:
   _inJunkyard: 0
   _animator: {fileID: 2775925118558770885}
   _isDying: 0
-  _skin: {fileID: 2869341433404387527}
+  _collider: {fileID: 219323676154790158}
   _navMeshRadius: 4
   _aimPivot: {fileID: 4795298478373916188}
   _neutralLookPointObject: {fileID: 7050997265900706341}
