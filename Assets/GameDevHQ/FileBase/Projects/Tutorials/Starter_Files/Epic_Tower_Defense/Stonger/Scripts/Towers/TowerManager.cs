@@ -123,6 +123,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         }
 
         onUpgradeTower?.Invoke(CurrentlyViewedTower, towerToUpgradeTo);
+        StopViewingTower();
     }
 
     public void DismantleTower()
