@@ -44,7 +44,11 @@ public class Enemy : Explodable
     [SerializeField] private bool _isReturningFire;
     [SerializeField] private bool _isAiming;
 
-    [SerializeField] private float _shootTime;
+    [SerializeField] private float _initialFireDelayTime;
+    [SerializeField] private int _roundCount;
+    [SerializeField] private float _fireRate;
+
+    [SerializeField] private AudioSource _shootSound; 
     /*----------Aiming----------*/
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
@@ -83,6 +87,9 @@ public class Enemy : Explodable
 
         if (_collider == null)
             Debug.LogError("_collider is NULL.");
+
+        if (_shootSound == null)
+            Debug.LogError("_shootSound is NULL.");
     }
 
     private void Update()
@@ -135,6 +142,7 @@ public class Enemy : Explodable
                 {
                     _isDying = true;
                     _animator.SetBool("IsShooting", false);
+                    _shootSound.enabled = false;
                     _isReturningFire = false;
                     StartCoroutine(DieRoutine());
                 }
@@ -163,7 +171,13 @@ public class Enemy : Explodable
 
         //Shoot
         _animator.SetBool("IsShooting", true);
-        yield return new WaitForSeconds(_shootTime);
+        yield return new WaitForSeconds(_initialFireDelayTime);
+        for (int i = 0; i < _roundCount; i++)
+        {
+            _shootSound.Play();
+            yield return new WaitForSeconds(_fireRate);
+        }
+        _shootSound.Stop();
 
         //Stop Shooting
         _attackingObject = null;
@@ -253,6 +267,7 @@ public class Enemy : Explodable
         _currentTarget = null;
         _animator.SetBool("IsDying", false);
         _collider.enabled = true;
+        _shootSound.enabled = true;
         _isAiming = true; //reset aim position
     }
 }
