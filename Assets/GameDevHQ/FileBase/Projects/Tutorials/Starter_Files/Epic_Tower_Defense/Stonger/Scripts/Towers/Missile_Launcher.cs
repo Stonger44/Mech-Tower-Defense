@@ -14,14 +14,18 @@ public class Missile_Launcher : MonoBehaviour, ITower
     [SerializeField] private float _destroyTime = 10.0f; //how long till the rockets get cleaned up
     private bool _launched; //bool to check if we launched the rockets
 
-    //Extended Code
+    /*----------Extended Code----------*/
+    [SerializeField] private int _health; //Only here so I can see it in the inspector
+    public int Health { get; set; }
+    public int DamageTaken { get; set; }
+
+    public int InitialHealth { get; set; } = 20;
     public int WarFundCost { get; set; } = 1000;
     public int WarFundSellValue { get; set; } = 500;
 
+    public int UpgradeInitialHealth { get; set; } = 40;
     public int UpgradeWarFundCost { get; set; } = 2000;
     public int UpgradeWarFundSellValue { get; set; } = 1000;
-
-    public bool IsActive { get; set; } = false;
 
     [SerializeField] private GameObject _towerRange;
 
@@ -33,6 +37,16 @@ public class Missile_Launcher : MonoBehaviour, ITower
         Aim.onTargetInRange += FireMissiles;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+
+        if (this.gameObject.tag.Contains("Upgrade"))
+        {
+            Health = UpgradeInitialHealth;
+        }
+        else
+        {
+            Health = InitialHealth;
+        }
+        _health = Health;
     }
 
     private void OnDisable()
@@ -43,21 +57,6 @@ public class Missile_Launcher : MonoBehaviour, ITower
 
         _launched = false;
         _towerRange.SetActive(false);
-    }
-
-    public void ToggleTowerRange(GameObject currentlyViewedTower)
-    {
-        if (currentlyViewedTower == this.gameObject)
-        {
-            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
-        }
-        else
-        {
-            if (_towerRange.activeSelf == true)
-            {
-                _towerRange.SetActive(false);
-            }
-        }
     }
 
     private void Update()
@@ -101,6 +100,22 @@ public class Missile_Launcher : MonoBehaviour, ITower
         {
             _launched = true; //set the launch bool to true
             StartCoroutine(FireRocketsRoutine(currentTarget)); //start a coroutine that fires the rockets. 
+        }
+    }
+
+    /*----------ITower Functions----------*/
+    public void ToggleTowerRange(GameObject currentlyViewedTower)
+    {
+        if (currentlyViewedTower == this.gameObject)
+        {
+            _towerRange.SetActive(TowerManager.Instance.IsViewingTower);
+        }
+        else
+        {
+            if (_towerRange.activeSelf == true)
+            {
+                _towerRange.SetActive(false);
+            }
         }
     }
 }

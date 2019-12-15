@@ -6,31 +6,31 @@ using System;
 [RequireComponent(typeof(AudioSource))] //Require Audio Source component
 public class Gatling_Gun : MonoBehaviour, ITower
 {
-    [SerializeField]
-    private Transform[] _gunBarrel; //Reference to hold the gun barrel
-    [SerializeField]
-    private GameObject[] _muzzleFlash; //reference to the muzzle flash effect to play when firing
-    [SerializeField]
-    private ParticleSystem[] _bulletCasings; //reference to the bullet casing effect to play when firing
-    [SerializeField]
-    private AudioClip _fireSound; //Reference to the audio clip
+    [SerializeField] private Transform[] _gunBarrel; //Reference to hold the gun barrel
+    [SerializeField] private GameObject[] _muzzleFlash; //reference to the muzzle flash effect to play when firing
+    [SerializeField] private ParticleSystem[] _bulletCasings; //reference to the bullet casing effect to play when firing
+    [SerializeField] private AudioClip _fireSound; //Reference to the audio clip
 
     private AudioSource _audioSource; //reference to the audio source component
     private bool _startWeaponNoise = true;
 
-    //Extended Code
+    /*----------Extended Code----------*/
+    [SerializeField] private int _health; //Only here so I can see it in the inspector
+    public int Health { get; set; }
+    public int DamageTaken { get; set; }
+
+    public int InitialHealth { get; set; } = 10;
     public int WarFundCost { get; set; } = 500;
     public int WarFundSellValue { get; set; } = 250;
 
+    public int UpgradeInitialHealth { get; set; } = 20;
     public int UpgradeWarFundCost { get; set; } = 1000;
     public int UpgradeWarFundSellValue { get; set; } = 500;
-
-    public bool IsActive { get; set; } = false;
 
     [SerializeField] private GameObject _towerRange;
 
     private bool _isAttacking;
-    [SerializeField] private int _damageAmount;
+    [SerializeField] private int _damageDealt;
 
     public static event Action<GameObject, GameObject, int> onShoot;
 
@@ -40,6 +40,16 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange += StopShooting;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+
+        if (this.gameObject.tag.Contains("Upgrade"))
+        {
+            Health = UpgradeInitialHealth;
+        }
+        else
+        {
+            Health = InitialHealth;
+        }
+        _health = Health;
     }
 
     private void OnDisable()
@@ -125,12 +135,13 @@ public class Gatling_Gun : MonoBehaviour, ITower
 
     private IEnumerator AttackRoutine(GameObject currentTarget)
     {
-        onShoot?.Invoke(this.gameObject, currentTarget, _damageAmount);
+        onShoot?.Invoke(this.gameObject, currentTarget, _damageDealt);
         yield return new WaitForSeconds(1);
 
         _isAttacking = false;
     }
 
+    /*----------ITower Functions----------*/
     public void ToggleTowerRange(GameObject currentlyViewedTower)
     {
         if (currentlyViewedTower == this.gameObject)
