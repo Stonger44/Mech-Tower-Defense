@@ -158,7 +158,7 @@ public class Missile : Explodable
             if (!_isMissileDetonating)
             {
                 _isMissileDetonating = true;
-                StartCoroutine(DetonateMissileRoutine(other));
+                DetonateMissileRoutine(other);
             }
         }
 
@@ -190,7 +190,7 @@ public class Missile : Explodable
         }
     }
 
-    private IEnumerator DetonateMissileRoutine(Collider other)
+    private void DetonateMissileRoutine(Collider other)
     {
         //Detonate:
         PlayExplosion();
@@ -199,10 +199,6 @@ public class Missile : Explodable
             onTargetHit?.Invoke(_missileLauncher, _currentTarget, _damageAmount);
 
         ResetMissile();
-
-        //wait for explosion animation to finish
-        yield return new WaitForSeconds(5.0f);
-        PoolManager.Instance.ResetExplosion(_explosion);
 
         _isMissileDetonating = false;
         this.gameObject.SetActive(false);

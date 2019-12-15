@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(AudioSource))] //Require Audio Source component
-public class Gatling_Gun : MonoBehaviour, ITower
+public class Gatling_Gun : Explodable, ITower
 {
     [SerializeField] private Transform[] _gunBarrel; //Reference to hold the gun barrel
     [SerializeField] private GameObject[] _muzzleFlash; //reference to the muzzle flash effect to play when firing
@@ -167,14 +167,17 @@ public class Gatling_Gun : MonoBehaviour, ITower
                 Health = 0;
                 _health = Health;
 
-                Die();
-                //Broadcast Death to TowerLocation
+                StartCoroutine(DieRoutine());
             }
         }
     }
 
-    public void Die()
+    public IEnumerator DieRoutine()
     {
-        Debug.Log("Tower Destroyed: " + this.gameObject.name.ToUpper() + "");
+        //TowerExplosion
+        //PlayExplosion();
+        yield return new WaitForSeconds(0.5f);
+        //Hide Tower
+
     }
 }

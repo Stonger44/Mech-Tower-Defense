@@ -47,7 +47,7 @@ public class PoolManager : MonoSingleton<PoolManager>
             //I only want to spawn the bigger mechs 25% of the time
             _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
 
-            _generatedEnemy = Instantiate(_enemyPrefabs[1]);
+            _generatedEnemy = Instantiate(_enemyPrefabs[_randomIndex]);
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
             _generatedEnemy.transform.parent = _enemyContainer.transform;
@@ -99,7 +99,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private List<GameObject> _explosionPool;
     [SerializeField] private GameObject _explosionContainer;
     private int _explosionIndex;
-    private enum ExplosionType { Mech1, Mech2, Missile };
+    private enum ExplosionType { Mech1, Mech2, Missile, Tower };
 
 
     private void GenerateExplosion(GameObject explodingObject)
@@ -116,7 +116,15 @@ public class PoolManager : MonoSingleton<PoolManager>
                 _explosionIndex = (int)ExplosionType.Missile;
                 break;
             default:
-                Debug.LogError("Type of explosion not found.");
+                if (explodingObject.tag.Contains("Tower"))
+                {
+                    _explosionIndex = (int)ExplosionType.Tower;
+                }
+                else
+                {
+                    Debug.LogError("Type of explosion not found.");
+                }
+                
                 break;
         }
 

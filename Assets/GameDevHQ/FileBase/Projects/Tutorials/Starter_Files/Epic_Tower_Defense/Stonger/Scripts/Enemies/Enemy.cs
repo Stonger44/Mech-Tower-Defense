@@ -270,11 +270,6 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(1.0f);
         _isAiming = false;
 
-        //Wait for smoke animation to finish
-        yield return new WaitForSeconds(5.25f);
-        
-        PoolManager.Instance.ResetExplosion(_explosion);
-
         this.gameObject.SetActive(false);
         onResetComplete?.Invoke(this.gameObject); //This will signal the end of the wave, but enemy must reset first!
 

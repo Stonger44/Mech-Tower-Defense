@@ -22,5 +22,13 @@ public class Explodable : MonoBehaviour
 
         _explosion.SetActive(true); //Turn explosion visual effects on
         _explosionSound.Play();
+
+        StartCoroutine(HideExplosionRoutine());
+    }
+
+    protected IEnumerator HideExplosionRoutine()
+    {
+        yield return new WaitForSeconds(5.25f);
+        PoolManager.Instance.ResetExplosion(_explosion);
     }
 }
