@@ -19,17 +19,17 @@ public class Missile_Launcher : MonoBehaviour, ITower
     public int Health { get; set; }
     public int DamageTaken { get; set; }
 
-    public int InitialHealth { get; set; } = 20;
+    public int InitialHealth { get; set; } = 1000;
     public int WarFundCost { get; set; } = 1000;
     public int WarFundSellValue { get; set; } = 500;
 
-    public int UpgradeInitialHealth { get; set; } = 40;
+    public int UpgradeInitialHealth { get; set; } = 2000;
     public int UpgradeWarFundCost { get; set; } = 2000;
     public int UpgradeWarFundSellValue { get; set; } = 1000;
 
     [SerializeField] private GameObject _towerRange;
 
-    [SerializeField] private int _damageAmount;
+    [SerializeField] private int _warheadDamage;
     [SerializeField] private float _lockOnDelayTime;
 
     private void OnEnable()
@@ -37,15 +37,12 @@ public class Missile_Launcher : MonoBehaviour, ITower
         Aim.onTargetInRange += FireMissiles;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+        Enemy.onAttack += TakeDamage;
 
         if (this.gameObject.tag.Contains("Upgrade"))
-        {
             Health = UpgradeInitialHealth;
-        }
         else
-        {
             Health = InitialHealth;
-        }
         _health = Health;
     }
 
@@ -54,6 +51,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
         Aim.onTargetInRange -= FireMissiles;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
+        Enemy.onAttack -= TakeDamage;
 
         _launched = false;
         _towerRange.SetActive(false);
@@ -79,7 +77,7 @@ public class Missile_Launcher : MonoBehaviour, ITower
             rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); //set the rotation values to be properly aligned with the rockets forward direction
             rocket.transform.parent = PoolManager.Instance.missileContainer.transform;
 
-            rocket.GetComponent<Missile>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime, this.gameObject, currentTarget, _damageAmount); //assign missle properties 
+            rocket.GetComponent<Missile>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime, this.gameObject, currentTarget, _warheadDamage); //assign missle properties 
 
             _misslePositions[i].SetActive(false); //turn off the rocket sitting in the turret to make it look like it fired
             yield return new WaitForSeconds(_fireDelay); //wait for the firedelay
@@ -117,5 +115,28 @@ public class Missile_Launcher : MonoBehaviour, ITower
                 _towerRange.SetActive(false);
             }
         }
+    }
+
+    public void TakeDamage(GameObject attackedObject, int damageAmount)
+    {
+        if (attackedObject == this.gameObject)
+        {
+            Health -= damageAmount;
+            _health = Health;
+
+            if (Health <= 0)
+            {
+                Health = 0;
+                _health = Health;
+
+                Die();
+                //Broadcast Death to TowerLocation
+            }
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Tower Destroyed: " + this.gameObject.name.ToUpper() + "");
     }
 }

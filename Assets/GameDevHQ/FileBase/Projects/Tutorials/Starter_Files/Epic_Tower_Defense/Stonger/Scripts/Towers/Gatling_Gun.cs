@@ -19,18 +19,18 @@ public class Gatling_Gun : MonoBehaviour, ITower
     public int Health { get; set; }
     public int DamageTaken { get; set; }
 
-    public int InitialHealth { get; set; } = 10;
+    public int InitialHealth { get; set; } = 500;
     public int WarFundCost { get; set; } = 500;
     public int WarFundSellValue { get; set; } = 250;
 
-    public int UpgradeInitialHealth { get; set; } = 20;
+    public int UpgradeInitialHealth { get; set; } = 1000;
     public int UpgradeWarFundCost { get; set; } = 1000;
     public int UpgradeWarFundSellValue { get; set; } = 500;
 
     [SerializeField] private GameObject _towerRange;
 
     private bool _isAttacking;
-    [SerializeField] private int _damageDealt;
+    [SerializeField] private int _damageToDeal;
 
     public static event Action<GameObject, GameObject, int> onShoot;
 
@@ -40,15 +40,12 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange += StopShooting;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerManager.onStopViewingTower += ToggleTowerRange;
+        Enemy.onAttack += TakeDamage;
 
         if (this.gameObject.tag.Contains("Upgrade"))
-        {
             Health = UpgradeInitialHealth;
-        }
         else
-        {
             Health = InitialHealth;
-        }
         _health = Health;
     }
 
@@ -58,6 +55,7 @@ public class Gatling_Gun : MonoBehaviour, ITower
         Aim.onNoTargetInRange -= StopShooting;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
+        Enemy.onAttack += TakeDamage;
 
         _isAttacking = false;
         _towerRange.SetActive(false);
@@ -135,7 +133,7 @@ public class Gatling_Gun : MonoBehaviour, ITower
 
     private IEnumerator AttackRoutine(GameObject currentTarget)
     {
-        onShoot?.Invoke(this.gameObject, currentTarget, _damageDealt);
+        onShoot?.Invoke(this.gameObject, currentTarget, _damageToDeal);
         yield return new WaitForSeconds(1);
 
         _isAttacking = false;
@@ -155,5 +153,28 @@ public class Gatling_Gun : MonoBehaviour, ITower
                 _towerRange.SetActive(false);
             }
         }
+    }
+
+    public void TakeDamage(GameObject attackedObject, int damageAmount)
+    {
+        if (attackedObject == this.gameObject)
+        {
+            Health -= damageAmount;
+            _health = Health;
+
+            if (Health <= 0)
+            {
+                Health = 0;
+                _health = Health;
+
+                Die();
+                //Broadcast Death to TowerLocation
+            }
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Tower Destroyed: " + this.gameObject.name.ToUpper() + "");
     }
 }

@@ -29605,8 +29605,9 @@ MonoBehaviour:
   - {fileID: 4895823822052408131}
   - {fileID: 4896266901444495815}
   _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
+  _health: 0
   _towerRange: {fileID: 8080867948098752774}
-  _damageAmount: 4
+  _damageToDeal: 2
 --- !u!1001 &772088761667623421
 PrefabInstance:
   m_ObjectHideFlags: 0

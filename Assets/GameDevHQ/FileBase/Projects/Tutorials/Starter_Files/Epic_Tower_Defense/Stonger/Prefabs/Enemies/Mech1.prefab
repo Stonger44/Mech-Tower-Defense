@@ -11166,6 +11166,7 @@ MonoBehaviour:
   _muzzleFlashList:
   - {fileID: 312999305898325160}
   - {fileID: 244001355977845061}
+  _damageToDeal: 1
 --- !u!82 &4848382126901744287
 AudioSource:
   m_ObjectHideFlags: 0

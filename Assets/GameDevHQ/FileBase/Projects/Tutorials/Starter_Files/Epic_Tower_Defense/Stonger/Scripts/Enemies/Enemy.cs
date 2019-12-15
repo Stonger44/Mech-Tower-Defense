@@ -51,11 +51,14 @@ public class Enemy : Explodable
     [SerializeField] private AudioSource _shootSound;
 
     [SerializeField] private List<GameObject> _muzzleFlashList;
+
+    [SerializeField] private int _damageToDeal;
     /*----------Aiming----------*/
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
     public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFunds
     public static event Action<GameObject> onResetComplete; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
+    public static event Action<GameObject, int> onAttack;
 
     private void OnEnable()
     {
@@ -153,10 +156,7 @@ public class Enemy : Explodable
                 if (!_isDying)
                 {
                     _isDying = true;
-                    _animator.SetBool("IsShooting", false);
-                    _shootSound.enabled = false;
-                    _isReturningFire = false;
-                    MuzzleFlashes_SetActive(false);
+                    StopShooting();
                     StartCoroutine(DieRoutine());
                 }
             }
@@ -164,7 +164,7 @@ public class Enemy : Explodable
             if (_isDying)
                 return;
 
-            if (attackingObject.tag.Contains("Tower")) // && this.gameObject.tag == "Mech1"
+            if (attackingObject.tag.Contains("Tower"))
             {
                 if (!_isReturningFire)
                 {
@@ -174,6 +174,15 @@ public class Enemy : Explodable
                 }
             }
         }
+    }
+
+    private void StopShooting()
+    {
+        _attackingObject = null;
+        _animator.SetBool("IsShooting", false);
+        _shootSound.enabled = false;
+        _isReturningFire = false;
+        MuzzleFlashes_SetActive(false);
     }
 
     private IEnumerator ShootRoutine()
@@ -195,6 +204,7 @@ public class Enemy : Explodable
             yield return new WaitForSeconds(_fireDelay);
             MuzzleFlashes_SetActive(false);
             yield return new WaitForSeconds(_fireDelay);
+            onAttack?.Invoke(_attackingObject, _damageToDeal);
         }
         _shootSound.Stop();
 

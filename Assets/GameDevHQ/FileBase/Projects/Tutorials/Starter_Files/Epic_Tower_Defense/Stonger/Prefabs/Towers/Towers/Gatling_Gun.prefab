@@ -341,8 +341,9 @@ MonoBehaviour:
   _bulletCasings:
   - {fileID: 1039743723131286920}
   _fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
+  _health: 0
   _towerRange: {fileID: 8127870583735715059}
-  _damageAmount: 2
+  _damageToDeal: 1
 --- !u!1 &912225716815252022
 GameObject:
   m_ObjectHideFlags: 0

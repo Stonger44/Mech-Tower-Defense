@@ -1085,8 +1085,9 @@ MonoBehaviour:
   _fuseDelay: 0
   _reloadTime: 0.7
   _destroyTime: 10
+  _health: 0
   _towerRange: {fileID: 5881369035322958603}
-  _damageAmount: 5
+  _warheadDamage: 5
   _lockOnDelayTime: 1
 --- !u!1 &4953918216854742598
 GameObject:

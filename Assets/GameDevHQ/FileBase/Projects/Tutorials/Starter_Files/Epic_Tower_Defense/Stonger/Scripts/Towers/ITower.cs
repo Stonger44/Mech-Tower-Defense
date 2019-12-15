@@ -16,4 +16,6 @@ public interface ITower
     int UpgradeWarFundSellValue { get; set; }
 
     void ToggleTowerRange(GameObject currentlyViewedTower);
+    //void TakeDamage(GameObject attackedObject, int damageAmount);
+    //void Die();
 }
