@@ -46,9 +46,11 @@ public class Enemy : Explodable
 
     [SerializeField] private float _initialFireDelayTime;
     [SerializeField] private int _roundCount;
-    [SerializeField] private float _fireRate;
+    [SerializeField] private float _fireDelay;
 
-    [SerializeField] private AudioSource _shootSound; 
+    [SerializeField] private AudioSource _shootSound;
+
+    [SerializeField] private List<GameObject> _muzzleFlashList;
     /*----------Aiming----------*/
 
     public static event Action<GameObject> onDying; //Used to stop the towers from targeting an already dead target
@@ -111,6 +113,8 @@ public class Enemy : Explodable
     {
         DisableNavMesh();
 
+        MuzzleFlashes_SetActive(false);
+
         this.transform.position = _standbyPoint;
         _inJunkyard = false;
         _health = _initialHealth;
@@ -119,6 +123,14 @@ public class Enemy : Explodable
 
     public bool IsOnStandby() => _onStandby;
     public bool IsInJunkyard() => _inJunkyard;
+
+    private void MuzzleFlashes_SetActive(bool activeState)
+    {
+        foreach (var muzzleFlash in _muzzleFlashList)
+        {
+            muzzleFlash.SetActive(activeState);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -144,6 +156,7 @@ public class Enemy : Explodable
                     _animator.SetBool("IsShooting", false);
                     _shootSound.enabled = false;
                     _isReturningFire = false;
+                    MuzzleFlashes_SetActive(false);
                     StartCoroutine(DieRoutine());
                 }
             }
@@ -174,8 +187,14 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(_initialFireDelayTime);
         for (int i = 0; i < _roundCount; i++)
         {
+            if (_isDying)
+                break;
+
             _shootSound.Play();
-            yield return new WaitForSeconds(_fireRate);
+            MuzzleFlashes_SetActive(true);
+            yield return new WaitForSeconds(_fireDelay);
+            MuzzleFlashes_SetActive(false);
+            yield return new WaitForSeconds(_fireDelay);
         }
         _shootSound.Stop();
 
