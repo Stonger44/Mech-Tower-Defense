@@ -17,6 +17,7 @@ public class Enemy : Explodable
 
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
+    private float _healthPercent;
     [SerializeField] private int _warFunds;
     public int warFunds { get; private set; }
     [SerializeField] private bool _onStandby = false;
@@ -59,6 +60,7 @@ public class Enemy : Explodable
     public static event Action<GameObject> onDeath; //GameManager uses this to decrement enemyCount and add warFunds
     public static event Action<GameObject> onResetComplete; //After this broadcast the (last) enemy has already reset itself so the next wave can start.
     public static event Action<GameObject, int> onAttack;
+    public static event Action<GameObject, float> onHealthUpdate;
 
     private void OnEnable()
     {
@@ -105,6 +107,9 @@ public class Enemy : Explodable
 
     public void SetToAttack()
     {
+        _healthPercent = (float)_health / (float)_initialHealth;
+        onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+
         _onStandby = false;
         _navMeshAgent.enabled = true;
         _navMeshAgent.radius = _navMeshRadius;
@@ -160,6 +165,9 @@ public class Enemy : Explodable
                     StartCoroutine(DieRoutine());
                 }
             }
+
+            _healthPercent = (float)_health / (float)_initialHealth;
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
 
             if (_isDying)
                 return;
@@ -285,7 +293,6 @@ public class Enemy : Explodable
 
     private void ResetEnemy()
     {
-        _health = _initialHealth;
         _currentTarget = null;
         _animator.SetBool("IsDying", false);
         _collider.enabled = true;
