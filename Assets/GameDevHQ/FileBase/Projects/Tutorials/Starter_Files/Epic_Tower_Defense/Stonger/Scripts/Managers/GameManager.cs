@@ -9,13 +9,13 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private int _initialWaveEnemyCount;
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
-    public int totalWarFunds;
+
+    [SerializeField] private int _totalWarFunds;
+    public int TotalWarFunds { get; private set; } //This is only here so I can see it in the inspector
 
     private int _initialWave = 1;
     [SerializeField] private int _wave; //This is only here so I can see it in the inspector
     public int wave { get; private set; }
-    
-
     
     [SerializeField] private int _currentWaveTotalEnemyCount;
     public int currentWaveTotalEnemyCount { get; private set; }
@@ -25,7 +25,7 @@ public class GameManager : MonoSingleton<GameManager>
     public bool waveSuccess { get; private set; }
 
     public static event Action onStartWave;
-
+    public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
 
     public override void Init()
     {
@@ -59,7 +59,8 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         _health = _initialHealth;
-        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+        TotalWarFunds = _totalWarFunds;
+        UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
 
         Debug.Log("Press [Space] to start Wave " + wave + ".");
     }
@@ -120,8 +121,12 @@ public class GameManager : MonoSingleton<GameManager>
         if (enemyScript == null)
             Debug.Log("enemyScript is NULL.");
 
-        totalWarFunds += enemyScript.warFunds;
-        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+        TotalWarFunds += enemyScript.warFunds;
+        _totalWarFunds = TotalWarFunds;
+        UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
+
+        if (TowerManager.Instance.IsViewingTower == true)
+            onGainedWarFundsFromEnemyDeath?.Invoke(TowerManager.Instance.CurrentlyViewedTower);
 
         _currentWaveCurrentEnemyCount--;
     }
@@ -141,14 +146,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void SpendWarFunds(int warFundsSpent)
     {
-        totalWarFunds -= warFundsSpent;
-        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+        TotalWarFunds -= warFundsSpent;
+        _totalWarFunds = TotalWarFunds;
+        UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
     }
 
     private void CollectDismantledTowerWarFunds(int warFundsAcquired)
     {
-        totalWarFunds += warFundsAcquired;
-        UI_Manager.Instance.UpdateWarFundsText(totalWarFunds);
+        TotalWarFunds += warFundsAcquired;
+        _totalWarFunds = TotalWarFunds;
+        UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
     }
 
     public int GetCurrentWaveCurrentEnemyCount() => _currentWaveCurrentEnemyCount;

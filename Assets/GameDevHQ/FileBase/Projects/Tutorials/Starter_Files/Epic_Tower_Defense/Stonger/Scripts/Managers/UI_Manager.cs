@@ -25,12 +25,26 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI += ResetArmoryToDefaultState;
+        GameManager.onGainedWarFundsFromEnemyDeath += ShowCurrentTowerOptions;
     }
 
     private void OnDisable()
     {
         TowerLocation.onViewingCurrentTower -= ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI -= ResetArmoryToDefaultState;
+        GameManager.onGainedWarFundsFromEnemyDeath -= ShowCurrentTowerOptions;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     private void ShowCurrentTowerOptions(GameObject currentlyViewedTower)
@@ -40,12 +54,13 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             Debug.LogError("_currentTowerInterface is NULL.");
 
         HideAllTowerPlacementUI();
+        HideAllTowerOptionsUI();
 
         switch (currentlyViewedTower.tag)
         {
             case "Tower_Gatling_Gun":
 
-                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+                if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
                     _UI_UpgradeGatlingGun.SetActive(true);
                 else
                     _UI_UpgradeGatlingGun_Disabled.SetActive(true);
@@ -55,7 +70,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 break;
             case "Tower_Missile_Launcher":
 
-                if (GameManager.Instance.totalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+                if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
                     _UI_UpgradeMissileLauncher.SetActive(true);
                 else
                     _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
@@ -80,7 +95,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     private void ResetArmoryToDefaultState()
     {
         HideAllTowerOptionsUI();
-        UpdateTowerPlacementUI(GameManager.Instance.totalWarFunds);
+        UpdateTowerPlacementUI(GameManager.Instance.TotalWarFunds);
     }
 
     private void HideAllTowerOptionsUI()
@@ -90,18 +105,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         _UI_UpgradeGatlingGun_Disabled.SetActive(false);
         _UI_UpgradeMissileLauncher.SetActive(false);
         _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void UpdateWarFundsText(int warFunds)

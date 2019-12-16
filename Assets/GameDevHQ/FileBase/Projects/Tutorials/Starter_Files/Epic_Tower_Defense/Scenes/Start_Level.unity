@@ -8064,7 +8064,7 @@ MonoBehaviour:
   _initialWaveEnemyCount: 5
   _initialHealth: 3
   _health: 0
-  totalWarFunds: 5000
+  _totalWarFunds: 4000
   _wave: 0
   _currentWaveTotalEnemyCount: 0
   _currentWaveCurrentEnemyCount: 0

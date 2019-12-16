@@ -64,7 +64,7 @@ public class TowerLocation : MonoBehaviour
             ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
             bool hasSufficientWarFunds = false;
             if (currentTower != null)
-                hasSufficientWarFunds = GameManager.Instance.totalWarFunds >= currentTower.WarFundCost;
+                hasSufficientWarFunds = GameManager.Instance.TotalWarFunds >= currentTower.WarFundCost;
             onLocationMouseOver?.Invoke(hasSufficientWarFunds && !_isOccupied);
         }
     }
@@ -109,9 +109,9 @@ public class TowerLocation : MonoBehaviour
         }
 
         //Check 2: Is there enough WarFund available?
-        if (currentTower.WarFundCost > GameManager.Instance.totalWarFunds)
+        if (currentTower.WarFundCost > GameManager.Instance.TotalWarFunds)
         {
-            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.totalWarFunds + ".");
+            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.TotalWarFunds + ".");
             onInsufficientWarFunds?.Invoke();
             return;
         }
