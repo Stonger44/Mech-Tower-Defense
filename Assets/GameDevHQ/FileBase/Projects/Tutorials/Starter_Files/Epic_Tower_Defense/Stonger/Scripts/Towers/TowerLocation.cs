@@ -149,6 +149,8 @@ public class TowerLocation : MonoBehaviour
             _isOccupied = false;
             _currentPlacedTower = null;
             _currentPlacedTowerInterface = null;
+
+            ToggleVacantParticleEffect(TowerManager.Instance.IsPlacingTower);
         }
     }
 
