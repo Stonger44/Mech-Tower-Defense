@@ -42,9 +42,7 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         if (_rootObject.tag.Contains("Mech"))
-        {
             LookAtCamera();
-        }
     }
 
     private void LookAtCamera()

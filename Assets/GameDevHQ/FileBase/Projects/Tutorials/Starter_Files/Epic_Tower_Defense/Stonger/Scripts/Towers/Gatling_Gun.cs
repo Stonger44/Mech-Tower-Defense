@@ -31,6 +31,7 @@ public class Gatling_Gun : Explodable, ITower
     [SerializeField] private GameObject _towerRange;
 
     private bool _isAttacking;
+    [SerializeField] private float _fireDelay;
     private bool _isDying;
     [SerializeField] private int _damageToDeal;
 
@@ -150,7 +151,7 @@ public class Gatling_Gun : Explodable, ITower
     private IEnumerator AttackRoutine(GameObject currentTarget)
     {
         onShoot?.Invoke(this.gameObject, currentTarget, _damageToDeal);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_fireDelay);
 
         _isAttacking = false;
     }

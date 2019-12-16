@@ -7974,7 +7974,7 @@ MonoBehaviour:
   _muzzleFlashList:
   - {fileID: 8645488819807373653}
   - {fileID: 7526675225099155791}
-  _damageToDeal: 15
+  _damageToDeal: 10
 --- !u!136 &219323676154790158
 CapsuleCollider:
   m_ObjectHideFlags: 0
