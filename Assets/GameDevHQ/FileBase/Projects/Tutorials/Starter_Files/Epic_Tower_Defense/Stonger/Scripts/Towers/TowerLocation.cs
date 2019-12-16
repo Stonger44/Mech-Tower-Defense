@@ -146,6 +146,7 @@ public class TowerLocation : MonoBehaviour
         if (towerToBeDestroyed == _currentPlacedTower)
         {
             PoolManager.Instance.ResetTowerPosition(_currentPlacedTower);
+            TowerManager.Instance.StopViewingTower();
 
             //Reset Location
             _isOccupied = false;

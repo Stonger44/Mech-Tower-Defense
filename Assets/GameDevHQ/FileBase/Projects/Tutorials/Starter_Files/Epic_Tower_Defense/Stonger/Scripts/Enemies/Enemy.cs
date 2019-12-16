@@ -205,15 +205,19 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(_initialFireDelayTime);
         for (int i = 0; i < _roundCount; i++)
         {
+            //Shoot
             _shootSound.Play();
             MuzzleFlashes_SetActive(true);
             yield return new WaitForSeconds(_fireDelay);
-            MuzzleFlashes_SetActive(false);
-            yield return new WaitForSeconds(_fireDelay);
 
+            //Stop Shooting/Damage Target
+            MuzzleFlashes_SetActive(false);
             if (_isDying || _attackingObject.activeSelf == false)
                 break;
             onAttack?.Invoke(_attackingObject, _damageToDeal);
+
+            //FireDelay
+            yield return new WaitForSeconds(_fireDelay);
         }
         _shootSound.Stop();
 
