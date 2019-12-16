@@ -191,6 +191,7 @@ public class TowerLocation : MonoBehaviour
             if (_currentPlacedTowerInterface == null)
                 Debug.LogError("_currentPlacedTowerInterface is NULL.");
 
+            onSetNewTowerHealth?.Invoke(_currentPlacedTower);
             onPurchaseTowerUpgrade?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundCost);
         }
     }

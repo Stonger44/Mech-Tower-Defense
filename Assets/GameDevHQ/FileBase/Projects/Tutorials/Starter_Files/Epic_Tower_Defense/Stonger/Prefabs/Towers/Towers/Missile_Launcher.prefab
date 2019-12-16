@@ -1123,6 +1123,11 @@ PrefabInstance:
       propertyPath: _rootObject
       value: 
       objectReference: {fileID: 3243110382537594043}
+    - target: {fileID: 6278933881012679469, guid: d0350f7c0f396494aa2147d464f2e334,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.965
+      objectReference: {fileID: 0}
     - target: {fileID: 6278933881012679468, guid: d0350f7c0f396494aa2147d464f2e334,
         type: 3}
       propertyPath: m_FillOrigin
