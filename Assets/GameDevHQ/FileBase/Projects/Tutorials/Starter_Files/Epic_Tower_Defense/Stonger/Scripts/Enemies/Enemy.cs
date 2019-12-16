@@ -131,6 +131,7 @@ public class Enemy : Explodable
 
     public bool IsOnStandby() => _onStandby;
     public bool IsInJunkyard() => _inJunkyard;
+    public bool IsDying() => _isDying;
 
     private void MuzzleFlashes_SetActive(bool activeState)
     {

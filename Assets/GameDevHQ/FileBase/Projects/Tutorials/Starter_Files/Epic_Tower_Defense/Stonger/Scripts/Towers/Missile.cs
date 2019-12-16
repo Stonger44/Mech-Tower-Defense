@@ -228,7 +228,7 @@ public class Missile : Explodable
 
         if (_currentTarget != null && _currentTarget.activeSelf != false)
         {
-            if (_currentTargetScript != null && _currentTargetScript.IsOnStandby() == false && _currentTargetScript.IsInJunkyard() == false)
+            if (_currentTargetScript != null && _currentTargetScript.IsOnStandby() == false && _currentTargetScript.IsInJunkyard() == false && _currentTargetScript.IsDying() == false)
             {
                 currentEnemyIsActiveTarget = true;
             }
