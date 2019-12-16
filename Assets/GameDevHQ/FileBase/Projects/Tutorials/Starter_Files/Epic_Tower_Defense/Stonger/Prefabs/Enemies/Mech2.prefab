@@ -22663,7 +22663,7 @@ PrefabInstance:
     - target: {fileID: 7387174874295706130, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
       propertyPath: m_Name
-      value: HealthBar
+      value: HealthBarMech
       objectReference: {fileID: 0}
     - target: {fileID: 7387174874295706129, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
