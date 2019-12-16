@@ -36,12 +36,18 @@ public class HealthBar : MonoBehaviour
 
         if (_rootObject == null)
             Debug.LogError("_rootObject is NULL.");
-
-
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (_rootObject.tag.Contains("Mech"))
+        {
+            LookAtCamera();
+        }
+    }
+
+    private void LookAtCamera()
     {
         _lookDirection = _camera.transform.position - this.transform.position;
         this.gameObject.transform.rotation = Quaternion.LookRotation(_lookDirection);
