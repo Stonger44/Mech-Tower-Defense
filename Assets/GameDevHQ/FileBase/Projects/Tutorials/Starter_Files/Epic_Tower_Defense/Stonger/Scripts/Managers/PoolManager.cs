@@ -21,8 +21,9 @@ public class PoolManager : MonoSingleton<PoolManager>
 
         foreach (var explosion in _enemyPrefabs)
             GenerateExplosion(explosion);
-        GenerateExplosion(_missilePrefab);
-
+        for (int i = 0; i < 6; i++)
+            GenerateExplosion(_missilePrefab);
+        GenerateExplosion(_towerPrefabs[0]); //Any tower will do, the explosion is the same
         GenerateMissiles(6);
 
         GenerateAllTowers(_numberOfEachTowerToGenerate);
@@ -117,13 +118,9 @@ public class PoolManager : MonoSingleton<PoolManager>
                 break;
             default:
                 if (explodingObject.tag.Contains("Tower"))
-                {
                     _explosionIndex = (int)ExplosionType.Tower;
-                }
                 else
-                {
                     Debug.LogError("Type of explosion not found.");
-                }
                 
                 break;
         }
@@ -139,9 +136,12 @@ public class PoolManager : MonoSingleton<PoolManager>
     {
         foreach (var explosion in _explosionPool)
         {
-            if (explosion.activeSelf == false && explosion.name.Contains(explodingObject.tag))
+            if (explosion.activeSelf == false)
             {
-                return explosion;
+                if ((explosion.name.Contains("Tower") && explodingObject.tag.Contains("Tower")) || explosion.name.Contains(explodingObject.tag))
+                {
+                    return explosion;
+                }
             }
         }
 
@@ -149,9 +149,8 @@ public class PoolManager : MonoSingleton<PoolManager>
         return RequestExplosion(explodingObject);
     }
 
-    public void ResetExplosion(GameObject explosion)
+    public void ResetExplosionPosition(GameObject explosion)
     {
-        explosion.SetActive(false);
         explosion.transform.position = _explosionContainer.transform.position;
     }
 
@@ -194,7 +193,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         return RequestMissile();
     }
 
-    public void ResetMissile(GameObject missile)
+    public void ResetMissileTransform(GameObject missile)
     {
         missile.transform.rotation = _missilePrefab.transform.rotation;
         missile.transform.parent = missileContainer.transform;
@@ -233,7 +232,6 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             if (tower.activeSelf == false && tower.tag == requestedTower.tag)
             {
-                //tower.SetActive(true);
                 return tower;
             }
         }
@@ -243,10 +241,10 @@ public class PoolManager : MonoSingleton<PoolManager>
         return null;
     }
 
-    public void ResetTower(GameObject dismantledTower)
+    public void ResetTowerPosition(GameObject towerToReset)
     {
-        dismantledTower.transform.position = _towerContainer.transform.position;
-        dismantledTower.SetActive(false);
+        towerToReset.transform.position = _towerContainer.transform.position;
+        towerToReset.SetActive(false);
     }
 
     #endregion

@@ -200,7 +200,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
 
             //wait for explosion animation to finish
             yield return new WaitForSeconds(4.44f);
-            PoolManager.Instance.ResetExplosion(_explosion);
+            PoolManager.Instance.ResetExplosionPosition(_explosion);
 
             _isMissileDetonating = false;
             this.gameObject.SetActive(false);
@@ -221,7 +221,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher.Missle
                 _rigidbody.angularVelocity = Vector3.zero;
             }
             
-            PoolManager.Instance.ResetMissile(this.gameObject);
+            PoolManager.Instance.ResetMissileTransform(this.gameObject);
         }
 
         private bool IsCurrentEnemyAnActiveTarget()

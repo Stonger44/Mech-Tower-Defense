@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1341968320103105192}
   - component: {fileID: 1419778038186098972}
+  - component: {fileID: 5440316035359095884}
   m_Layer: 0
   m_Name: Explosion_Mech2
   m_TagString: Explosion_Mech2
@@ -131,6 +132,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5440316035359095884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338826762040423312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb4e7be24f7b64459a0ce62790cdf65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosion: {fileID: 0}
+  _explosionSound: {fileID: 0}
 --- !u!1 &1338831136224915966
 GameObject:
   m_ObjectHideFlags: 0

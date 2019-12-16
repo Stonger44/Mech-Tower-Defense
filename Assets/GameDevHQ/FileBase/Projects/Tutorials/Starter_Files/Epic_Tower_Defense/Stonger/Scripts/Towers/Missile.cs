@@ -158,7 +158,7 @@ public class Missile : Explodable
             if (!_isMissileDetonating)
             {
                 _isMissileDetonating = true;
-                DetonateMissileRoutine(other);
+                DetonateMissile(other);
             }
         }
 
@@ -190,7 +190,7 @@ public class Missile : Explodable
         }
     }
 
-    private void DetonateMissileRoutine(Collider other)
+    private void DetonateMissile(Collider other)
     {
         //Detonate:
         PlayExplosion();
@@ -219,7 +219,7 @@ public class Missile : Explodable
             _rigidbody.angularVelocity = Vector3.zero;
         }
 
-        PoolManager.Instance.ResetMissile(this.gameObject);
+        PoolManager.Instance.ResetMissileTransform(this.gameObject);
     }
 
     private bool IsCurrentEnemyAnActiveTarget()

@@ -30,9 +30,11 @@ public class Gatling_Gun : Explodable, ITower
     [SerializeField] private GameObject _towerRange;
 
     private bool _isAttacking;
+    private bool _isDying;
     [SerializeField] private int _damageToDeal;
 
     public static event Action<GameObject, GameObject, int> onShoot;
+    public static event Action<GameObject> onDeath;
 
     private void OnEnable()
     {
@@ -58,6 +60,7 @@ public class Gatling_Gun : Explodable, ITower
         Enemy.onAttack += TakeDamage;
 
         _isAttacking = false;
+        _isDying = false;
         _towerRange.SetActive(false);
     }
 
@@ -167,7 +170,11 @@ public class Gatling_Gun : Explodable, ITower
                 Health = 0;
                 _health = Health;
 
-                StartCoroutine(DieRoutine());
+                if (!_isDying)
+                {
+                    _isDying = true;
+                    StartCoroutine(DieRoutine());
+                }
             }
         }
     }
@@ -175,9 +182,12 @@ public class Gatling_Gun : Explodable, ITower
     public IEnumerator DieRoutine()
     {
         //TowerExplosion
-        //PlayExplosion();
-        yield return new WaitForSeconds(0.5f);
-        //Hide Tower
+        PlayExplosion();
 
+        //Reset Tower
+        yield return new WaitForSeconds(0.5f);
+
+        //Notify TowerLocation that spot is now vacant
+        onDeath?.Invoke(this.gameObject);
     }
 }

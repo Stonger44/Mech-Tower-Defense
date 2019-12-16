@@ -196,14 +196,14 @@ public class Enemy : Explodable
         yield return new WaitForSeconds(_initialFireDelayTime);
         for (int i = 0; i < _roundCount; i++)
         {
-            if (_isDying)
-                break;
-
             _shootSound.Play();
             MuzzleFlashes_SetActive(true);
             yield return new WaitForSeconds(_fireDelay);
             MuzzleFlashes_SetActive(false);
             yield return new WaitForSeconds(_fireDelay);
+
+            if (_isDying || _attackingObject.activeSelf == false)
+                break;
             onAttack?.Invoke(_attackingObject, _damageToDeal);
         }
         _shootSound.Stop();
@@ -265,8 +265,6 @@ public class Enemy : Explodable
         onDeath?.Invoke(this.gameObject);
         ResetEnemy();
 
-
-        //Turn off aiming
         yield return new WaitForSeconds(1.0f);
         _isAiming = false;
 

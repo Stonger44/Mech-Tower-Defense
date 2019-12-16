@@ -14443,6 +14443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 670273559016877015}
   - component: {fileID: 605448044558723171}
+  - component: {fileID: 1671112376470287095}
   m_Layer: 0
   m_Name: Explosion_Missile
   m_TagString: Explosion_Missile
@@ -14564,6 +14565,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1671112376470287095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668393716317149935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb4e7be24f7b64459a0ce62790cdf65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosion: {fileID: 0}
+  _explosionSound: {fileID: 0}
 --- !u!1 &668689784324661023
 GameObject:
   m_ObjectHideFlags: 0

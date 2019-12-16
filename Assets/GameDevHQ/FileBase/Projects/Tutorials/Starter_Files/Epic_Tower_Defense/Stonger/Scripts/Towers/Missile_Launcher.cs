@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Missile_Launcher : MonoBehaviour, ITower
+public class Missile_Launcher : Explodable, ITower
 {
     [SerializeField] private GameObject _missilePrefab; //holds the missle gameobject to clone
     [SerializeField] private GameObject[] _misslePositions; //array to hold the rocket positions on the turret
@@ -31,6 +32,10 @@ public class Missile_Launcher : MonoBehaviour, ITower
 
     [SerializeField] private int _warheadDamage;
     [SerializeField] private float _lockOnDelayTime;
+
+    private bool _isDying;
+
+    public static event Action<GameObject> onDeath;
 
     private void OnEnable()
     {
@@ -129,14 +134,24 @@ public class Missile_Launcher : MonoBehaviour, ITower
                 Health = 0;
                 _health = Health;
 
-                Die();
-                //Broadcast Death to TowerLocation
+                if (!_isDying)
+                {
+                    _isDying = true;
+                    StartCoroutine(DieRoutine());
+                }
             }
         }
     }
 
-    public void Die()
+    public IEnumerator DieRoutine()
     {
-        Debug.Log("Tower Destroyed: " + this.gameObject.name.ToUpper() + "");
+        //TowerExplosion
+        PlayExplosion();
+
+        //Reset Tower
+        yield return new WaitForSeconds(0.5f);
+
+        //Notify TowerLocation that spot is now vacant
+        onDeath?.Invoke(this.gameObject);
     }
 }

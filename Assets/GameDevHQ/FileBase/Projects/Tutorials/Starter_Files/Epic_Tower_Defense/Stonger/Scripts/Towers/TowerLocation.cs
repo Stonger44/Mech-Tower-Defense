@@ -30,6 +30,8 @@ public class TowerLocation : MonoBehaviour
         TowerManager.onBrowsingTowerLocations += ToggleVacantParticleEffect;
         TowerManager.onDismantleTower += DismantleTower;
         TowerManager.onUpgradeTower += UpgradeTower;
+        Gatling_Gun.onDeath += DestroyTower;
+        Missile_Launcher.onDeath += DestroyTower;
     }
 
     private void OnDisable()
@@ -37,6 +39,8 @@ public class TowerLocation : MonoBehaviour
         TowerManager.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
         TowerManager.onDismantleTower -= DismantleTower;
         TowerManager.onUpgradeTower -= UpgradeTower;
+        Gatling_Gun.onDeath -= DestroyTower;
+        Missile_Launcher.onDeath -= DestroyTower;
     }
 
     // Start is called before the first frame update
@@ -135,19 +139,32 @@ public class TowerLocation : MonoBehaviour
         onPurchaseTower?.Invoke(currentTower.WarFundCost);
     }
 
+    private void DestroyTower(GameObject towerToBeDestroyed)
+    {
+        if (towerToBeDestroyed == _currentPlacedTower)
+        {
+            PoolManager.Instance.ResetTowerPosition(_currentPlacedTower);
+
+            //Reset Location
+            _isOccupied = false;
+            _currentPlacedTower = null;
+            _currentPlacedTowerInterface = null;
+        }
+    }
+
     private void DismantleTower(GameObject towerToBeDismantled)
     {
         if (towerToBeDismantled == _currentPlacedTower)
         {
-            //Dismantle Tower:
-            PoolManager.Instance.ResetTower(_currentPlacedTower);
+            PoolManager.Instance.ResetTowerPosition(_currentPlacedTower);
 
-            //For Game manager to update WarFunds
+            //For GameManager to update WarFunds
             if (_currentPlacedTower.tag.Contains("Upgrade"))
                 onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundSellValue);
             else
                 onDismantledCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundSellValue);
 
+            //Reset Location
             _isOccupied = false;
             _currentPlacedTower = null;
             _currentPlacedTowerInterface = null;
@@ -159,7 +176,7 @@ public class TowerLocation : MonoBehaviour
         if (currentlyViewedTower == _currentPlacedTower)
         {
             //remove and reset current tower
-            PoolManager.Instance.ResetTower(_currentPlacedTower);
+            PoolManager.Instance.ResetTowerPosition(_currentPlacedTower);
 
             //place new upgraded tower
             _currentPlacedTower = PoolManager.Instance.RequestTower(towerToUpgradeTo);
