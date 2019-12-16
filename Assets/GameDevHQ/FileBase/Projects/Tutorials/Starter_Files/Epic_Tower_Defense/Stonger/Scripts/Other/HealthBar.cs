@@ -15,11 +15,15 @@ public class HealthBar : MonoBehaviour
     private void OnEnable()
     {
         Enemy.onHealthUpdate += UpdateHealth;
+        Gatling_Gun.onHealthUpdate += UpdateHealth;
+        Missile_Launcher.onHealthUpdate += UpdateHealth;
     }
 
     private void OnDisable()
     {
         Enemy.onHealthUpdate -= UpdateHealth;
+        Gatling_Gun.onHealthUpdate -= UpdateHealth;
+        Missile_Launcher.onHealthUpdate -= UpdateHealth;
     }
 
     // Start is called before the first frame update

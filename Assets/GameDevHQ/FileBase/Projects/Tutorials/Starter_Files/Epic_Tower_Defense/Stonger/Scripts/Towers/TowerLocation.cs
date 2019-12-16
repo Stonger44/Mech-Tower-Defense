@@ -17,6 +17,7 @@ public class TowerLocation : MonoBehaviour
     public static event Action onLocationMouseExit;
     
     public static event Action onPlaceTower;
+    public static event Action<GameObject> onSetNewTowerHealth;
     public static event Action<int> onPurchaseTower;
     public static event Action onInsufficientWarFunds;
 
@@ -136,6 +137,7 @@ public class TowerLocation : MonoBehaviour
             Debug.LogError("_currentPlacedTowerInterface is NULL.");
 
         onPlaceTower?.Invoke();
+        onSetNewTowerHealth?.Invoke(_currentPlacedTower);
         onPurchaseTower?.Invoke(currentTower.WarFundCost);
     }
 

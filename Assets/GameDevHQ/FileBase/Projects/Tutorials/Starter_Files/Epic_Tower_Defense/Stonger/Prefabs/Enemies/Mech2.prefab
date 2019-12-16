@@ -7950,9 +7950,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosion: {fileID: 0}
   _explosionSound: {fileID: 0}
-  _initialHealth: 100
-  _health: 100
-  _warFunds: 500
+  _initialHealth: 120
+  _health: 120
+  _warFunds: 1000
   _onStandby: 0
   _inJunkyard: 0
   _animator: {fileID: 2775925118558770885}
@@ -7974,7 +7974,7 @@ MonoBehaviour:
   _muzzleFlashList:
   - {fileID: 8645488819807373653}
   - {fileID: 7526675225099155791}
-  _damageToDeal: 10
+  _damageToDeal: 15
 --- !u!136 &219323676154790158
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -22728,7 +22728,7 @@ PrefabInstance:
     - target: {fileID: 7387174874295706129, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 7387174874295706129, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}

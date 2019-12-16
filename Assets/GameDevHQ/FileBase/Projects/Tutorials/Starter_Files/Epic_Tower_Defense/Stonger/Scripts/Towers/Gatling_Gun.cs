@@ -16,6 +16,7 @@ public class Gatling_Gun : Explodable, ITower
 
     /*----------Extended Code----------*/
     [SerializeField] private int _health; //Only here so I can see it in the inspector
+    private float _healthPercent;
     public int Health { get; set; }
     public int DamageTaken { get; set; }
 
@@ -35,12 +36,14 @@ public class Gatling_Gun : Explodable, ITower
 
     public static event Action<GameObject, GameObject, int> onShoot;
     public static event Action<GameObject> onDeath;
+    public static event Action<GameObject, float> onHealthUpdate;
 
     private void OnEnable()
     {
         Aim.onTargetInRange += Shoot;
         Aim.onNoTargetInRange += StopShooting;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
+        TowerLocation.onSetNewTowerHealth += UpdateHealthBar;
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
 
@@ -51,11 +54,21 @@ public class Gatling_Gun : Explodable, ITower
         _health = Health;
     }
 
+    private void UpdateHealthBar(GameObject towerToUpdate)
+    {
+        if (this.gameObject == towerToUpdate)
+        {
+            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent); 
+        }
+    }
+
     private void OnDisable()
     {
         Aim.onTargetInRange -= Shoot;
         Aim.onNoTargetInRange -= StopShooting;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
+        TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
 
@@ -176,6 +189,9 @@ public class Gatling_Gun : Explodable, ITower
                     StartCoroutine(DieRoutine());
                 }
             }
+
+            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
         }
     }
 
