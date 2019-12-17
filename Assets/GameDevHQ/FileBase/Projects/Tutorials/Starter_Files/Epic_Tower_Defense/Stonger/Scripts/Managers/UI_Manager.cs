@@ -11,6 +11,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Text _warFunds;
     [SerializeField] private Text _dismantledWarFundsRecieved;
 
+    [SerializeField] private GameObject _UI_Armory;
+
     [SerializeField] private GameObject _UI_GatlingGun;
     [SerializeField] private GameObject _UI_GatlingGun_Disabled;
     [SerializeField] private GameObject _UI_MissileLauncher;

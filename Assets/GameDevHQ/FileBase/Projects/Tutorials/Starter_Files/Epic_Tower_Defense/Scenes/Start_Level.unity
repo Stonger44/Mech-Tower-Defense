@@ -1771,7 +1771,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: $1000
+  m_Text: $1500
 --- !u!222 &185090445
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4863,6 +4863,7 @@ MonoBehaviour:
   _enemyCount: {fileID: 640746102}
   _warFunds: {fileID: 2109062355}
   _dismantledWarFundsRecieved: {fileID: 1700177798}
+  _UI_Armory: {fileID: 0}
   _UI_GatlingGun: {fileID: 150529098}
   _UI_GatlingGun_Disabled: {fileID: 410423489}
   _UI_MissileLauncher: {fileID: 1416097948}
@@ -6530,7 +6531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -20.407593, y: 251}
+  m_AnchoredPosition: {x: 3.2, y: 136.22}
   m_SizeDelta: {x: 1325, y: 527}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909662581
@@ -6759,7 +6760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2000
+  m_Text: 3000
 --- !u!222 &933352854
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7695,7 +7696,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: $1000
+  m_Text: $1500
 --- !u!222 &1054502605
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8162,7 +8163,7 @@ MonoBehaviour:
   _initialHealth: 5
   _health: 0
   _healthBarGameObject: {fileID: 704600513}
-  _totalWarFunds: 4000
+  _totalWarFunds: 10000
   _wave: 0
   _initialWave: 1
   _finalWave: 10
@@ -9777,7 +9778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1353408164
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10849,7 +10850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1432688603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12759,7 +12760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2000
+  m_Text: 3000
 --- !u!222 &1574409127
 CanvasRenderer:
   m_ObjectHideFlags: 0
