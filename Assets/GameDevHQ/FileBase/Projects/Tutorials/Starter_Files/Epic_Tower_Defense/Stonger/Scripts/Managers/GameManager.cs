@@ -9,6 +9,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private int _initialWaveEnemyCount;
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
+    [SerializeField] private GameObject _healthBarGameObject;
+    private float _healthPercent;
 
     [SerializeField] private int _totalWarFunds;
     public int TotalWarFunds { get; private set; } //This is only here so I can see it in the inspector
@@ -26,6 +28,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
+    public static event Action<GameObject, float> onHealthUpdate;
 
     public override void Init()
     {
@@ -59,6 +62,8 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         _health = _initialHealth;
+        _healthPercent = (float)_health / (float)_initialHealth;
+        onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
 
@@ -77,6 +82,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (_health <= 0)
             _health = _initialHealth;
+        _healthPercent = (float)_health / (float)_initialHealth;
+        onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
 
         waveRunning = true;
         waveSuccess = false;
@@ -103,8 +110,13 @@ public class GameManager : MonoSingleton<GameManager>
         if (_health <= 0)
         {
             _health = 0;
+            _healthPercent = (float)_health / (float)_initialHealth;
+            onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
             GameOver();
+            return;
         }
+        _healthPercent = (float)_health / (float)_initialHealth;
+        onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
     }
 
     private void GameOver()

@@ -17,6 +17,7 @@ public class HealthBar : MonoBehaviour
         Enemy.onHealthUpdate += UpdateHealth;
         Gatling_Gun.onHealthUpdate += UpdateHealth;
         Missile_Launcher.onHealthUpdate += UpdateHealth;
+        GameManager.onHealthUpdate += UpdateHealth;
     }
 
     private void OnDisable()
@@ -24,6 +25,7 @@ public class HealthBar : MonoBehaviour
         Enemy.onHealthUpdate -= UpdateHealth;
         Gatling_Gun.onHealthUpdate -= UpdateHealth;
         Missile_Launcher.onHealthUpdate -= UpdateHealth;
+        GameManager.onHealthUpdate -= UpdateHealth;
     }
 
     // Start is called before the first frame update
