@@ -124,6 +124,7 @@ public class Enemy : Explodable
         MuzzleFlashes_SetActive(false);
 
         this.transform.position = _standbyPoint;
+        _isDying = false;
         _inJunkyard = false;
         _health = _initialHealth;
         _onStandby = true;
