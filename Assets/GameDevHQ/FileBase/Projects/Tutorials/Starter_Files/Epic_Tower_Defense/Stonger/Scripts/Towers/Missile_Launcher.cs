@@ -22,12 +22,12 @@ public class Missile_Launcher : Explodable, ITower
     public int DamageTaken { get; set; }
 
     public int InitialHealth { get; set; } = 500;
-    public int WarFundCost { get; set; } = 1000;
-    public int WarFundSellValue { get; set; } = 500;
+    public int WarFundCost { get; set; } = 1500;
+    public int WarFundSellValue { get; set; } = 750;
 
     public int UpgradeInitialHealth { get; set; } = 1000;
-    public int UpgradeWarFundCost { get; set; } = 2000;
-    public int UpgradeWarFundSellValue { get; set; } = 1000;
+    public int UpgradeWarFundCost { get; set; } = 3000;
+    public int UpgradeWarFundSellValue { get; set; } = 1500;
 
     [SerializeField] private GameObject _towerRange;
 
