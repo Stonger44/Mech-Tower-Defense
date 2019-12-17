@@ -209,13 +209,14 @@ public class Enemy : Explodable
             //Shoot
             _shootSound.Play();
             MuzzleFlashes_SetActive(true);
-            yield return new WaitForSeconds(_fireDelay);
+            onAttack?.Invoke(_attackingObject, _damageToDeal);
 
-            //Stop Shooting/Damage Target
+            //Turn off muzzle flash
+            yield return new WaitForSeconds(_fireDelay);
             MuzzleFlashes_SetActive(false);
+
             if (_isDying || _attackingObject.activeSelf == false)
                 break;
-            onAttack?.Invoke(_attackingObject, _damageToDeal);
 
             //FireDelay
             yield return new WaitForSeconds(_fireDelay);

@@ -5465,7 +5465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7, b: 0, a: 1}
+  m_Color: {r: 0.75, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5503,6 +5503,9 @@ MonoBehaviour:
   _camera: {fileID: 534669902}
   _rootObject: {fileID: 704600513}
   _healthBar: {fileID: 704600515}
+  _healthGreen: {r: 0, g: 0.7, b: 0, a: 1}
+  _healthYellow: {r: 0.7880697, g: 0.8207547, b: 0, a: 1}
+  _healthRed: {r: 0.75, g: 0, b: 0, a: 1}
 --- !u!1001 &706887894
 PrefabInstance:
   m_ObjectHideFlags: 0

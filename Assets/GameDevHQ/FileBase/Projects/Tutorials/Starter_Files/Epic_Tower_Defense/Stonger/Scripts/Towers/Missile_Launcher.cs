@@ -52,15 +52,8 @@ public class Missile_Launcher : Explodable, ITower
         else
             Health = InitialHealth;
         _health = Health;
-    }
 
-    private void UpdateHealthBar(GameObject towerToUpdate)
-    {
-        if (this.gameObject == towerToUpdate)
-        {
-            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
-            onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
-        }
+        _isDying = false;
     }
 
     private void OnDisable()
@@ -119,7 +112,6 @@ public class Missile_Launcher : Explodable, ITower
         }
     }
 
-    /*----------ITower Functions----------*/
     public void ToggleTowerRange(GameObject currentlyViewedTower)
     {
         if (currentlyViewedTower == this.gameObject)
@@ -169,5 +161,14 @@ public class Missile_Launcher : Explodable, ITower
 
         //Notify TowerLocation that spot is now vacant
         onDeath?.Invoke(this.gameObject);
+    }
+
+    private void UpdateHealthBar(GameObject towerToUpdate)
+    {
+        if (this.gameObject == towerToUpdate)
+        {
+            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        }
     }
 }

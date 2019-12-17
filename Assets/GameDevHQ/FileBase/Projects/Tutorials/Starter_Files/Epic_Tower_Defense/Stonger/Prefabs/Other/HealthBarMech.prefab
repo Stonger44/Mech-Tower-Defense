@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 7387174874295706128}
   - component: {fileID: 7387174874295706141}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMech
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,6 +256,9 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _rootObject: {fileID: 0}
   _healthBar: {fileID: 7387174873267435788}
+  _healthGreen: {r: 0.75, g: 0, b: 0, a: 1}
+  _healthYellow: {r: 0.75, g: 0, b: 0, a: 1}
+  _healthRed: {r: 0.75, g: 0, b: 0, a: 1}
 --- !u!1 &7387174875266118560
 GameObject:
   m_ObjectHideFlags: 0

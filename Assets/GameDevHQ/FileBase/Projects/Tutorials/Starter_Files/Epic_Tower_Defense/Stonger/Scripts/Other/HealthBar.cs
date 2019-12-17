@@ -12,6 +12,10 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private GameObject _rootObject;
     [SerializeField] private Image _healthBar;
 
+    [SerializeField] private Color _healthGreen;
+    [SerializeField] private Color _healthYellow;
+    [SerializeField] private Color _healthRed;
+
     private void OnEnable()
     {
         Enemy.onHealthUpdate += UpdateHealth;
@@ -58,6 +62,17 @@ public class HealthBar : MonoBehaviour
         if (objectToUpdate == _rootObject)
         {
             _healthBar.fillAmount = healthPercent;
+
+            //Not for Mechs (Mech healthbars are already red)
+            if (!_rootObject.tag.Contains("Mech"))
+            {
+                if (healthPercent <= 0.25f)
+                    _healthBar.color = _healthRed;
+                else if (healthPercent <= 0.55f)
+                    _healthBar.color = _healthYellow;
+                else
+                    _healthBar.color = _healthGreen;
+            }
         }
     }
 }

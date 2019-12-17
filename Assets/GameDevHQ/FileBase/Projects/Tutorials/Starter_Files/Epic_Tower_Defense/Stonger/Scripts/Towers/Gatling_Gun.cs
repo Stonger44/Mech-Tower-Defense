@@ -53,15 +53,7 @@ public class Gatling_Gun : Explodable, ITower
         else
             Health = InitialHealth;
         _health = Health;
-    }
-
-    private void UpdateHealthBar(GameObject towerToUpdate)
-    {
-        if (this.gameObject == towerToUpdate)
-        {
-            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
-            onHealthUpdate?.Invoke(this.gameObject, _healthPercent); 
-        }
+        _isDying = false;
     }
 
     private void OnDisable()
@@ -74,7 +66,6 @@ public class Gatling_Gun : Explodable, ITower
         Enemy.onAttack += TakeDamage;
 
         _isAttacking = false;
-        _isDying = false;
         _towerRange.SetActive(false);
     }
 
@@ -206,5 +197,14 @@ public class Gatling_Gun : Explodable, ITower
 
         //Notify TowerLocation that spot is now vacant
         onDeath?.Invoke(this.gameObject);
+    }
+
+    private void UpdateHealthBar(GameObject towerToUpdate)
+    {
+        if (this.gameObject == towerToUpdate)
+        {
+            _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        }
     }
 }
