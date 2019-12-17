@@ -283,7 +283,7 @@ MonoBehaviour:
   _rootObject: {fileID: 0}
   _healthBar: {fileID: 6278933881012679468}
   _healthGreen: {r: 0, g: 0.7, b: 0, a: 1}
-  _healthYellow: {r: 0.7880697, g: 0.8207547, b: 0, a: 1}
+  _healthYellow: {r: 1, g: 0.7320755, b: 0.3301887, a: 1}
   _healthRed: {r: 0.75, g: 0, b: 0, a: 1}
 --- !u!1 &6278933881012679470
 GameObject:

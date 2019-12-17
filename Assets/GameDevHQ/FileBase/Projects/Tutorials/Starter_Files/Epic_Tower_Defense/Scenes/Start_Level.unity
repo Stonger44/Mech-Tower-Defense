@@ -4863,7 +4863,36 @@ MonoBehaviour:
   _enemyCount: {fileID: 640746102}
   _warFunds: {fileID: 2109062355}
   _dismantledWarFundsRecieved: {fileID: 1700177798}
-  _UI_Armory: {fileID: 0}
+  _armoryPanel: {fileID: 1706649507}
+  _armoryPanelArray:
+  - {fileID: 21300000, guid: 6de341aed12cc40b3b3b329ba0c531b7, type: 3}
+  - {fileID: 21300000, guid: 7ffdb52a248e69c4a8cfadfd84d4858b, type: 3}
+  - {fileID: 21300000, guid: f2033567a503dfa4aa4aa766b2e6626b, type: 3}
+  _warFundsPanel: {fileID: 350660924}
+  _warFundsPanelArray:
+  - {fileID: 21300000, guid: 81aee21a41a55495598005b084e7a907, type: 3}
+  - {fileID: 21300000, guid: 857cd9a37f6beb04da72c5ea0dc4d993, type: 3}
+  - {fileID: 21300000, guid: c9909c35d3d24a7468474b4e84b8b24c, type: 3}
+  _playBackSpeedPanel: {fileID: 1353408165}
+  _playBackSpeedPanelArray:
+  - {fileID: 21300000, guid: 6f9136ed224754722999a38e9a57af8b, type: 3}
+  - {fileID: 21300000, guid: 85e9ca84a3056084ca871e3c2d9e3735, type: 3}
+  - {fileID: 21300000, guid: 020198ca925a41f49b715e398903839e, type: 3}
+  _restartPanel: {fileID: 1432688604}
+  __restartPanelArray:
+  - {fileID: 21300000, guid: 3fbb60a87ef3842e99565cbb65f66dc0, type: 3}
+  - {fileID: 21300000, guid: 58b4e088250057a42bcf2b2dafc1dca9, type: 3}
+  - {fileID: 21300000, guid: ad1cf9fcad03e23459a91ebf5703632c, type: 3}
+  _waveEnemiesPanel: {fileID: 2105959597}
+  _waveEnemiesPanelArray:
+  - {fileID: 21300000, guid: 7785e66c06b0a4505aa4fa95a8433fce, type: 3}
+  - {fileID: 21300000, guid: 26e344c14d282334fa8a55be4e979f1b, type: 3}
+  - {fileID: 21300000, guid: b254024fb8af00546afdbcd84ced2ce8, type: 3}
+  _levelStatusPanel: {fileID: 909662581}
+  _levelStatusPanelArray:
+  - {fileID: 21300000, guid: 3c6443fd96c4c4779bdbd1c789d25d89, type: 3}
+  - {fileID: 21300000, guid: d54391764662174468fe094d2d4d7c4a, type: 3}
+  - {fileID: 21300000, guid: 6a3646473c0f74c49aef97d8431e5260, type: 3}
   _UI_GatlingGun: {fileID: 150529098}
   _UI_GatlingGun_Disabled: {fileID: 410423489}
   _UI_MissileLauncher: {fileID: 1416097948}
@@ -5507,7 +5536,7 @@ MonoBehaviour:
   _rootObject: {fileID: 704600513}
   _healthBar: {fileID: 704600515}
   _healthGreen: {r: 0, g: 0.7, b: 0, a: 1}
-  _healthYellow: {r: 0.7880697, g: 0.8207547, b: 0, a: 1}
+  _healthYellow: {r: 1, g: 0.7320755, b: 0.3301887, a: 1}
   _healthRed: {r: 0.75, g: 0, b: 0, a: 1}
 --- !u!1001 &706887894
 PrefabInstance:
@@ -6513,7 +6542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &909662580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8163,6 +8192,8 @@ MonoBehaviour:
   _initialHealth: 5
   _health: 0
   _healthBarGameObject: {fileID: 704600513}
+  _healthCautionThreshold: 0.55
+  _healthWarningThreshold: 0.25
   _totalWarFunds: 10000
   _wave: 0
   _initialWave: 1
@@ -10084,7 +10115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -176, y: -414}
+  m_AnchoredPosition: {x: -157.1, y: -418}
   m_SizeDelta: {x: 150.02002, y: 55.299988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1367709903
@@ -10118,7 +10149,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v0.1
+  m_Text: "\xAF\\_(\u30C4)_/\xAF"
 --- !u!222 &1367709904
 CanvasRenderer:
   m_ObjectHideFlags: 0

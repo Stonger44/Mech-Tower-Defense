@@ -10,6 +10,11 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private int _initialHealth;
     [SerializeField] private int _health;
     [SerializeField] private GameObject _healthBarGameObject;
+
+    public float HealthCautionThreshold { get; private set; }
+    public float HealthWarningThreshold { get; private set; }
+    [SerializeField] private float _healthCautionThreshold;
+    [SerializeField] private float _healthWarningThreshold;
     private float _healthPercent;
 
     public int TotalWarFunds { get; private set; } //This is only here so I can see it in the inspector
@@ -30,11 +35,15 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
     public static event Action<GameObject, float> onHealthUpdate;
+    public static event Action<int, int> onHealthUpdateUI;
     public static event Action<int, int> onWaveUpdate;
     public static event Action<int, int> onEnemyCountUpdate;
 
     public override void Init()
     {
+        HealthCautionThreshold = _healthCautionThreshold;
+        HealthWarningThreshold = _healthWarningThreshold;
+
         Wave = _initialWave;
         _wave = Wave;
         onWaveUpdate?.Invoke(_wave, _finalWave);
@@ -68,6 +77,7 @@ public class GameManager : MonoSingleton<GameManager>
         _health = _initialHealth;
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+        onHealthUpdateUI?.Invoke(_health, _initialHealth);
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
 
@@ -88,6 +98,7 @@ public class GameManager : MonoSingleton<GameManager>
             _health = _initialHealth;
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+        onHealthUpdateUI?.Invoke(_health, _initialHealth);
 
         WaveRunning = true;
         WaveSuccess = false;
@@ -116,11 +127,13 @@ public class GameManager : MonoSingleton<GameManager>
             _health = 0;
             _healthPercent = (float)_health / (float)_initialHealth;
             onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+            onHealthUpdateUI?.Invoke(_health, _initialHealth);
             GameOver();
             return;
         }
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+        onHealthUpdateUI?.Invoke(_health, _initialHealth);
     }
 
     private void GameOver()

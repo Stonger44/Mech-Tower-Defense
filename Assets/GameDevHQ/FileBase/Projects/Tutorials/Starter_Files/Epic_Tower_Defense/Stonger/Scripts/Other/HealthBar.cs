@@ -66,9 +66,9 @@ public class HealthBar : MonoBehaviour
             //Not for Mechs (Mech healthbars are already red)
             if (!_rootObject.tag.Contains("Mech"))
             {
-                if (healthPercent <= 0.25f)
+                if (healthPercent <= GameManager.Instance.HealthWarningThreshold)
                     _healthBar.color = _healthRed;
-                else if (healthPercent <= 0.55f)
+                else if (healthPercent <= GameManager.Instance.HealthCautionThreshold)
                     _healthBar.color = _healthYellow;
                 else
                     _healthBar.color = _healthGreen;
