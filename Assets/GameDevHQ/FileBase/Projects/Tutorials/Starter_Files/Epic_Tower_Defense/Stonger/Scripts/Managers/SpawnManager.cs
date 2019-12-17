@@ -49,7 +49,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             }
 
 
-            _waveRunning = GameManager.Instance.waveRunning;
+            _waveRunning = GameManager.Instance.WaveRunning;
         }
 
         _isSpawningEnemies = false;
@@ -59,7 +59,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     private void StartSpawning()
     {
-        _waveRunning = GameManager.Instance.waveRunning;
+        _waveRunning = GameManager.Instance.WaveRunning;
 
         if (_isSpawningEnemies == false)
         {

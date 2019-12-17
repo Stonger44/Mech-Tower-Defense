@@ -12,28 +12,32 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject _healthBarGameObject;
     private float _healthPercent;
 
-    [SerializeField] private int _totalWarFunds;
     public int TotalWarFunds { get; private set; } //This is only here so I can see it in the inspector
+    [SerializeField] private int _totalWarFunds;
 
-    private int _initialWave = 1;
+    public int Wave { get; private set; }
     [SerializeField] private int _wave; //This is only here so I can see it in the inspector
-    public int wave { get; private set; }
-    
+    [SerializeField] private int _initialWave = 1;
+    [SerializeField] private int _finalWave;
+
+    public int CurrentWaveTotalEnemyCount { get; private set; }
     [SerializeField] private int _currentWaveTotalEnemyCount;
-    public int currentWaveTotalEnemyCount { get; private set; }
     [SerializeField] private int _currentWaveCurrentEnemyCount;
 
-    public bool waveRunning { get; private set; }
-    public bool waveSuccess { get; private set; }
+    public bool WaveRunning { get; private set; }
+    public bool WaveSuccess { get; private set; }
 
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
     public static event Action<GameObject, float> onHealthUpdate;
+    public static event Action<int, int> onWaveUpdate;
+    public static event Action<int, int> onEnemyCountUpdate;
 
     public override void Init()
     {
-        wave = _initialWave;
-        _wave = wave;
+        Wave = _initialWave;
+        _wave = Wave;
+        onWaveUpdate?.Invoke(_wave, _finalWave);
         ResetWaveEnemyCount();
     }
 
@@ -67,12 +71,12 @@ public class GameManager : MonoSingleton<GameManager>
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
 
-        Debug.Log("Press [Space] to start Wave " + wave + ".");
+        Debug.Log("Press [Space] to start Wave " + Wave + ".");
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !waveRunning)
+        if (Input.GetKeyDown(KeyCode.Space) && !WaveRunning)
             StartWave();
     }
 
@@ -85,22 +89,22 @@ public class GameManager : MonoSingleton<GameManager>
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
 
-        waveRunning = true;
-        waveSuccess = false;
+        WaveRunning = true;
+        WaveSuccess = false;
 
-        _wave = wave;
-
+        _wave = Wave;
+        onWaveUpdate?.Invoke(_wave, _finalWave);
         onStartWave?.Invoke();
-        Debug.Log("Wave " + wave + " started.");
+        Debug.Log("Wave " + Wave + " started.");
     }
 
     private void WaveComplete()
     {
-        waveRunning = false;
-        waveSuccess = true;
-        wave++;
+        WaveRunning = false;
+        WaveSuccess = true;
+        Wave++;
 
-        Debug.Log("Wave " + (wave - 1) + " complete! Press [Space] to start Wave " + wave + ".");
+        Debug.Log("Wave " + (Wave - 1) + " complete! Press [Space] to start Wave " + Wave + ".");
     }
 
     private void TakeDamage()
@@ -121,9 +125,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void GameOver()
     {
-        waveRunning = false;
-        waveSuccess = false;
-        Debug.Log("Wave " + wave + " failed. Press [Space] to try again.");
+        WaveRunning = false;
+        WaveSuccess = false;
+        Debug.Log("Wave " + Wave + " failed. Press [Space] to try again.");
     }
 
     private void OnEnemyExplosion(GameObject enemy)
@@ -141,6 +145,7 @@ public class GameManager : MonoSingleton<GameManager>
             onGainedWarFundsFromEnemyDeath?.Invoke(TowerManager.Instance.CurrentlyViewedTower);
 
         _currentWaveCurrentEnemyCount--;
+        onEnemyCountUpdate.Invoke(_currentWaveCurrentEnemyCount, _currentWaveTotalEnemyCount);
     }
 
     private void OnEnemyResetComplete(GameObject enemy)
@@ -151,9 +156,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void ResetWaveEnemyCount()
     {
-        currentWaveTotalEnemyCount = _initialWaveEnemyCount * wave;
-        _currentWaveTotalEnemyCount = currentWaveTotalEnemyCount;
-        _currentWaveCurrentEnemyCount = currentWaveTotalEnemyCount;
+        CurrentWaveTotalEnemyCount = _initialWaveEnemyCount * Wave;
+        _currentWaveTotalEnemyCount = CurrentWaveTotalEnemyCount;
+        _currentWaveCurrentEnemyCount = CurrentWaveTotalEnemyCount;
+        onEnemyCountUpdate.Invoke(_currentWaveCurrentEnemyCount, _currentWaveTotalEnemyCount);
     }
 
     private void SpendWarFunds(int warFundsSpent)

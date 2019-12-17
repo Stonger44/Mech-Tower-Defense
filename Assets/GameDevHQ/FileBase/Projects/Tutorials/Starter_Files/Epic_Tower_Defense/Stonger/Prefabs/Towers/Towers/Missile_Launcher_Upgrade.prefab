@@ -1086,7 +1086,7 @@ MonoBehaviour:
   _launchSpeed: 10
   _power: 20
   _fuseDelay: 0
-  _reloadTime: 0.7
+  _reloadTime: 0.35
   _destroyTime: 10
   _health: 0
   _towerRange: {fileID: 5881369035322958603}

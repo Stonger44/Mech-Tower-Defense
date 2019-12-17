@@ -17,7 +17,7 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void Start()
     {
-        GenerateEnemies(GameManager.Instance.currentWaveTotalEnemyCount);
+        GenerateEnemies(GameManager.Instance.CurrentWaveTotalEnemyCount);
 
         foreach (var explosion in _enemyPrefabs)
             GenerateExplosion(explosion);
@@ -71,7 +71,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         }
 
         //If maximum enemies for the wave has been reached, do not generate more enemies
-        if (_enemyPool.Count >= GameManager.Instance.currentWaveTotalEnemyCount)
+        if (_enemyPool.Count >= GameManager.Instance.CurrentWaveTotalEnemyCount)
             return null;
 
         GenerateEnemies(1);

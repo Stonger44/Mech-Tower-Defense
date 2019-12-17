@@ -4859,6 +4859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7236f4bf678bf5c48a5d2db7e133ff93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _waveCount: {fileID: 783571177}
+  _enemyCount: {fileID: 640746102}
   _warFunds: {fileID: 2109062355}
   _dismantledWarFundsRecieved: {fileID: 1700177798}
   _UI_GatlingGun: {fileID: 150529098}
@@ -5162,7 +5164,7 @@ GameObject:
   - component: {fileID: 640746103}
   - component: {fileID: 640746102}
   m_Layer: 5
-  m_Name: Enemies_Count
+  m_Name: Enemy_Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5465,7 +5467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.75, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.7, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8162,6 +8164,8 @@ MonoBehaviour:
   _healthBarGameObject: {fileID: 704600513}
   _totalWarFunds: 4000
   _wave: 0
+  _initialWave: 1
+  _finalWave: 10
   _currentWaveTotalEnemyCount: 0
   _currentWaveCurrentEnemyCount: 0
 --- !u!4 &1121363925
@@ -15182,7 +15186,7 @@ GameObject:
   - component: {fileID: 1841416536}
   - component: {fileID: 1841416535}
   m_Layer: 5
-  m_Name: Enemies
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

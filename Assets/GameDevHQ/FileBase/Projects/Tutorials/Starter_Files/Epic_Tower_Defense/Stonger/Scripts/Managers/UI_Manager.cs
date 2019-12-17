@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoSingleton<UI_Manager>
 {
+    [SerializeField] private Text _waveCount;
+    [SerializeField] private Text _enemyCount;
+
     [SerializeField] private Text _warFunds;
     [SerializeField] private Text _dismantledWarFundsRecieved;
 
@@ -26,6 +29,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI += ResetArmoryToDefaultState;
         GameManager.onGainedWarFundsFromEnemyDeath += ShowCurrentTowerOptions;
+        GameManager.onWaveUpdate += UpdateWaveCount;
+        GameManager.onEnemyCountUpdate += UpdateEnemyCount;
     }
 
     private void OnDisable()
@@ -33,6 +38,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         TowerLocation.onViewingCurrentTower -= ShowCurrentTowerOptions;
         TowerManager.onStopViewingTowerUI -= ResetArmoryToDefaultState;
         GameManager.onGainedWarFundsFromEnemyDeath -= ShowCurrentTowerOptions;
+        GameManager.onWaveUpdate -= UpdateWaveCount;
+        GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
     }
 
     // Start is called before the first frame update
@@ -47,6 +54,17 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     }
 
+    private void UpdateWaveCount(int currentWaveCount, int finalWaveCount)
+    {
+        _waveCount.text = currentWaveCount + " / " + finalWaveCount;
+    }
+
+    private void UpdateEnemyCount(int currentEnemyCount, int totalEnemyCount)
+    {
+        _enemyCount.text = currentEnemyCount + " / " + totalEnemyCount;
+    }
+
+    /*----------Tower UI----------*/
     private void ShowCurrentTowerOptions(GameObject currentlyViewedTower)
     {
         _currentTowerInterface = currentlyViewedTower.GetComponent<ITower>();
@@ -160,4 +178,5 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         _UI_GatlingGun_Disabled.SetActive(false);
         _UI_MissileLauncher_Disabled.SetActive(false);
     }
+    /*----------Tower UI----------*/
 }
