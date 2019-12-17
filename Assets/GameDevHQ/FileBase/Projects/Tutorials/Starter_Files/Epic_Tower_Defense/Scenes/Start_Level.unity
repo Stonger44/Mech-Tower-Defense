@@ -845,7 +845,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999475, y: 0.99999475, z: 0.99999475}
   m_Children: []
   m_Father: {fileID: 350660923}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2003,12 +2003,12 @@ GameObject:
   - component: {fileID: 254106826}
   - component: {fileID: 254106825}
   m_Layer: 5
-  m_Name: Status_Value
+  m_Name: Health_Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &254106824
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2025,7 +2025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 28, y: -132.00002}
+  m_AnchoredPosition: {x: 46.8, y: -134}
   m_SizeDelta: {x: 150.02, y: 55.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &254106825
@@ -2059,7 +2059,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\xAF\\_(\u30C4)_/\xAF \n"
+  m_Text: '
+
+'
 --- !u!222 &254106826
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2758,6 +2760,7 @@ RectTransform:
   m_Children:
   - {fileID: 1155913284}
   - {fileID: 254106824}
+  - {fileID: 704600514}
   - {fileID: 91309197}
   - {fileID: 2109062354}
   - {fileID: 789348577}
@@ -5159,7 +5162,7 @@ GameObject:
   - component: {fileID: 640746103}
   - component: {fileID: 640746102}
   m_Layer: 5
-  m_Name: Wave_Count
+  m_Name: Enemies_Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5215,7 +5218,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2 / 10
+  m_Text: 10 / 10
 --- !u!222 &640746103
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5410,6 +5413,79 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703957946}
+  m_CullTransparentMesh: 0
+--- !u!1 &704600513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 704600514}
+  - component: {fileID: 704600516}
+  - component: {fileID: 704600515}
+  m_Layer: 5
+  m_Name: Health_Bar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &704600514
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704600513}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 350660923}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 46.8, y: -118.8}
+  m_SizeDelta: {x: 150.02, y: 22.4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &704600515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704600513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.7, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 55fa8388456bb0f40ad03c641eba1cb6, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &704600516
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704600513}
   m_CullTransparentMesh: 0
 --- !u!1001 &706887894
 PrefabInstance:
@@ -5784,7 +5860,7 @@ GameObject:
   - component: {fileID: 783571178}
   - component: {fileID: 783571177}
   m_Layer: 5
-  m_Name: Lives_Count
+  m_Name: Wave_Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5840,7 +5916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20
+  m_Text: 1 / 10
 --- !u!222 &783571178
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5879,7 +5955,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999475, y: 0.99999475, z: 0.99999475}
   m_Children: []
   m_Father: {fileID: 350660923}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8227,7 +8303,7 @@ GameObject:
   - component: {fileID: 1155913286}
   - component: {fileID: 1155913285}
   m_Layer: 5
-  m_Name: Status
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8249,7 +8325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -83, y: -132}
+  m_AnchoredPosition: {x: -83, y: -134}
   m_SizeDelta: {x: 150.02, y: 55.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1155913285
@@ -8283,7 +8359,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Status:'
+  m_Text: 'HEALTH:'
 --- !u!222 &1155913286
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10383,7 +10459,7 @@ GameObject:
   - component: {fileID: 1401617935}
   - component: {fileID: 1401617934}
   m_Layer: 5
-  m_Name: Lives
+  m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10439,7 +10515,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LIVES
+  m_Text: WAVE
 --- !u!222 &1401617935
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15086,7 +15162,7 @@ GameObject:
   - component: {fileID: 1841416536}
   - component: {fileID: 1841416535}
   m_Layer: 5
-  m_Name: Wave
+  m_Name: Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15142,7 +15218,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: WAVE
+  m_Text: 'ENEMIES
+
+'
 --- !u!222 &1841416536
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17101,12 +17179,12 @@ GameObject:
   - component: {fileID: 2105959598}
   - component: {fileID: 2105959597}
   m_Layer: 5
-  m_Name: Lives_wave
+  m_Name: Wave_Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2105959596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17248,7 +17326,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 350660923}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
