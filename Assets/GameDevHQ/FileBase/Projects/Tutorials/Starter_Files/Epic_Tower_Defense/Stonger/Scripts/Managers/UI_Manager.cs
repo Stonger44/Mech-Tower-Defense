@@ -11,8 +11,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Text _warFunds;
     [SerializeField] private Text _dismantledWarFundsRecieved;
 
-
     private float _healthPercent;
+    private Dictionary<Image, Sprite[]> _uiPanelDictionary = new Dictionary<Image, Sprite[]>();
+
     [SerializeField] private Image _armoryPanel;
     [SerializeField] private Sprite[] _armoryPanelArray = new Sprite[3];
     [SerializeField] private Image _warFundsPanel;
@@ -26,8 +27,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Image _levelStatusPanel;
     [SerializeField] private Sprite[] _levelStatusPanelArray = new Sprite[3];
 
-    private Dictionary<Image, Sprite[]> _uiPanelDictionary = new Dictionary<Image, Sprite[]>();
-
     [SerializeField] private GameObject _UI_GatlingGun;
     [SerializeField] private GameObject _UI_GatlingGun_Disabled;
     [SerializeField] private GameObject _UI_MissileLauncher;
@@ -38,6 +37,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _UI_UpgradeGatlingGun_Disabled;
     [SerializeField] private GameObject _UI_UpgradeMissileLauncher;
     [SerializeField] private GameObject _UI_UpgradeMissileLauncher_Disabled;
+
+    [SerializeField] private GameObject _restartButtonPress;
 
     private ITower _currentTowerInterface;
 
@@ -61,6 +62,28 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onHealthUpdateUI -= UpdateHealthUI;
     }
 
+    public void OnRestartButtonPress()
+    {
+        _restartButtonPress.SetActive(true);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _uiPanelDictionary.Add(_armoryPanel, _armoryPanelArray);
+        _uiPanelDictionary.Add(_warFundsPanel, _warFundsPanelArray);
+        _uiPanelDictionary.Add(_playBackSpeedPanel, _playBackSpeedPanelArray);
+        _uiPanelDictionary.Add(_restartPanel, __restartPanelArray);
+        _uiPanelDictionary.Add(_waveEnemiesPanel, _waveEnemiesPanelArray);
+        _uiPanelDictionary.Add(_levelStatusPanel, _levelStatusPanelArray);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     private void UpdateHealthUI(int currentHealth, int initialHealth)
     {
         _healthPercent = (float)currentHealth / (float)initialHealth;
@@ -80,23 +103,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 panel.Key.sprite = panel.Value[0];
             }
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _uiPanelDictionary.Add(_armoryPanel, _armoryPanelArray);
-        _uiPanelDictionary.Add(_warFundsPanel, _warFundsPanelArray);
-        _uiPanelDictionary.Add(_playBackSpeedPanel, _playBackSpeedPanelArray);
-        _uiPanelDictionary.Add(_restartPanel, __restartPanelArray);
-        _uiPanelDictionary.Add(_waveEnemiesPanel, _waveEnemiesPanelArray);
-        _uiPanelDictionary.Add(_levelStatusPanel, _levelStatusPanelArray);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void UpdateWaveCount(int currentWaveCount, int finalWaveCount)

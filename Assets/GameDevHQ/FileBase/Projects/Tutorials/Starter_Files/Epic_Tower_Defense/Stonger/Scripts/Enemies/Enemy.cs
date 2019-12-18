@@ -128,6 +128,7 @@ public class Enemy : Explodable
         _inJunkyard = false;
         _health = _initialHealth;
         _onStandby = true;
+        _attackingObject = null;
     }
 
     public bool IsOnStandby() => _onStandby;

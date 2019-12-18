@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -88,6 +89,11 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Space) && !WaveRunning)
             StartWave();
+    }
+
+    public void OnRestartButtonPress()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void StartWave()

@@ -63,7 +63,7 @@ public class Gatling_Gun : Explodable, ITower
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
-        Enemy.onAttack += TakeDamage;
+        Enemy.onAttack -= TakeDamage;
 
         _isAttacking = false;
         _towerRange.SetActive(false);
