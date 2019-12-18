@@ -40,6 +40,11 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     [SerializeField] private GameObject _restartButtonPress;
 
+    [SerializeField] private GameObject[] _playbackArray = new GameObject[3];
+    [SerializeField] private GameObject _pauseActive;
+    [SerializeField] private GameObject _playActive;
+    [SerializeField] private GameObject _ffActive;
+
     private ITower _currentTowerInterface;
 
     private void OnEnable()
@@ -62,9 +67,16 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onHealthUpdateUI -= UpdateHealthUI;
     }
 
-    public void OnRestartButtonPress()
+    public void onPlaybackButtonPress(GameObject playbackToActivate)
     {
-        _restartButtonPress.SetActive(true);
+        foreach (var playback in _playbackArray)
+            playback.SetActive(false);
+
+        foreach (var playback in _playbackArray)
+        {
+            if (playbackToActivate.name == playback.name)
+                playback.SetActive(true);
+        }
     }
 
     // Start is called before the first frame update
