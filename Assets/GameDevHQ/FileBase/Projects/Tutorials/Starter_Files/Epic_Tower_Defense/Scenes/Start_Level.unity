@@ -154,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -663, y: -273}
+  m_AnchoredPosition: {x: -663, y: -255}
   m_SizeDelta: {x: 857.52, y: 247.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &12562996
@@ -182,15 +182,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 107
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'LEVEL
-
-    COMPLETE'
+  m_Text: WAVE  1
 --- !u!222 &12562997
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5183,6 +5181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7236f4bf678bf5c48a5d2db7e133ff93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelStatus: {fileID: 909662579}
+  _status: {fileID: 12562996}
   _waveCount: {fileID: 783571177}
   _enemyCount: {fileID: 640746102}
   _warFunds: {fileID: 2109062355}
@@ -7028,7 +7028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &909662580
 RectTransform:
   m_ObjectHideFlags: 0

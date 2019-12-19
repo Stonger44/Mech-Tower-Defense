@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoSingleton<UI_Manager>
 {
+    [SerializeField] private GameObject _levelStatus;
+    [SerializeField] private Text _status;
+
     [SerializeField] private Text _waveCount;
     [SerializeField] private Text _enemyCount;
 
@@ -48,6 +51,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onWaveUpdate += UpdateWaveCount;
         GameManager.onEnemyCountUpdate += UpdateEnemyCount;
         GameManager.onHealthUpdateUI += UpdateHealthUI;
+        GameManager.onUpdateLevelStatusCountDown += UpdateLevelStatusCountDown;
     }
 
     private void OnDisable()
@@ -58,6 +62,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onWaveUpdate -= UpdateWaveCount;
         GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
         GameManager.onHealthUpdateUI -= UpdateHealthUI;
+        GameManager.onUpdateLevelStatusCountDown -= UpdateLevelStatusCountDown;
     }
 
     // Start is called before the first frame update
@@ -73,6 +78,43 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    private void UpdateLevelStatusCountDown(int countDownTime)
+    {
+        switch (countDownTime)
+        {
+            case 3:
+            case 2:
+            case 1:
+                if (_levelStatus.activeSelf == false) //Show for countDown
+                    _levelStatus.SetActive(true);
+
+                _status.text = countDownTime.ToString();
+
+                break;
+            case 0:
+                if (_levelStatus.activeSelf == false) //Show for countDown
+                    _levelStatus.SetActive(true);
+
+                _status.text = "WAVE STARTED";
+
+                break;
+            case -1:
+                _levelStatus.SetActive(false);
+                _status.text = "";
+
+                break;
+            default:
+                Debug.LogError("countDownTime value not recognized.");
+
+                break;
+        }
+    }
+
+    private void UpdateLevelStatus()
     {
 
     }

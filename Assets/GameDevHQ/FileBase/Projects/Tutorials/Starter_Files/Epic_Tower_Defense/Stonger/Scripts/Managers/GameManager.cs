@@ -18,13 +18,18 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private float _healthWarningThreshold;
     private float _healthPercent;
 
-    public int TotalWarFunds { get; private set; } //This is only here so I can see it in the inspector
+    public int TotalWarFunds { get; private set; }
     [SerializeField] private int _totalWarFunds;
 
+    public int InitialWave { get; private set; }
     public int Wave { get; private set; }
-    [SerializeField] private int _wave; //This is only here so I can see it in the inspector
+    public int FinalWave { get; private set; }
     [SerializeField] private int _initialWave = 1;
+    [SerializeField] private int _wave;
     [SerializeField] private int _finalWave;
+
+
+
 
     public int CurrentWaveTotalEnemyCount { get; private set; }
     [SerializeField] private int _currentWaveTotalEnemyCount;
@@ -33,6 +38,8 @@ public class GameManager : MonoSingleton<GameManager>
     public bool WaveRunning { get; private set; }
     public bool WaveSuccess { get; private set; }
 
+    private AudioSource[] _totalAudioSourceArray;
+
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
     public static event Action<GameObject, float> onHealthUpdate;
@@ -40,15 +47,18 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action<int, int> onWaveUpdate;
     public static event Action<int, int> onEnemyCountUpdate;
 
-    private AudioSource[] _totalAudioSourceArray;
+    public static event Action onUpdateLevelStatus;
+    public static event Action<int> onUpdateLevelStatusCountDown;
 
     public override void Init()
     {
         HealthCautionThreshold = _healthCautionThreshold;
         HealthWarningThreshold = _healthWarningThreshold;
 
-        Wave = _initialWave;
+        InitialWave = _initialWave;
+        Wave = InitialWave;
         _wave = Wave;
+        FinalWave = _finalWave;
         onWaveUpdate?.Invoke(_wave, _finalWave);
         ResetWaveEnemyCount();
     }
@@ -109,6 +119,11 @@ public class GameManager : MonoSingleton<GameManager>
             foreach (var audioSource in _totalAudioSourceArray)
                 audioSource.UnPause();
         }
+
+        if (WaveRunning == false)
+        {
+            StartWave();
+        }
     }
 
     public void OnRestartButtonPress()
@@ -118,6 +133,12 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartWave()
     {
+        StartCoroutine(StartWaveRoutine());
+    }
+
+    private IEnumerator StartWaveRoutine()
+    {
+        //Prepare for new wave
         ResetWaveEnemyCount();
 
         if (_health <= 0)
@@ -126,10 +147,21 @@ public class GameManager : MonoSingleton<GameManager>
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
         onHealthUpdateUI?.Invoke(_health, _initialHealth);
 
+        //CountDown
+        for (int i = 3; i > -1; i--)
+        {
+            onUpdateLevelStatusCountDown?.Invoke(i);
+            yield return new WaitForSeconds(1);
+        }
+
+        onUpdateLevelStatusCountDown?.Invoke(-1); //The LevelStatusUI will hide itself with this parameter
+
+        //Being Wave
         WaveRunning = true;
         WaveSuccess = false;
 
         _wave = Wave;
+
         onWaveUpdate?.Invoke(_wave, _finalWave);
         onStartWave?.Invoke();
         Debug.Log("Wave " + Wave + " started.");
