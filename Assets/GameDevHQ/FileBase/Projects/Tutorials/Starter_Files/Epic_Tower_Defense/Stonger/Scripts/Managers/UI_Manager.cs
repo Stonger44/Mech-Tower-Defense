@@ -38,13 +38,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _UI_UpgradeMissileLauncher;
     [SerializeField] private GameObject _UI_UpgradeMissileLauncher_Disabled;
 
-    [SerializeField] private GameObject _restartButtonPress;
-
-    [SerializeField] private GameObject[] _playbackArray = new GameObject[3];
-    [SerializeField] private GameObject _pauseActive;
-    [SerializeField] private GameObject _playActive;
-    [SerializeField] private GameObject _ffActive;
-
     private ITower _currentTowerInterface;
 
     private void OnEnable()
@@ -65,18 +58,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onWaveUpdate -= UpdateWaveCount;
         GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
         GameManager.onHealthUpdateUI -= UpdateHealthUI;
-    }
-
-    public void onPlaybackButtonPress(GameObject playbackToActivate)
-    {
-        foreach (var playback in _playbackArray)
-            playback.SetActive(false);
-
-        foreach (var playback in _playbackArray)
-        {
-            if (playbackToActivate.name == playback.name)
-                playback.SetActive(true);
-        }
     }
 
     // Start is called before the first frame update
