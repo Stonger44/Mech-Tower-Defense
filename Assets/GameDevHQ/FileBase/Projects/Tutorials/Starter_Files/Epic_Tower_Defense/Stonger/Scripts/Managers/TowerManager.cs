@@ -105,7 +105,8 @@ public class TowerManager : MonoSingleton<TowerManager>
         CurrentlyViewedTower = null;
     }
 
-    public void UpgradeTower()
+    [SerializeField]
+    private void UpgradeTower()
     {
         GameObject towerToUpgradeTo = null;
 
@@ -126,7 +127,8 @@ public class TowerManager : MonoSingleton<TowerManager>
         StopViewingTower();
     }
 
-    public void DismantleTower()
+    [SerializeField]
+    private void DismantleTower()
     {
         IsDismantlingTower = true;
         onDismantleTower?.Invoke(CurrentlyViewedTower);
@@ -135,7 +137,8 @@ public class TowerManager : MonoSingleton<TowerManager>
     /*----------View Tower----------*/
 
     /*----------Place Tower----------*/
-    public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
+    [SerializeField]
+    private void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
     {
         CurrentTowerImage = selectedTowerImage;
 

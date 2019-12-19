@@ -90,8 +90,8 @@ public class GameManager : MonoSingleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Space) && !WaveRunning)
             StartWave();
     }
-
-    public void OnRestartButtonPress()
+    
+    [SerializeField] private void OnRestartButtonPress()
     {
         SceneManager.LoadScene(0);
     }
