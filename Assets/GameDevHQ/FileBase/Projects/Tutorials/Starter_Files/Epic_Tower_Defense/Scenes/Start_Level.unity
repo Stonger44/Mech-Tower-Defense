@@ -4036,6 +4036,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1121363924}
+        m_MethodName: OnPlaybackButtonPressed
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &459617103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4577,6 +4588,17 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1121363924}
+        m_MethodName: OnPlaybackButtonPressed
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -5204,14 +5226,6 @@ MonoBehaviour:
   _UI_UpgradeGatlingGun_Disabled: {fileID: 446294341}
   _UI_UpgradeMissileLauncher: {fileID: 46770128}
   _UI_UpgradeMissileLauncher_Disabled: {fileID: 1831108083}
-  _restartButtonPress: {fileID: 1861675125}
-  _playbackArray:
-  - {fileID: 1390762800}
-  - {fileID: 142299666}
-  - {fileID: 230579418}
-  _pauseActive: {fileID: 1390762800}
-  _playActive: {fileID: 142299666}
-  _ffActive: {fileID: 230579418}
 --- !u!1001 &595690249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6806,6 +6820,17 @@ MonoBehaviour:
       - m_Target: {fileID: 230579418}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1121363924}
+        m_MethodName: OnPlaybackButtonPressed
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

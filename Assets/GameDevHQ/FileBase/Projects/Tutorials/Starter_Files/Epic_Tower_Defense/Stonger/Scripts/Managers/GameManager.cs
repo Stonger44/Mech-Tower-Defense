@@ -40,6 +40,8 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action<int, int> onWaveUpdate;
     public static event Action<int, int> onEnemyCountUpdate;
 
+    private AudioSource[] _totalAudioSourceArray;
+
     public override void Init()
     {
         HealthCautionThreshold = _healthCautionThreshold;
@@ -91,7 +93,25 @@ public class GameManager : MonoSingleton<GameManager>
             StartWave();
     }
     
-    [SerializeField] private void OnRestartButtonPress()
+    public void OnPlaybackButtonPressed(float timescale)
+    {
+        _totalAudioSourceArray = FindObjectsOfType<AudioSource>();
+
+        Time.timeScale = timescale;
+
+        if (Time.timeScale == 0)
+        {
+            foreach (var audioSource in _totalAudioSourceArray)
+                audioSource.Pause();
+        }
+        else
+        {
+            foreach (var audioSource in _totalAudioSourceArray)
+                audioSource.UnPause();
+        }
+    }
+
+    public void OnRestartButtonPress()
     {
         SceneManager.LoadScene(0);
     }
