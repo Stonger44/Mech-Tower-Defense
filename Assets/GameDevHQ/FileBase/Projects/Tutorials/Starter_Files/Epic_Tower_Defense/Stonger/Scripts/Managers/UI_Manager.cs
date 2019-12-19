@@ -43,6 +43,10 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     private ITower _currentTowerInterface;
 
+    [SerializeField] private GameObject _pauseActive;
+    [SerializeField] private GameObject _playActive;
+    [SerializeField] private GameObject _ffActive;
+
     private void OnEnable()
     {
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
@@ -52,6 +56,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onEnemyCountUpdate += UpdateEnemyCount;
         GameManager.onHealthUpdateUI += UpdateHealthUI;
         GameManager.onUpdateLevelStatusCountDown += UpdateLevelStatusCountDown;
+        GameManager.onUpdateLevelStatus += UpdateLevelStatus;
     }
 
     private void OnDisable()
@@ -63,6 +68,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
         GameManager.onHealthUpdateUI -= UpdateHealthUI;
         GameManager.onUpdateLevelStatusCountDown -= UpdateLevelStatusCountDown;
+        GameManager.onUpdateLevelStatus -= UpdateLevelStatus;
     }
 
     // Start is called before the first frame update
@@ -93,30 +99,61 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                     _levelStatus.SetActive(true);
 
                 _status.text = countDownTime.ToString();
-
                 break;
             case 0:
                 if (_levelStatus.activeSelf == false) //Show for countDown
                     _levelStatus.SetActive(true);
 
                 _status.text = "WAVE STARTED";
-
                 break;
             case -1:
                 _levelStatus.SetActive(false);
                 _status.text = "";
-
                 break;
             default:
                 Debug.LogError("countDownTime value not recognized.");
-
                 break;
         }
     }
 
     private void UpdateLevelStatus()
     {
+        _levelStatus.SetActive(true);
 
+        if (GameManager.Instance.WaveRunning == false)
+        {
+            _pauseActive.SetActive(true);
+            _playActive.SetActive(false);
+            _ffActive.SetActive(false);
+
+            if (GameManager.Instance.WaveSuccess == true)
+            {
+                _status.text = "WAVE  " + (GameManager.Instance.Wave - 1) + " COMPLETE!";
+            }
+            else if (GameManager.Instance.WaveSuccess == false)
+            {
+                _status.text = "WAVE  " + (GameManager.Instance.Wave - 1) + " FAILED";
+            }
+            StartCoroutine(LevelStatus_NextWaveRoutine());
+        }
+    }
+
+    private IEnumerator LevelStatus_NextWaveRoutine()
+    {
+        yield return new WaitForSeconds(2);
+
+        if (GameManager.Instance.Wave > GameManager.Instance.FinalWave)
+        {
+            _status.text = "LEVEL COMPLETE";
+        }
+        else if (GameManager.Instance.Wave == GameManager.Instance.FinalWave)
+        {
+            _status.text = "FINAL WAVE";
+        }
+        else
+        {
+            _status.text = "WAVE  " + GameManager.Instance.Wave;
+        }
     }
 
     private void UpdateHealthUI(int currentHealth, int initialHealth)

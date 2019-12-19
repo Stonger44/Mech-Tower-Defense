@@ -40,6 +40,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     private AudioSource[] _totalAudioSourceArray;
 
+    private bool _isStartWaveRoutineRunning = false;
+
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
     public static event Action<GameObject, float> onHealthUpdate;
@@ -93,14 +95,11 @@ public class GameManager : MonoSingleton<GameManager>
         onHealthUpdateUI?.Invoke(_health, _initialHealth);
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
-
-        Debug.Log("Press [Space] to start Wave " + Wave + ".");
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !WaveRunning)
-            StartWave();
+
     }
     
     public void OnPlaybackButtonPressed(float timescale)
@@ -118,11 +117,9 @@ public class GameManager : MonoSingleton<GameManager>
         {
             foreach (var audioSource in _totalAudioSourceArray)
                 audioSource.UnPause();
-        }
 
-        if (WaveRunning == false)
-        {
-            StartWave();
+            if (WaveRunning == false)
+                StartWave();
         }
     }
 
@@ -133,11 +130,23 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartWave()
     {
-        StartCoroutine(StartWaveRoutine());
+        if (_isStartWaveRoutineRunning == false)
+        {
+            _isStartWaveRoutineRunning = true;
+            StartCoroutine(StartWaveRoutine()); 
+        }
     }
 
     private IEnumerator StartWaveRoutine()
     {
+        //CountDown
+        for (int i = 3; i > -1; i--)
+        {
+            onUpdateLevelStatusCountDown?.Invoke(i);
+            yield return new WaitForSeconds(1);
+        }
+        onUpdateLevelStatusCountDown?.Invoke(-1); //The LevelStatusUI will hide itself with this parameter
+
         //Prepare for new wave
         ResetWaveEnemyCount();
 
@@ -147,15 +156,6 @@ public class GameManager : MonoSingleton<GameManager>
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
         onHealthUpdateUI?.Invoke(_health, _initialHealth);
 
-        //CountDown
-        for (int i = 3; i > -1; i--)
-        {
-            onUpdateLevelStatusCountDown?.Invoke(i);
-            yield return new WaitForSeconds(1);
-        }
-
-        onUpdateLevelStatusCountDown?.Invoke(-1); //The LevelStatusUI will hide itself with this parameter
-
         //Being Wave
         WaveRunning = true;
         WaveSuccess = false;
@@ -164,7 +164,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         onWaveUpdate?.Invoke(_wave, _finalWave);
         onStartWave?.Invoke();
-        Debug.Log("Wave " + Wave + " started.");
+
+        _isStartWaveRoutineRunning = false;
     }
 
     private void WaveComplete()
@@ -173,7 +174,7 @@ public class GameManager : MonoSingleton<GameManager>
         WaveSuccess = true;
         Wave++;
 
-        Debug.Log("Wave " + (Wave - 1) + " complete! Press [Space] to start Wave " + Wave + ".");
+        onUpdateLevelStatus?.Invoke();
     }
 
     private void TakeDamage()
@@ -198,7 +199,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         WaveRunning = false;
         WaveSuccess = false;
-        Debug.Log("Wave " + Wave + " failed. Press [Space] to try again.");
+
+        onUpdateLevelStatus?.Invoke();
     }
 
     private void OnEnemyExplosion(GameObject enemy)

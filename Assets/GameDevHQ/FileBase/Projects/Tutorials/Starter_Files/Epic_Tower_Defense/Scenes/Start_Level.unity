@@ -5226,6 +5226,9 @@ MonoBehaviour:
   _UI_UpgradeGatlingGun_Disabled: {fileID: 446294341}
   _UI_UpgradeMissileLauncher: {fileID: 46770128}
   _UI_UpgradeMissileLauncher_Disabled: {fileID: 1831108083}
+  _pauseActive: {fileID: 1390762800}
+  _playActive: {fileID: 142299666}
+  _ffActive: {fileID: 230579418}
 --- !u!1001 &595690249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8680,10 +8683,10 @@ MonoBehaviour:
   _healthBarGameObject: {fileID: 704600513}
   _healthCautionThreshold: 0.55
   _healthWarningThreshold: 0.25
-  _totalWarFunds: 10000
-  _wave: 0
+  _totalWarFunds: 5000
   _initialWave: 1
-  _finalWave: 10
+  _wave: 0
+  _finalWave: 3
   _currentWaveTotalEnemyCount: 0
   _currentWaveCurrentEnemyCount: 0
 --- !u!4 &1121363925
