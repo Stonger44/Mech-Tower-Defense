@@ -8,11 +8,13 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void OnEnable()
     {
         GameManager.onStartWave += SetEnemiesInPoolToStandby;
+        GameManager.onWaveFailed += SetEnemiesInPoolToStandby;
     }
 
     private void OnDisable()
     {
         GameManager.onStartWave -= SetEnemiesInPoolToStandby;
+        GameManager.onWaveFailed -= SetEnemiesInPoolToStandby;
     }
 
     private void Start()
@@ -59,6 +61,9 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     public GameObject RequestEnemy()
     {
+        if (GameManager.Instance.WaveRunning == false)
+            return null;
+
         foreach (var enemy in _enemyPool)
         {
             _currentEnemy = enemy.GetComponent<Enemy>();

@@ -142,17 +142,24 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         yield return new WaitForSeconds(2);
 
-        if (GameManager.Instance.Wave > GameManager.Instance.FinalWave)
+        if (GameManager.Instance.WaveSuccess == false)
         {
-            _status.text = "LEVEL COMPLETE";
+            _status.text = "RETRY WAVE  " + GameManager.Instance.Wave;
         }
-        else if (GameManager.Instance.Wave == GameManager.Instance.FinalWave)
+        else if (GameManager.Instance.WaveSuccess == true)
         {
-            _status.text = "FINAL WAVE";
-        }
-        else
-        {
-            _status.text = "WAVE  " + GameManager.Instance.Wave;
+            if (GameManager.Instance.Wave > GameManager.Instance.FinalWave)
+            {
+                _status.text = "LEVEL COMPLETE";
+            }
+            else if (GameManager.Instance.Wave == GameManager.Instance.FinalWave)
+            {
+                _status.text = "FINAL WAVE";
+            }
+            else
+            {
+                _status.text = "WAVE  " + GameManager.Instance.Wave;
+            }
         }
     }
 
@@ -258,7 +265,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         if (TowerManager.Instance.IsViewingTower == false)
         {
-            if (warFunds >= 1000)
+            if (warFunds >= 1500)
             {
                 //Enabled Images
                 _UI_GatlingGun.SetActive(true);

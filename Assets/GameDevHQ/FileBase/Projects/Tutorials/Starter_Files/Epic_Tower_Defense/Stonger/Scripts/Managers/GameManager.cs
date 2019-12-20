@@ -49,6 +49,8 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action onUpdateLevelStatus;
     public static event Action<int> onUpdateLevelStatusCountDown;
 
+    public static event Action onWaveFailed;
+
     public override void Init()
     {
         HealthCautionThreshold = _healthCautionThreshold;
@@ -191,7 +193,7 @@ public class GameManager : MonoSingleton<GameManager>
             _healthPercent = (float)_health / (float)_initialHealth;
             onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
             onHealthUpdateUI?.Invoke(_health, _initialHealth);
-            GameOver();
+            WaveFailed();
             return;
         }
         _healthPercent = (float)_health / (float)_initialHealth;
@@ -199,12 +201,13 @@ public class GameManager : MonoSingleton<GameManager>
         onHealthUpdateUI?.Invoke(_health, _initialHealth);
     }
 
-    private void GameOver()
+    private void WaveFailed()
     {
         WaveRunning = false;
         WaveSuccess = false;
 
         onUpdateLevelStatus?.Invoke();
+        onWaveFailed?.Invoke();
     }
 
     private void OnEnemyExplosion(GameObject enemy)
