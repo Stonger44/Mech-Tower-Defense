@@ -132,7 +132,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             }
             else if (GameManager.Instance.WaveSuccess == false)
             {
-                _status.text = "WAVE  " + (GameManager.Instance.Wave - 1) + " FAILED";
+                _status.text = "WAVE  " + GameManager.Instance.Wave + " FAILED";
             }
             StartCoroutine(LevelStatus_NextWaveRoutine());
         }

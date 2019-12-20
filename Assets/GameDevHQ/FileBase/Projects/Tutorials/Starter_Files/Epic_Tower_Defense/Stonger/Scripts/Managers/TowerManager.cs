@@ -107,57 +107,66 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     public void UpgradeTower()
     {
-        GameObject towerToUpgradeTo = null;
-
-        switch (CurrentlyViewedTower.tag)
+        if (GameManager.Instance.WaveRunning == true)
         {
-            case "Tower_Gatling_Gun":
-                towerToUpgradeTo = _towerList[1]; //Gatling_Gun_Upgrade
-                break;
-            case "Tower_Missile_Launcher":
-                towerToUpgradeTo = _towerList[3]; //Missile_Launcher_Upgrade
-                break;
-            default:
-                Debug.LogError("CurrentlyViewedTower.tag not recognized!");
-                break;
-        }
+            GameObject towerToUpgradeTo = null;
 
-        onUpgradeTower?.Invoke(CurrentlyViewedTower, towerToUpgradeTo);
-        StopViewingTower();
+            switch (CurrentlyViewedTower.tag)
+            {
+                case "Tower_Gatling_Gun":
+                    towerToUpgradeTo = _towerList[1]; //Gatling_Gun_Upgrade
+                    break;
+                case "Tower_Missile_Launcher":
+                    towerToUpgradeTo = _towerList[3]; //Missile_Launcher_Upgrade
+                    break;
+                default:
+                    Debug.LogError("CurrentlyViewedTower.tag not recognized!");
+                    break;
+            }
+
+            onUpgradeTower?.Invoke(CurrentlyViewedTower, towerToUpgradeTo);
+            StopViewingTower(); 
+        }
     }
 
     public void DismantleTower()
     {
-        IsDismantlingTower = true;
-        onDismantleTower?.Invoke(CurrentlyViewedTower);
-        StopViewingTower();
+        if (GameManager.Instance.WaveRunning == true)
+        {
+            IsDismantlingTower = true;
+            onDismantleTower?.Invoke(CurrentlyViewedTower);
+            StopViewingTower(); 
+        }
     }
     /*----------View Tower----------*/
 
     /*----------Place Tower----------*/
     public void OnTowerSelectedForPlacement(GameObject selectedTowerImage)
     {
-        CurrentTowerImage = selectedTowerImage;
-
-        switch (CurrentTowerImage.name)
+        if (GameManager.Instance.WaveRunning == true)
         {
-            case "Gatling_Gun_Image":
-                CurrentTower = _towerList[0];
-                break;
-            case "Missile_Launcher_Image":
-                CurrentTower = _towerList[2];
-                break;
-            default:
-                Debug.LogError("CurrentTowerImage name not recognized.");
-                break;
+            CurrentTowerImage = selectedTowerImage;
+
+            switch (CurrentTowerImage.name)
+            {
+                case "Gatling_Gun_Image":
+                    CurrentTower = _towerList[0];
+                    break;
+                case "Missile_Launcher_Image":
+                    CurrentTower = _towerList[2];
+                    break;
+                default:
+                    Debug.LogError("CurrentTowerImage name not recognized.");
+                    break;
+            }
+
+            //Update IsPlacingTower boolean appropriately
+            IsPlacingTower = (CurrentTowerImage != null) ? true : false;
+            onBrowsingTowerLocations?.Invoke(IsPlacingTower);
+
+            //Put un-used images back in container (off screen)
+            ResetTowerImages(false); 
         }
-
-        //Update IsPlacingTower boolean appropriately
-        IsPlacingTower = (CurrentTowerImage != null) ? true : false;
-        onBrowsingTowerLocations?.Invoke(IsPlacingTower);
-
-        //Put un-used images back in container (off screen)
-        ResetTowerImages(false);
     }
 
     private void SelectTowerLocation()

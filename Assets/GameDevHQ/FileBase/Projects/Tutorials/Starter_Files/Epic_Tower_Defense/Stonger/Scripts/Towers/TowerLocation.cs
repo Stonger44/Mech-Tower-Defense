@@ -76,7 +76,7 @@ public class TowerLocation : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (TowerManager.Instance.IsPlacingTower == true && _isOccupied == false)
+        if (GameManager.Instance.WaveRunning == true && TowerManager.Instance.IsPlacingTower == true && _isOccupied == false)
         {
             PlaceTower();
         }
@@ -84,7 +84,7 @@ public class TowerLocation : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_isOccupied == true && _currentPlacedTower != null)
+        if (GameManager.Instance.WaveRunning == true && _isOccupied == true && _currentPlacedTower != null)
         {
             onViewingCurrentTower?.Invoke(_currentPlacedTower);
         }

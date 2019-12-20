@@ -28,9 +28,6 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private int _wave;
     [SerializeField] private int _finalWave;
 
-
-
-
     public int CurrentWaveTotalEnemyCount { get; private set; }
     [SerializeField] private int _currentWaveTotalEnemyCount;
     [SerializeField] private int _currentWaveCurrentEnemyCount;
@@ -125,6 +122,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void OnRestartButtonPress()
     {
+
+        StartCoroutine(RestartRoutine());
+    }
+
+    private IEnumerator RestartRoutine()
+    {
+        yield return new WaitForSeconds(0.05f);
         SceneManager.LoadScene(0);
     }
 
