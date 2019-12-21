@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.75, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.75, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -256,9 +256,9 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _rootObject: {fileID: 0}
   _healthBar: {fileID: 7387174873267435788}
-  _healthGreen: {r: 0.75, g: 0, b: 0, a: 1}
-  _healthYellow: {r: 0.75, g: 0, b: 0, a: 1}
-  _healthRed: {r: 0.75, g: 0, b: 0, a: 1}
+  _healthGreen: {r: 0.75, g: 0, b: 0, a: 0.5019608}
+  _healthYellow: {r: 0.75, g: 0, b: 0, a: 0.5019608}
+  _healthRed: {r: 0.75, g: 0, b: 0, a: 0.5019608}
 --- !u!1 &7387174875266118560
 GameObject:
   m_ObjectHideFlags: 0

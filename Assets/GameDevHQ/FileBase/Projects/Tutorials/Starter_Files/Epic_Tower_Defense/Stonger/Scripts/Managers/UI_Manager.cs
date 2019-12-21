@@ -15,6 +15,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Text _dismantledWarFundsRecieved;
 
     private float _healthPercent;
+    private Sprite _healthSprite;
+    [SerializeField] private bool _isHealthDamageRoutineRunning;
     private Dictionary<Image, Sprite[]> _uiPanelDictionary = new Dictionary<Image, Sprite[]>();
 
     [SerializeField] private Image _armoryPanel;
@@ -54,7 +56,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onGainedWarFundsFromEnemyDeath += ShowCurrentTowerOptions;
         GameManager.onWaveUpdate += UpdateWaveCount;
         GameManager.onEnemyCountUpdate += UpdateEnemyCount;
-        GameManager.onHealthUpdateUI += UpdateHealthUI;
+        GameManager.onTakeDamage += DamageHealthUI;
         GameManager.onUpdateLevelStatusCountDown += UpdateLevelStatusCountDown;
         GameManager.onUpdateLevelStatus += UpdateLevelStatus;
     }
@@ -66,7 +68,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onGainedWarFundsFromEnemyDeath -= ShowCurrentTowerOptions;
         GameManager.onWaveUpdate -= UpdateWaveCount;
         GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
-        GameManager.onHealthUpdateUI -= UpdateHealthUI;
+        GameManager.onTakeDamage -= DamageHealthUI;
         GameManager.onUpdateLevelStatusCountDown -= UpdateLevelStatusCountDown;
         GameManager.onUpdateLevelStatus -= UpdateLevelStatus;
     }
@@ -104,7 +106,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 if (_levelStatus.activeSelf == false) //Show for countDown
                     _levelStatus.SetActive(true);
 
-                _status.text = "WAVE STARTED";
+                _status.text = "BEGIN!";
                 break;
             case -1:
                 _levelStatus.SetActive(false);
@@ -158,30 +160,62 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             }
             else
             {
-                _status.text = "WAVE  " + GameManager.Instance.Wave;
+                _status.text = "WAVE  " + GameManager.Instance.Wave + "  INCOMING";
             }
         }
     }
 
-    private void UpdateHealthUI(int currentHealth, int initialHealth)
+    private void DamageHealthUI(int currentHealth, int initialHealth)
     {
-        _healthPercent = (float)currentHealth / (float)initialHealth;
-
-        foreach (var panel in _uiPanelDictionary)
+        if (GameManager.Instance.WaveRunning == true && _isHealthDamageRoutineRunning == false)
         {
-            if (_healthPercent <= GameManager.Instance.HealthWarningThreshold)
-            {
-                panel.Key.sprite = panel.Value[2];
-            }
-            else if (_healthPercent <= GameManager.Instance.HealthCautionThreshold)
-            {
-                panel.Key.sprite = panel.Value[1];
-            }
+            _healthPercent = (float)currentHealth / (float)initialHealth;
+
+            _isHealthDamageRoutineRunning = true;
+            StartCoroutine(HealthDamageRoutine());
+        }
+    }
+
+    private IEnumerator HealthDamageRoutine()
+    {
+        for (int i = 1; i <= 4; i++)
+        {
+            if (i < 2)
+                yield return new WaitForSeconds(0.2f);
             else
+                yield return new WaitForSeconds(0.1f);
+
+            switch (i)
             {
-                panel.Key.sprite = panel.Value[0];
+                case 1:
+                case 3:
+                    //Change to damage color
+                    foreach (var panel in _uiPanelDictionary)
+                    {
+                        if (_healthPercent <= GameManager.Instance.HealthWarningThreshold)
+                        {
+                            panel.Key.sprite = panel.Value[2];
+                        }
+                        else
+                        {
+                            panel.Key.sprite = panel.Value[1];
+                        }
+                    }
+                    break;
+                case 2:
+                case 4:
+                    //Change to default color
+                    foreach (var panel in _uiPanelDictionary)
+                    {
+                        panel.Key.sprite = panel.Value[0];
+                    }
+                    break;
+                default:
+                    break;
             }
         }
+
+        _isHealthDamageRoutineRunning = false;
     }
 
     private void UpdateWaveCount(int currentWaveCount, int finalWaveCount)

@@ -42,7 +42,7 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action onStartWave;
     public static event Action<GameObject> onGainedWarFundsFromEnemyDeath;
     public static event Action<GameObject, float> onHealthUpdate;
-    public static event Action<int, int> onHealthUpdateUI;
+    public static event Action<int, int> onTakeDamage;
     public static event Action<int, int> onWaveUpdate;
     public static event Action<int, int> onEnemyCountUpdate;
 
@@ -91,7 +91,6 @@ public class GameManager : MonoSingleton<GameManager>
         _health = _initialHealth;
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-        onHealthUpdateUI?.Invoke(_health, _initialHealth);
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
     }
@@ -160,7 +159,6 @@ public class GameManager : MonoSingleton<GameManager>
             _health = _initialHealth;
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-        onHealthUpdateUI?.Invoke(_health, _initialHealth);
 
         //Being Wave
         WaveRunning = true;
@@ -192,13 +190,13 @@ public class GameManager : MonoSingleton<GameManager>
             _health = 0;
             _healthPercent = (float)_health / (float)_initialHealth;
             onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-            onHealthUpdateUI?.Invoke(_health, _initialHealth);
+            onTakeDamage?.Invoke(_health, _initialHealth);
             WaveFailed();
             return;
         }
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-        onHealthUpdateUI?.Invoke(_health, _initialHealth);
+        onTakeDamage?.Invoke(_health, _initialHealth);
     }
 
     private void WaveFailed()
