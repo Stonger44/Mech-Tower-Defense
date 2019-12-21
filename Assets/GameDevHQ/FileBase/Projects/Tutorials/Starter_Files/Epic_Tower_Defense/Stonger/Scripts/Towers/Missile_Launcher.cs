@@ -18,6 +18,9 @@ public class Missile_Launcher : Explodable, ITower
     /*----------Extended Code----------*/
     [SerializeField] private int _health; //Only here so I can see it in the inspector
     private float _healthPercent;
+
+    public string Name { get; set; }
+
     public int Health { get; set; }
     public int DamageTaken { get; set; }
 
@@ -46,6 +49,7 @@ public class Missile_Launcher : Explodable, ITower
         TowerLocation.onSetNewTowerHealth += UpdateHealthBar;
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
+        GameManager.onSelfDestructTowers += SelfDestruct;
 
         if (this.gameObject.tag.Contains("Upgrade"))
             Health = UpgradeInitialHealth;
@@ -63,9 +67,15 @@ public class Missile_Launcher : Explodable, ITower
         TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack -= TakeDamage;
+        GameManager.onSelfDestructTowers -= SelfDestruct;
 
         _launched = false;
         _towerRange.SetActive(false);
+    }
+
+    private void Start()
+    {
+        Name = this.gameObject.tag;
     }
 
     private void Update()
@@ -169,6 +179,15 @@ public class Missile_Launcher : Explodable, ITower
         {
             _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
             onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        }
+    }
+
+    public void SelfDestruct()
+    {
+        if (this.gameObject.activeSelf == true && !_isDying)
+        {
+            _isDying = true;
+            StartCoroutine(DieRoutine());
         }
     }
 }

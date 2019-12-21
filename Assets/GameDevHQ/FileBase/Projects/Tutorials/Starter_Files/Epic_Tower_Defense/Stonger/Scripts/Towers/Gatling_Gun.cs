@@ -17,6 +17,9 @@ public class Gatling_Gun : Explodable, ITower
     /*----------Extended Code----------*/
     [SerializeField] private int _health; //Only here so I can see it in the inspector
     private float _healthPercent;
+
+    public string Name { get; set; }
+
     public int Health { get; set; }
     public int DamageTaken { get; set; }
 
@@ -47,6 +50,7 @@ public class Gatling_Gun : Explodable, ITower
         TowerLocation.onSetNewTowerHealth += UpdateHealthBar;
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
+        GameManager.onSelfDestructTowers += SelfDestruct;
 
         if (this.gameObject.tag.Contains("Upgrade"))
             Health = UpgradeInitialHealth;
@@ -64,6 +68,7 @@ public class Gatling_Gun : Explodable, ITower
         TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack -= TakeDamage;
+        GameManager.onSelfDestructTowers -= SelfDestruct;
 
         _isAttacking = false;
         _towerRange.SetActive(false);
@@ -72,6 +77,8 @@ public class Gatling_Gun : Explodable, ITower
     // Use this for initialization
     void Start()
     {
+        Name = this.gameObject.tag;
+
         foreach (var muzzle in _muzzleFlash)
         {
             muzzle.SetActive(false);
@@ -205,6 +212,15 @@ public class Gatling_Gun : Explodable, ITower
         {
             _healthPercent = (float)Health / (this.gameObject.tag.Contains("Upgrade") ? (float)UpgradeInitialHealth : (float)InitialHealth);
             onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        }
+    }
+
+    public void SelfDestruct()
+    {
+        if (this.gameObject.activeSelf == true && !_isDying)
+        {
+            _isDying = true;
+            StartCoroutine(DieRoutine());
         }
     }
 }

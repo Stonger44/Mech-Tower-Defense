@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface ITower
 {
+    string Name { get; set; }
+
     int Health { get; set; }
     int DamageTaken { get; set; }
 
@@ -16,4 +18,5 @@ public interface ITower
     int UpgradeWarFundSellValue { get; set; }
 
     void ToggleTowerRange(GameObject currentlyViewedTower);
+    void SelfDestruct();
 }

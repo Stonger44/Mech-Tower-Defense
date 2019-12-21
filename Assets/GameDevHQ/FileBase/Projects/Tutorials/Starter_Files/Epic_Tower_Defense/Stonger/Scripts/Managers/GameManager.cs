@@ -50,6 +50,7 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action<int> onUpdateLevelStatusCountDown;
 
     public static event Action<int> onWaveFailed;
+    public static event Action onSelfDestructTowers;
 
     public override void Init()
     {
@@ -216,6 +217,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         onUpdateLevelStatus?.Invoke();
         onWaveFailed?.Invoke(_health);
+        onSelfDestructTowers?.Invoke();
     }
 
     private void OnEnemyExplosion(GameObject enemy)
