@@ -8676,7 +8676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ccb7f3667eeb645b1771f03d1ac1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialWaveEnemyCount: 3
+  _initialWaveEnemyCount: 5
   _initialHealth: 5
   _health: 0
   _healthBarGameObject: {fileID: 704600513}

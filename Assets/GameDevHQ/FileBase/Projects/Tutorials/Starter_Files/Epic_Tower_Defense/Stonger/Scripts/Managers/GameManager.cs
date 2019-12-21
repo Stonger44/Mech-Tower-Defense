@@ -49,7 +49,7 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action onUpdateLevelStatus;
     public static event Action<int> onUpdateLevelStatusCountDown;
 
-    public static event Action onWaveFailed;
+    public static event Action<int> onWaveFailed;
 
     public override void Init()
     {
@@ -88,9 +88,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
+        WaveRunning = false;
+        WaveSuccess = true;
+
         _health = _initialHealth;
         _healthPercent = (float)_health / (float)_initialHealth;
         onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+
         TotalWarFunds = _totalWarFunds;
         UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
     }
@@ -145,10 +149,13 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator StartWaveRoutine()
     {
         //CountDown
-        for (int i = 3; i > -1; i--)
+        for (int i = 4; i > -1; i--)
         {
             onUpdateLevelStatusCountDown?.Invoke(i);
-            yield return new WaitForSeconds(1);
+            if (i == 4)
+                yield return new WaitForSeconds(0.5f);
+            else
+                yield return new WaitForSeconds(1);
         }
         onUpdateLevelStatusCountDown?.Invoke(-1); //The LevelStatusUI will hide itself with this parameter
 
@@ -183,20 +190,23 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void TakeDamage()
     {
-        _health--;
-
-        if (_health <= 0)
+        if (WaveRunning == true)
         {
-            _health = 0;
+            _health--;
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                _healthPercent = (float)_health / (float)_initialHealth;
+                onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
+                onTakeDamage?.Invoke(_health, _initialHealth);
+                WaveFailed();
+                return;
+            }
             _healthPercent = (float)_health / (float)_initialHealth;
             onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-            onTakeDamage?.Invoke(_health, _initialHealth);
-            WaveFailed();
-            return;
+            onTakeDamage?.Invoke(_health, _initialHealth); 
         }
-        _healthPercent = (float)_health / (float)_initialHealth;
-        onHealthUpdate?.Invoke(_healthBarGameObject, _healthPercent);
-        onTakeDamage?.Invoke(_health, _initialHealth);
     }
 
     private void WaveFailed()
@@ -205,7 +215,7 @@ public class GameManager : MonoSingleton<GameManager>
         WaveSuccess = false;
 
         onUpdateLevelStatus?.Invoke();
-        onWaveFailed?.Invoke();
+        onWaveFailed?.Invoke(_health);
     }
 
     private void OnEnemyExplosion(GameObject enemy)

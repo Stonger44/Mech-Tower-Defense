@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +50,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _playActive;
     [SerializeField] private GameObject _ffActive;
 
+    public static event Action onResetEnemiesFotNextWave;
+
     private void OnEnable()
     {
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
@@ -57,6 +60,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onWaveUpdate += UpdateWaveCount;
         GameManager.onEnemyCountUpdate += UpdateEnemyCount;
         GameManager.onTakeDamage += DamageHealthUI;
+        GameManager.onWaveFailed += WaveFailedhealthUI;
         GameManager.onUpdateLevelStatusCountDown += UpdateLevelStatusCountDown;
         GameManager.onUpdateLevelStatus += UpdateLevelStatus;
     }
@@ -69,6 +73,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         GameManager.onWaveUpdate -= UpdateWaveCount;
         GameManager.onEnemyCountUpdate -= UpdateEnemyCount;
         GameManager.onTakeDamage -= DamageHealthUI;
+        GameManager.onWaveFailed -= WaveFailedhealthUI;
         GameManager.onUpdateLevelStatusCountDown -= UpdateLevelStatusCountDown;
         GameManager.onUpdateLevelStatus -= UpdateLevelStatus;
     }
@@ -94,6 +99,14 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         switch (countDownTime)
         {
+            case 4:
+                if (_isHealthDamageRoutineRunning == false)
+                {
+                    _isHealthDamageRoutineRunning = true;
+                    StartCoroutine(HealthUpdateRoutine(GameManager.Instance.WaveSuccess == false));
+                    onResetEnemiesFotNextWave?.Invoke();
+                }
+                break;
             case 3:
             case 2:
             case 1:
@@ -150,7 +163,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         }
         else if (GameManager.Instance.WaveSuccess == true)
         {
-            if (GameManager.Instance.Wave > GameManager.Instance.FinalWave)
+            if (GameManager.Instance.Wave == (GameManager.Instance.FinalWave + 1))
             {
                 _status.text = "LEVEL COMPLETE";
             }
@@ -165,6 +178,16 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         }
     }
 
+    private void WaveFailedhealthUI(int currentHealth)
+    {
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(HealthUpdateRoutine());
+        }
+    }
+
+
+
     private void DamageHealthUI(int currentHealth, int initialHealth)
     {
         if (GameManager.Instance.WaveRunning == true && _isHealthDamageRoutineRunning == false)
@@ -172,47 +195,64 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             _healthPercent = (float)currentHealth / (float)initialHealth;
 
             _isHealthDamageRoutineRunning = true;
-            StartCoroutine(HealthDamageRoutine());
+            StartCoroutine(HealthUpdateRoutine());
         }
     }
 
-    private IEnumerator HealthDamageRoutine()
+    private IEnumerator HealthUpdateRoutine(bool isRebooting = false)
     {
-        for (int i = 1; i <= 4; i++)
+
+        if (GameManager.Instance.WaveRunning == false && isRebooting == false)
+            yield return null;
+
+
+        if (GameManager.Instance.WaveRunning == true || isRebooting == true)
         {
-            switch (i)
+            for (int i = 1; i <= 4; i++)
             {
-                case 1:
-                case 3:
-                    //Change to damage color
-                    foreach (var panel in _uiPanelDictionary)
-                    {
-                        if (_healthPercent <= GameManager.Instance.HealthWarningThreshold)
+                switch (i)
+                {
+                    case 1:
+                    case 3:
+                        //Change to damage color
+                        foreach (var panel in _uiPanelDictionary)
                         {
-                            panel.Key.sprite = panel.Value[2];
+                            if ((_healthPercent <= GameManager.Instance.HealthWarningThreshold) || isRebooting == true)
+                            {
+                                panel.Key.sprite = panel.Value[2];
+                            }
+                            else
+                            {
+                                panel.Key.sprite = panel.Value[1];
+                            }
                         }
-                        else
+                        break;
+                    case 2:
+                    case 4:
+                        //Change to default color
+                        foreach (var panel in _uiPanelDictionary)
                         {
-                            panel.Key.sprite = panel.Value[1];
+                            panel.Key.sprite = panel.Value[0];
                         }
-                    }
-                    break;
-                case 2:
-                case 4:
-                    //Change to default color
-                    foreach (var panel in _uiPanelDictionary)
-                    {
-                        panel.Key.sprite = panel.Value[0];
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (i < 2)
+                    yield return new WaitForSeconds(0.15f);
+                else
+                    yield return new WaitForSeconds(0.1f);
             }
 
-            if (i < 2)
-                yield return new WaitForSeconds(0.2f);
-            else
-                yield return new WaitForSeconds(0.1f);
+            //If Wave Failed
+            if (GameManager.Instance.WaveRunning == false && GameManager.Instance.WaveSuccess == false && isRebooting == false)
+            {
+                foreach (var panel in _uiPanelDictionary)
+                {
+                    panel.Key.sprite = panel.Value[2]; //Change UI color to red
+                }
+            } 
         }
 
         _isHealthDamageRoutineRunning = false;

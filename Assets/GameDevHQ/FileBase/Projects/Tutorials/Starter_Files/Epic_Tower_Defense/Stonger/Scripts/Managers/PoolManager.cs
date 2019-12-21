@@ -8,13 +8,13 @@ public class PoolManager : MonoSingleton<PoolManager>
     private void OnEnable()
     {
         GameManager.onStartWave += SetEnemiesInPoolToStandby;
-        GameManager.onWaveFailed += SetEnemiesInPoolToStandby;
+        UI_Manager.onResetEnemiesFotNextWave += SetEnemiesInPoolToStandby;
     }
 
     private void OnDisable()
     {
         GameManager.onStartWave -= SetEnemiesInPoolToStandby;
-        GameManager.onWaveFailed -= SetEnemiesInPoolToStandby;
+        UI_Manager.onResetEnemiesFotNextWave -= SetEnemiesInPoolToStandby;
     }
 
     private void Start()
