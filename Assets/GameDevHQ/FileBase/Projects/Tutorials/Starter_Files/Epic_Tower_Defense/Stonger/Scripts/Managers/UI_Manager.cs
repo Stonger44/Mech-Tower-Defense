@@ -180,11 +180,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     {
         for (int i = 1; i <= 4; i++)
         {
-            if (i < 2)
-                yield return new WaitForSeconds(0.2f);
-            else
-                yield return new WaitForSeconds(0.1f);
-
             switch (i)
             {
                 case 1:
@@ -213,6 +208,11 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 default:
                     break;
             }
+
+            if (i < 2)
+                yield return new WaitForSeconds(0.2f);
+            else
+                yield return new WaitForSeconds(0.1f);
         }
 
         _isHealthDamageRoutineRunning = false;
