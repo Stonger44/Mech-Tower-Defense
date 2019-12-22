@@ -41,6 +41,7 @@ public class Missile_Launcher : Explodable, ITower
 
     public static event Action<GameObject> onDeath;
     public static event Action<GameObject, float> onHealthUpdate;
+    public static event Action<int> onBroadcastTowerWarFundValue;
 
     private void OnEnable()
     {
@@ -50,6 +51,7 @@ public class Missile_Launcher : Explodable, ITower
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
         GameManager.onSelfDestructTowers += SelfDestruct;
+        GameManager.onCollectCurrentActiveTowersTotalWarFundValue += BroadcastTowerWarFundValue;
 
         if (this.gameObject.tag.Contains("Upgrade"))
             Health = UpgradeInitialHealth;
@@ -68,9 +70,21 @@ public class Missile_Launcher : Explodable, ITower
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack -= TakeDamage;
         GameManager.onSelfDestructTowers -= SelfDestruct;
+        GameManager.onCollectCurrentActiveTowersTotalWarFundValue -= BroadcastTowerWarFundValue;
 
         _launched = false;
         _towerRange.SetActive(false);
+    }
+
+    private void BroadcastTowerWarFundValue()
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            if (this.gameObject.tag.Contains("Upgrade"))
+                onBroadcastTowerWarFundValue?.Invoke(UpgradeWarFundCost);
+            else
+                onBroadcastTowerWarFundValue?.Invoke(WarFundCost);
+        }
     }
 
     private void Start()

@@ -21,6 +21,9 @@ public class GameManager : MonoSingleton<GameManager>
     public int TotalWarFunds { get; private set; }
     [SerializeField] private int _totalWarFunds;
 
+    public int CurrentWaveInitialTotalWarFunds { get; private set; }
+    [SerializeField] private int _currentWaveInitialTotalWarFunds;
+
     public int InitialWave { get; private set; }
     public int Wave { get; private set; }
     public int FinalWave { get; private set; }
@@ -52,6 +55,8 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action<int> onWaveFailed;
     public static event Action onSelfDestructTowers;
 
+    public static event Action onCollectCurrentActiveTowersTotalWarFundValue;
+
     public override void Init()
     {
         HealthCautionThreshold = _healthCautionThreshold;
@@ -74,6 +79,8 @@ public class GameManager : MonoSingleton<GameManager>
         TowerLocation.onPurchaseTower += SpendWarFunds;
         TowerLocation.onDismantledCurrentTower += CollectDismantledTowerWarFunds;
         TowerLocation.onPurchaseTowerUpgrade += SpendWarFunds;
+        Gatling_Gun.onBroadcastTowerWarFundValue += SaveCurrentWaveInitialTotalWarFunds;
+        Missile_Launcher.onBroadcastTowerWarFundValue += SaveCurrentWaveInitialTotalWarFunds;
     }
 
     private void OnDisable()
@@ -85,6 +92,8 @@ public class GameManager : MonoSingleton<GameManager>
         TowerLocation.onPurchaseTower -= SpendWarFunds;
         TowerLocation.onDismantledCurrentTower -= CollectDismantledTowerWarFunds;
         TowerLocation.onPurchaseTowerUpgrade -= SpendWarFunds;
+        Gatling_Gun.onBroadcastTowerWarFundValue -= SaveCurrentWaveInitialTotalWarFunds;
+        Missile_Launcher.onBroadcastTowerWarFundValue -= SaveCurrentWaveInitialTotalWarFunds;
     }
 
     private void Start()
@@ -143,8 +152,29 @@ public class GameManager : MonoSingleton<GameManager>
         if (_isStartWaveRoutineRunning == false)
         {
             _isStartWaveRoutineRunning = true;
+
+            if (WaveSuccess == false) //The previous wave was a fail, so this is a retry
+            {
+                TotalWarFunds = CurrentWaveInitialTotalWarFunds;
+                _totalWarFunds = TotalWarFunds;
+
+                UI_Manager.Instance.UpdateWarFundsText(TotalWarFunds);
+            }
+
+            CurrentWaveInitialTotalWarFunds = 0;
+            _currentWaveInitialTotalWarFunds = 0;
+
+            onCollectCurrentActiveTowersTotalWarFundValue?.Invoke();
+            SaveCurrentWaveInitialTotalWarFunds(TotalWarFunds);
+            
             StartCoroutine(StartWaveRoutine()); 
         }
+    }
+
+    private void SaveCurrentWaveInitialTotalWarFunds(int warFundsToAddToTotal)
+    {
+        CurrentWaveInitialTotalWarFunds += warFundsToAddToTotal;
+        _currentWaveInitialTotalWarFunds = CurrentWaveInitialTotalWarFunds;
     }
 
     private IEnumerator StartWaveRoutine()
