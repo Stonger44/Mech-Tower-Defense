@@ -13,7 +13,12 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Text _enemyCount;
 
     [SerializeField] private Text _warFunds;
-    [SerializeField] private Text _dismantledWarFundsRecieved;
+
+    [SerializeField] private Text _dismantleTowerWarFundsRecieved;
+    [SerializeField] private Sprite _dismantleTowerWarFundsSprite;
+
+    [SerializeField] private Text _repairTowerWarFundsCost;
+    [SerializeField] private Sprite _repairTowerWarFundsSprite;
 
     private float _healthPercent;
     private Sprite _healthSprite;
@@ -39,6 +44,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _UI_MissileLauncher_Disabled;
 
     [SerializeField] private GameObject _UI_DismantleTower;
+    [SerializeField] private GameObject _UI_RepairTower;
+    [SerializeField] private GameObject _UI_RepairTower_Disabled;
     [SerializeField] private GameObject _UI_UpgradeGatlingGun;
     [SerializeField] private GameObject _UI_UpgradeGatlingGun_Disabled;
     [SerializeField] private GameObject _UI_UpgradeMissileLauncher;
@@ -287,7 +294,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 else
                     _UI_UpgradeGatlingGun_Disabled.SetActive(true);
 
-                _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
             case "Tower_Missile_Launcher":
@@ -297,13 +304,13 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 else
                     _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
 
-                _dismantledWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
 
                 break;
             case "Tower_Missile_Launcher_Upgrade":
             case "Tower_Gatling_Gun_Upgrade":
 
-                _dismantledWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
+                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
 
                 break;
             default:
