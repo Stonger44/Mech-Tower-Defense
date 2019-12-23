@@ -5570,6 +5570,8 @@ MonoBehaviour:
   _pauseActive: {fileID: 1390762800}
   _playActive: {fileID: 142299666}
   _ffActive: {fileID: 230579418}
+  _playButton: {fileID: 529548917}
+  _ffButton: {fileID: 459617100}
 --- !u!1001 &595690249
 PrefabInstance:
   m_ObjectHideFlags: 0

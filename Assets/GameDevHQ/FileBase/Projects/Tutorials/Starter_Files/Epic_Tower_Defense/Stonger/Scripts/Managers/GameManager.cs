@@ -59,6 +59,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public override void Init()
     {
+        Time.timeScale = 1;
+
         HealthCautionThreshold = _healthCautionThreshold;
         HealthWarningThreshold = _healthWarningThreshold;
 

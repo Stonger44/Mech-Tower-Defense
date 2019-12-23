@@ -54,6 +54,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private GameObject _playActive;
     [SerializeField] private GameObject _ffActive;
 
+    [SerializeField] private GameObject _playButton;
+    [SerializeField] private GameObject _ffButton;
+
     public static event Action onResetEnemiesFotNextWave;
 
     private void OnEnable()
@@ -164,6 +167,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             if (_isLevelStatusNextWaveRoutineRunning == false)
             {
                 _isLevelStatusNextWaveRoutineRunning = true;
+                _playButton.SetActive(false);
+                _ffButton.SetActive(false);
                 StartCoroutine(LevelStatus_NextWaveRoutine());
             }
         }
@@ -193,6 +198,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             }
         }
 
+
+        _playButton.SetActive(true);
+        _ffButton.SetActive(true);
         _isLevelStatusNextWaveRoutineRunning = false;
     }
 
