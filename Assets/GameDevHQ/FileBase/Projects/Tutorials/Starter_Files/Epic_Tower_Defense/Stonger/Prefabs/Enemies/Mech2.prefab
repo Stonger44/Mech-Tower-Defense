@@ -7950,8 +7950,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosion: {fileID: 0}
   _explosionSound: {fileID: 0}
-  _initialHealth: 120
-  _health: 120
+  _initialHealth: 150
+  _health: 150
   _warFunds: 500
   _onStandby: 0
   _inJunkyard: 0

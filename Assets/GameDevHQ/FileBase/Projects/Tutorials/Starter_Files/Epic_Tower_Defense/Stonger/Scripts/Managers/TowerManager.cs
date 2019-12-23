@@ -138,6 +138,11 @@ public class TowerManager : MonoSingleton<TowerManager>
             StopViewingTower(); 
         }
     }
+
+    public void RepairTower()
+    {
+        Debug.Log("Repairing Tower");
+    }
     /*----------View Tower----------*/
 
     /*----------Place Tower----------*/

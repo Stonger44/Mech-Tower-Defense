@@ -344,7 +344,12 @@ MonoBehaviour:
   _bulletCasings:
   - {fileID: 1039743723131286920}
   _fireSound: {fileID: 8300000, guid: 08e0cb88300e54b09aa0deb684c3a3de, type: 3}
+  _startingHealth: 500
   _health: 0
+  _towerSprites:
+    TowerSprite: {fileID: 21300000, guid: 279be0d4fce3d4c999b7898952f03a09, type: 3}
+    UpgradeTowerSprite: {fileID: 21300000, guid: b402effddb5b69e43bf972cfe08693ae,
+      type: 3}
   _towerRange: {fileID: 8127870583735715059}
   _fireDelay: 0.5
   _damageToDeal: 1

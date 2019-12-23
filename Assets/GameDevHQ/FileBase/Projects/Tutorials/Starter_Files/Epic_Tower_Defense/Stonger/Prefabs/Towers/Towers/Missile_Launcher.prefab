@@ -253,7 +253,12 @@ MonoBehaviour:
   _fuseDelay: 0
   _reloadTime: 0.7
   _destroyTime: 10
+  _startingHealth: 500
   _health: 0
+  _towerSprites:
+    TowerSprite: {fileID: 21300000, guid: 24d619bf31f654083b8f57e81027c9cc, type: 3}
+    UpgradeTowerSprite: {fileID: 21300000, guid: cb1012df2b92d2b40b87e5864078c0a9,
+      type: 3}
   _towerRange: {fileID: 2307249472417552060}
   _warheadDamage: 5
   _lockOnDelayTime: 1

@@ -16,21 +16,28 @@ public class Missile_Launcher : Explodable, ITower
     private bool _launched; //bool to check if we launched the rockets
 
     /*----------Extended Code----------*/
+    [SerializeField] private int _startingHealth; //Only here so I can see it in the inspector
     [SerializeField] private int _health; //Only here so I can see it in the inspector
     private float _healthPercent;
+
+    public TowerSprites TowerSprites { get; set; }
+    [SerializeField] private TowerSprites _towerSprites;
 
     public string Name { get; set; }
 
     public int Health { get; set; }
+    public int InitialHealth { get; set; }// = 500;
+    public int UpgradeInitialHealth { get; set; }// = 1000;
+
     public int DamageTaken { get; set; }
-
-    public int InitialHealth { get; set; } = 500;
-    public int WarFundCost { get; set; } = 1500;
-    public int WarFundSellValue { get; set; } = 750;
-
-    public int UpgradeInitialHealth { get; set; } = 1000;
-    public int UpgradeWarFundCost { get; set; } = 3000;
-    public int UpgradeWarFundSellValue { get; set; } = 1500;
+    
+    public int WarFundCost { get; set; }// = 1500;
+    public int WarFundSellValue { get; set; }// = 750;
+    public int WarFundRepairCost { get; set; }
+    
+    public int UpgradeWarFundCost { get; set; }// = 3000;
+    public int UpgradeWarFundSellValue { get; set; }// = 1500;
+    public int UpgradeWarFundRepairCost { get; set; }
 
     [SerializeField] private GameObject _towerRange;
 
@@ -54,10 +61,35 @@ public class Missile_Launcher : Explodable, ITower
         GameManager.onCollectCurrentActiveTowersTotalWarFundValue += BroadcastTowerWarFundValue;
 
         if (this.gameObject.tag.Contains("Upgrade"))
+        {
+            UpgradeInitialHealth = _startingHealth;
             Health = UpgradeInitialHealth;
+
+            InitialHealth = UpgradeInitialHealth / 2;
+        }
         else
+        {
+            InitialHealth = _startingHealth;
             Health = InitialHealth;
+
+            UpgradeInitialHealth = InitialHealth * 2;
+        }
+
         _health = Health;
+
+        Name = this.gameObject.tag;
+
+        WarFundCost = InitialHealth * 3;
+        WarFundSellValue = WarFundCost / 2;
+        WarFundRepairCost = (int)(WarFundCost * 0.75f);
+
+        UpgradeWarFundCost = UpgradeInitialHealth * 3;
+        UpgradeWarFundSellValue = UpgradeWarFundCost / 2;
+        UpgradeWarFundRepairCost = (int)(UpgradeWarFundCost * 0.75f);
+
+        TowerSprites = _towerSprites;
+        if (TowerSprites == null)
+            Debug.LogError("TowerUI is NULL.");
 
         _isDying = false;
     }
@@ -76,25 +108,31 @@ public class Missile_Launcher : Explodable, ITower
         _towerRange.SetActive(false);
     }
 
-    private void BroadcastTowerWarFundValue()
-    {
-        if (this.gameObject.activeSelf == true)
-        {
-            if (this.gameObject.tag.Contains("Upgrade"))
-                onBroadcastTowerWarFundValue?.Invoke(UpgradeWarFundCost);
-            else
-                onBroadcastTowerWarFundValue?.Invoke(WarFundCost);
-        }
-    }
-
     private void Start()
     {
-        Name = this.gameObject.tag;
+
     }
 
     private void Update()
     {
 
+    }
+
+    private void StartUp()
+    {
+        Name = this.gameObject.tag;
+
+        WarFundCost = InitialHealth * 3;
+        WarFundSellValue = WarFundCost / 2;
+        WarFundRepairCost = (int)(WarFundCost * 0.75f);
+
+        UpgradeWarFundCost = UpgradeInitialHealth * 3;
+        UpgradeWarFundSellValue = UpgradeWarFundCost / 2;
+        UpgradeWarFundRepairCost = (int)(UpgradeWarFundCost * 0.75f);
+
+        TowerSprites = _towerSprites;
+        if (TowerSprites == null)
+            Debug.LogError("TowerUI is NULL.");
     }
 
     IEnumerator FireRocketsRoutine(GameObject currentTarget)
@@ -202,6 +240,17 @@ public class Missile_Launcher : Explodable, ITower
         {
             _isDying = true;
             StartCoroutine(DieRoutine());
+        }
+    }
+
+    private void BroadcastTowerWarFundValue()
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            if (this.gameObject.tag.Contains("Upgrade"))
+                onBroadcastTowerWarFundValue?.Invoke(UpgradeWarFundCost);
+            else
+                onBroadcastTowerWarFundValue?.Invoke(WarFundCost);
         }
     }
 }

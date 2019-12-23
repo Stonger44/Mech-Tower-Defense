@@ -14,12 +14,6 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     [SerializeField] private Text _warFunds;
 
-    [SerializeField] private Text _dismantleTowerWarFundsRecieved;
-    [SerializeField] private Sprite _dismantleTowerWarFundsSprite;
-
-    [SerializeField] private Text _repairTowerWarFundsCost;
-    [SerializeField] private Sprite _repairTowerWarFundsSprite;
-
     private float _healthPercent;
     private Sprite _healthSprite;
     [SerializeField] private bool _isHealthDamageRoutineRunning;
@@ -38,18 +32,20 @@ public class UI_Manager : MonoSingleton<UI_Manager>
     [SerializeField] private Image _levelStatusPanel;
     [SerializeField] private Sprite[] _levelStatusPanelArray = new Sprite[3];
 
+    //Place New Towers
     [SerializeField] private GameObject _UI_GatlingGun;
     [SerializeField] private GameObject _UI_GatlingGun_Disabled;
     [SerializeField] private GameObject _UI_MissileLauncher;
     [SerializeField] private GameObject _UI_MissileLauncher_Disabled;
 
-    [SerializeField] private GameObject _UI_DismantleTower;
-    [SerializeField] private GameObject _UI_RepairTower;
-    [SerializeField] private GameObject _UI_RepairTower_Disabled;
-    [SerializeField] private GameObject _UI_UpgradeGatlingGun;
-    [SerializeField] private GameObject _UI_UpgradeGatlingGun_Disabled;
-    [SerializeField] private GameObject _UI_UpgradeMissileLauncher;
-    [SerializeField] private GameObject _UI_UpgradeMissileLauncher_Disabled;
+    //Tower Options
+    [SerializeField] private TowerOptions _dismantleTowerOption;
+    [SerializeField] private TowerOptions _repairTowerOption;
+    [SerializeField] private TowerOptions _repairTowerOption_NA;
+    [SerializeField] private TowerOptions _repairTowerOption_Disabled;
+    [SerializeField] private TowerOptions _upgradeTowerOption;
+    [SerializeField] private TowerOptions _upgradeTowerOption_Disabled;
+    [SerializeField] private List<TowerOptions> _towerOptionList = new List<TowerOptions>();
 
     private ITower _currentTowerInterface;
 
@@ -94,6 +90,13 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         _uiPanelDictionary.Add(_restartPanel, __restartPanelArray);
         _uiPanelDictionary.Add(_waveEnemiesPanel, _waveEnemiesPanelArray);
         _uiPanelDictionary.Add(_levelStatusPanel, _levelStatusPanelArray);
+
+        _towerOptionList.Add(_dismantleTowerOption);
+        _towerOptionList.Add(_repairTowerOption);
+        _towerOptionList.Add(_repairTowerOption_NA);
+        _towerOptionList.Add(_repairTowerOption_Disabled);
+        _towerOptionList.Add(_upgradeTowerOption);
+        _towerOptionList.Add(_upgradeTowerOption_Disabled);
     }
 
     // Update is called once per frame
@@ -285,40 +288,129 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         HideAllTowerPlacementUI();
         HideAllTowerOptionsUI();
 
-        switch (currentlyViewedTower.tag)
+        #region Old Code
+        //switch (currentlyViewedTower.tag)
+        //{
+        //    case "Tower_Gatling_Gun":
+
+        //        if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+        //            _UI_UpgradeGatlingGun.SetActive(true);
+        //        else
+        //            _UI_UpgradeGatlingGun_Disabled.SetActive(true);
+
+        //        _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+
+        //        break;
+        //    case "Tower_Missile_Launcher":
+
+        //        if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+        //            _UI_UpgradeMissileLauncher.SetActive(true);
+        //        else
+        //            _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
+
+        //        _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
+
+        //        break;
+        //    case "Tower_Missile_Launcher_Upgrade":
+        //    case "Tower_Gatling_Gun_Upgrade":
+
+        //        _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
+
+        //        break;
+        //    default:
+        //        Debug.LogError("currentlyViewedTower.tag not recognized.");
+        //        break;
+        //}
+        #endregion
+
+        SetAllTowerOptionTextAndImages();
+
+        ShowAvailableTowerOptions();
+    }
+
+    private void SetAllTowerOptionTextAndImages()
+    {
+        foreach (var towerOption in _towerOptionList)
         {
-            case "Tower_Gatling_Gun":
-
-                if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
-                    _UI_UpgradeGatlingGun.SetActive(true);
-                else
-                    _UI_UpgradeGatlingGun_Disabled.SetActive(true);
-
-                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
-
-                break;
-            case "Tower_Missile_Launcher":
-
-                if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
-                    _UI_UpgradeMissileLauncher.SetActive(true);
-                else
-                    _UI_UpgradeMissileLauncher_Disabled.SetActive(true);
-
-                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.WarFundSellValue.ToString();
-
-                break;
-            case "Tower_Missile_Launcher_Upgrade":
-            case "Tower_Gatling_Gun_Upgrade":
-
-                _dismantleTowerWarFundsRecieved.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString();
-
-                break;
-            default:
-                Debug.LogError("currentlyViewedTower.tag not recognized.");
-                break;
+            if (_currentTowerInterface.Name.ToUpper().Contains("UPGRADE"))
+            {
+                if (towerOption.UIObject.name.ToUpper().Contains("DISMANTLE"))
+                {
+                    towerOption.WarFunds.text = _currentTowerInterface.UpgradeWarFundSellValue.ToString(); //Update WarFund
+                }
+                else if (towerOption.UIObject.name.ToUpper().Contains("REPAIR"))
+                {
+                    towerOption.WarFunds.text = _currentTowerInterface.UpgradeWarFundRepairCost.ToString();  //Update WarFund
+                }
+                towerOption.Image.sprite = _currentTowerInterface.TowerSprites.UpgradeTowerSprite; //Update Image
+            }
+            else //Not Upgraded Towers
+            {
+                if (towerOption.UIObject.name.ToUpper().Contains("DISMANTLE"))
+                {
+                    towerOption.WarFunds.text = _currentTowerInterface.WarFundSellValue.ToString(); //Update WarFund
+                    towerOption.Image.sprite = _currentTowerInterface.TowerSprites.TowerSprite; //Update Image
+                }
+                else if (towerOption.UIObject.name.ToUpper().Contains("REPAIR"))
+                {
+                    towerOption.WarFunds.text = _currentTowerInterface.WarFundRepairCost.ToString();  //Update WarFund
+                    towerOption.Image.sprite = _currentTowerInterface.TowerSprites.TowerSprite; //Update Image
+                }
+                else if (towerOption.UIObject.name.ToUpper().Contains("UPGRADE"))
+                {
+                    towerOption.WarFunds.text = _currentTowerInterface.UpgradeWarFundCost.ToString();  //Update WarFund
+                    towerOption.Image.sprite = _currentTowerInterface.TowerSprites.UpgradeTowerSprite; //Update Image
+                }
+            }
         }
+    }
 
-        _UI_DismantleTower.SetActive(true);
+    private void ShowAvailableTowerOptions()
+    {
+        _dismantleTowerOption.UIObject.SetActive(true);
+
+        if (_currentTowerInterface.Name.ToUpper().Contains("UPGRADE"))
+        {
+            //Show Appropriate Repair Tower Option
+            if (_currentTowerInterface.Health == _currentTowerInterface.UpgradeInitialHealth) //Tower is at full health
+            {
+                _repairTowerOption_NA.UIObject.SetActive(true);
+            }
+            else if (GameManager.Instance.TotalWarFunds < _currentTowerInterface.UpgradeWarFundRepairCost)
+            {
+                _repairTowerOption_Disabled.UIObject.SetActive(true);
+            }
+            else if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundRepairCost)
+            {
+                _repairTowerOption.UIObject.SetActive(true);
+            }
+        }
+        else
+        {
+            //Show Appropriate Repair Tower Option
+            if (_currentTowerInterface.Health == _currentTowerInterface.InitialHealth) //Tower is at full health
+            {
+                _repairTowerOption_NA.UIObject.SetActive(true);
+            }
+            else if (GameManager.Instance.TotalWarFunds < _currentTowerInterface.WarFundRepairCost)
+            {
+                _repairTowerOption_Disabled.UIObject.SetActive(true);
+            }
+            else if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.WarFundRepairCost)
+            {
+                _repairTowerOption.UIObject.SetActive(true);
+            }
+
+            //Show Appropriate Upgrade Tower Option
+            if (GameManager.Instance.TotalWarFunds >= _currentTowerInterface.UpgradeWarFundCost)
+            {
+                _upgradeTowerOption.UIObject.SetActive(true);
+            }
+            else
+            {
+                _upgradeTowerOption_Disabled.UIObject.SetActive(true);
+            }
+        }
     }
 
     private void ResetArmoryToDefaultState()
@@ -329,11 +421,12 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     private void HideAllTowerOptionsUI()
     {
-        _UI_DismantleTower.SetActive(false);
-        _UI_UpgradeGatlingGun.SetActive(false);
-        _UI_UpgradeGatlingGun_Disabled.SetActive(false);
-        _UI_UpgradeMissileLauncher.SetActive(false);
-        _UI_UpgradeMissileLauncher_Disabled.SetActive(false);
+        _dismantleTowerOption.UIObject.SetActive(false);
+        _repairTowerOption.UIObject.SetActive(false);
+        _repairTowerOption_NA.UIObject.SetActive(false);
+        _repairTowerOption_Disabled.UIObject.SetActive(false);
+        _upgradeTowerOption.UIObject.SetActive(false);
+        _upgradeTowerOption_Disabled.UIObject.SetActive(false);
     }
 
     public void UpdateWarFundsText(int warFunds)

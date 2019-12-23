@@ -15,21 +15,28 @@ public class Gatling_Gun : Explodable, ITower
     private bool _startWeaponNoise = true;
 
     /*----------Extended Code----------*/
+    [SerializeField] private int _startingHealth; //Only here so I can see it in the inspector
     [SerializeField] private int _health; //Only here so I can see it in the inspector
     private float _healthPercent;
+
+    public TowerSprites TowerSprites { get; set; }
+    [SerializeField] private TowerSprites _towerSprites;
 
     public string Name { get; set; }
 
     public int Health { get; set; }
+    public int InitialHealth { get; set; }// = 500;
+    public int UpgradeInitialHealth { get; set; }// = 1000;
+
     public int DamageTaken { get; set; }
 
-    public int InitialHealth { get; set; } = 500;
-    public int WarFundCost { get; set; } = 500;
-    public int WarFundSellValue { get; set; } = 250;
-
-    public int UpgradeInitialHealth { get; set; } = 1000;
-    public int UpgradeWarFundCost { get; set; } = 1000;
-    public int UpgradeWarFundSellValue { get; set; } = 500;
+    public int WarFundCost { get; set; }// = 500;
+    public int WarFundSellValue { get; set; }// = 250;
+    public int WarFundRepairCost { get; set; }
+    
+    public int UpgradeWarFundCost { get; set; }// = 1000;
+    public int UpgradeWarFundSellValue { get; set; }// = 500;
+    public int UpgradeWarFundRepairCost { get; set; }
 
     [SerializeField] private GameObject _towerRange;
 
@@ -55,10 +62,34 @@ public class Gatling_Gun : Explodable, ITower
         GameManager.onCollectCurrentActiveTowersTotalWarFundValue += BroadcastTowerWarFundValue;
 
         if (this.gameObject.tag.Contains("Upgrade"))
+        {
+            UpgradeInitialHealth = _startingHealth;
+            InitialHealth = UpgradeInitialHealth / 2;
             Health = UpgradeInitialHealth;
+        }
         else
+        {
+            InitialHealth = _startingHealth;
+            UpgradeInitialHealth = InitialHealth * 2;
             Health = InitialHealth;
+        }
+
         _health = Health;
+
+        Name = this.gameObject.tag;
+
+        WarFundCost = InitialHealth;
+        WarFundSellValue = WarFundCost / 2;
+        WarFundRepairCost = (int)(WarFundCost * 0.75f);
+
+        UpgradeWarFundCost = UpgradeInitialHealth;
+        UpgradeWarFundSellValue = UpgradeWarFundCost / 2;
+        UpgradeWarFundRepairCost = (int)(UpgradeWarFundCost * 0.75f);
+
+        TowerSprites = _towerSprites;
+        if (TowerSprites == null)
+            Debug.LogError("TowerUI is NULL.");
+
         _isDying = false;
     }
 
@@ -77,22 +108,9 @@ public class Gatling_Gun : Explodable, ITower
         _towerRange.SetActive(false);
     }
 
-    private void BroadcastTowerWarFundValue()
-    {
-        if (this.gameObject.activeSelf == true)
-        {
-            if (this.gameObject.tag.Contains("Upgrade"))
-                onBroadcastTowerWarFundValue?.Invoke(UpgradeWarFundCost);
-            else
-                onBroadcastTowerWarFundValue?.Invoke(WarFundCost); 
-        }
-    }
-
     // Use this for initialization
     void Start()
     {
-        Name = this.gameObject.tag;
-
         foreach (var muzzle in _muzzleFlash)
         {
             muzzle.SetActive(false);
@@ -107,7 +125,7 @@ public class Gatling_Gun : Explodable, ITower
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     // Method to rotate gun barrel 
@@ -235,6 +253,17 @@ public class Gatling_Gun : Explodable, ITower
         {
             _isDying = true;
             StartCoroutine(DieRoutine());
+        }
+    }
+
+    private void BroadcastTowerWarFundValue()
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            if (this.gameObject.tag.Contains("Upgrade"))
+                onBroadcastTowerWarFundValue?.Invoke(UpgradeWarFundCost);
+            else
+                onBroadcastTowerWarFundValue?.Invoke(WarFundCost);
         }
     }
 }

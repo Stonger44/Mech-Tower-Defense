@@ -29608,7 +29608,12 @@ MonoBehaviour:
   - {fileID: 4895823822052408131}
   - {fileID: 4896266901444495815}
   _fireSound: {fileID: 8300000, guid: ebcd7ceac90454c1e9dc458cb87b6f75, type: 3}
+  _startingHealth: 1000
   _health: 0
+  _towerSprites:
+    TowerSprite: {fileID: 21300000, guid: 279be0d4fce3d4c999b7898952f03a09, type: 3}
+    UpgradeTowerSprite: {fileID: 21300000, guid: b402effddb5b69e43bf972cfe08693ae,
+      type: 3}
   _towerRange: {fileID: 8080867948098752774}
   _fireDelay: 0.5
   _damageToDeal: 2
