@@ -25,18 +25,18 @@ public class Gatling_Gun : Explodable, ITower
     public string Name { get; set; }
 
     public int Health { get; set; }
-    public int InitialHealth { get; set; }// = 500;
-    public int UpgradeInitialHealth { get; set; }// = 1000;
+    public int InitialHealth { get; set; } = 500;
+    public int UpgradeInitialHealth { get; set; } = 1000;
 
     public int DamageTaken { get; set; }
 
-    public int WarFundCost { get; set; }// = 500;
-    public int WarFundSellValue { get; set; }// = 250;
-    public int WarFundRepairCost { get; set; }
+    public int WarFundCost { get; set; } = 500;
+    public int WarFundSellValue { get; set; } = 250;
+    public int WarFundRepairCost { get; set; } = 375;
     
-    public int UpgradeWarFundCost { get; set; }// = 1000;
-    public int UpgradeWarFundSellValue { get; set; }// = 500;
-    public int UpgradeWarFundRepairCost { get; set; }
+    public int UpgradeWarFundCost { get; set; } = 1000;
+    public int UpgradeWarFundSellValue { get; set; } = 500;
+    public int UpgradeWarFundRepairCost { get; set; } = 750;
 
     [SerializeField] private GameObject _towerRange;
 
@@ -64,14 +64,14 @@ public class Gatling_Gun : Explodable, ITower
 
         if (this.gameObject.tag.Contains("Upgrade"))
         {
-            UpgradeInitialHealth = _startingHealth;
-            InitialHealth = UpgradeInitialHealth / 2;
+            //UpgradeInitialHealth = _startingHealth;
+            //InitialHealth = UpgradeInitialHealth / 2;
             Health = UpgradeInitialHealth;
         }
         else
         {
-            InitialHealth = _startingHealth;
-            UpgradeInitialHealth = InitialHealth * 2;
+            //InitialHealth = _startingHealth;
+            //UpgradeInitialHealth = InitialHealth * 2;
             Health = InitialHealth;
         }
 
@@ -79,13 +79,13 @@ public class Gatling_Gun : Explodable, ITower
 
         Name = this.gameObject.tag;
 
-        WarFundCost = InitialHealth;
-        WarFundSellValue = WarFundCost / 2;
-        WarFundRepairCost = (int)(WarFundCost * 0.75f);
+        //WarFundCost = InitialHealth;
+        //WarFundSellValue = WarFundCost / 2;
+        //WarFundRepairCost = (int)(WarFundCost * 0.75f);
 
-        UpgradeWarFundCost = UpgradeInitialHealth;
-        UpgradeWarFundSellValue = UpgradeWarFundCost / 2;
-        UpgradeWarFundRepairCost = (int)(UpgradeWarFundCost * 0.75f);
+        //UpgradeWarFundCost = UpgradeInitialHealth;
+        //UpgradeWarFundSellValue = UpgradeWarFundCost / 2;
+        //UpgradeWarFundRepairCost = (int)(UpgradeWarFundCost * 0.75f);
 
         TowerSprites = _towerSprites;
         if (TowerSprites == null)

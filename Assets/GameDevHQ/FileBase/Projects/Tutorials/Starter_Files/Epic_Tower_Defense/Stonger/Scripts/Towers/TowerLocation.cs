@@ -105,17 +105,17 @@ public class TowerLocation : MonoBehaviour
     private void PlaceTower()
     {
         //Check 1: Is a tower selected?
-        ITower currentTower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
-        if (currentTower == null)
+        ITower currentITower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
+        if (currentITower == null)
         {
             Debug.Log("No Tower Selected!");
             return;
         }
 
         //Check 2: Is there enough WarFund available?
-        if (currentTower.WarFundCost > GameManager.Instance.TotalWarFunds)
+        if (currentITower.WarFundCost > GameManager.Instance.TotalWarFunds)
         {
-            Debug.Log("Insufficient WarFunds. Cost: " + currentTower.WarFundCost + ". Total War Funds: " + GameManager.Instance.TotalWarFunds + ".");
+            Debug.Log("Insufficient WarFunds. Cost: " + currentITower.WarFundCost + ". Total War Funds: " + GameManager.Instance.TotalWarFunds + ".");
             onInsufficientWarFunds?.Invoke();
             return;
         }
@@ -142,7 +142,7 @@ public class TowerLocation : MonoBehaviour
 
         onPlaceTower?.Invoke();
         onSetNewTowerHealth?.Invoke(_currentPlacedTower);
-        onPurchaseTower?.Invoke(currentTower.WarFundCost);
+        onPurchaseTower?.Invoke(currentITower.WarFundCost);
     }
 
     private void DestroyTower(GameObject towerToBeDestroyed)
