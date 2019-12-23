@@ -16,7 +16,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     private float _healthPercent;
     private Sprite _healthSprite;
-    [SerializeField] private bool _isHealthDamageRoutineRunning;
+    [SerializeField] private bool _isHealthUpdateRoutineRunning;
+    [SerializeField] private bool _isLevelStatusNextWaveRoutineRunning;
     private Dictionary<Image, Sprite[]> _uiPanelDictionary = new Dictionary<Image, Sprite[]>();
 
     [SerializeField] private Image _armoryPanel;
@@ -110,9 +111,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         switch (countDownTime)
         {
             case 4:
-                if (_isHealthDamageRoutineRunning == false)
+                if (_isHealthUpdateRoutineRunning == false)
                 {
-                    _isHealthDamageRoutineRunning = true;
+                    _isHealthUpdateRoutineRunning = true;
                     StartCoroutine(HealthUpdateRoutine(GameManager.Instance.WaveSuccess == false));
                     onResetEnemiesFotNextWave?.Invoke();
                 }
@@ -159,7 +160,12 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             {
                 _status.text = "WAVE  " + GameManager.Instance.Wave + " FAILED";
             }
-            StartCoroutine(LevelStatus_NextWaveRoutine());
+
+            if (_isLevelStatusNextWaveRoutineRunning == false)
+            {
+                _isLevelStatusNextWaveRoutineRunning = true;
+                StartCoroutine(LevelStatus_NextWaveRoutine());
+            }
         }
     }
 
@@ -186,6 +192,8 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                 _status.text = "WAVE  " + GameManager.Instance.Wave + "  INCOMING";
             }
         }
+
+        _isLevelStatusNextWaveRoutineRunning = false;
     }
 
     private void WaveFailedhealthUI(int currentHealth)
@@ -200,11 +208,11 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     private void DamageHealthUI(int currentHealth, int initialHealth)
     {
-        if (GameManager.Instance.WaveRunning == true && _isHealthDamageRoutineRunning == false)
+        if (GameManager.Instance.WaveRunning == true && _isHealthUpdateRoutineRunning == false)
         {
             _healthPercent = (float)currentHealth / (float)initialHealth;
 
-            _isHealthDamageRoutineRunning = true;
+            _isHealthUpdateRoutineRunning = true;
             StartCoroutine(HealthUpdateRoutine());
         }
     }
@@ -265,7 +273,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             } 
         }
 
-        _isHealthDamageRoutineRunning = false;
+        _isHealthUpdateRoutineRunning = false;
     }
 
     private void UpdateWaveCount(int currentWaveCount, int finalWaveCount)

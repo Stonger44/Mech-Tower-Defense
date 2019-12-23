@@ -36,8 +36,10 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     [SerializeField] private List<GameObject> _enemyPrefabs;
     [SerializeField] private List<GameObject> _enemyPool;
+    [SerializeField] private List<GameObject> _randomizedEnemyPool;
     [SerializeField] private GameObject _enemyContainer;
     private int _randomIndex;
+    private int _randomEnemyPoolIndex;
     private enum EnemyType { Mech1, Mech2 }
     private GameObject _generatedEnemy;
     private Enemy _currentEnemy;
@@ -93,6 +95,19 @@ public class PoolManager : MonoSingleton<PoolManager>
             enemy.SetActive(false);
             enemy.SetActive(true);
         }
+
+        ////Shuffle EnemyPool
+        //_randomizedEnemyPool.Clear();
+        
+        //for (int i = 0; i < _enemyPool.Count; i++)
+        //{
+        //    _randomEnemyPoolIndex = Random.Range(0, _enemyPool.Count);
+
+        //    _randomizedEnemyPool.Add(_enemyPool[_randomEnemyPoolIndex]);
+        //    _enemyPool.Remove(_enemyPool[_randomEnemyPoolIndex]);
+        //}
+
+        //_enemyPool = _randomizedEnemyPool;
     }
 
     #endregion
