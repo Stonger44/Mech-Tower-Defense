@@ -55,6 +55,7 @@ public class Missile_Launcher : Explodable, ITower
         Aim.onTargetInRange += FireMissiles;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerLocation.onSetNewTowerHealth += UpdateHealthBar;
+        TowerLocation.onRepairedCurrentTowerHealth += ResetHealth;
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
         GameManager.onSelfDestructTowers += SelfDestruct;
@@ -99,6 +100,7 @@ public class Missile_Launcher : Explodable, ITower
         Aim.onTargetInRange -= FireMissiles;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
+        TowerLocation.onRepairedCurrentTowerHealth -= ResetHealth;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack -= TakeDamage;
         GameManager.onSelfDestructTowers -= SelfDestruct;
@@ -116,6 +118,14 @@ public class Missile_Launcher : Explodable, ITower
     private void Update()
     {
 
+    }
+
+    private void ResetHealth()
+    {
+        Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
+        _health = Health;
+        _healthPercent = 1;
+        onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
     }
 
     private void StartUp()

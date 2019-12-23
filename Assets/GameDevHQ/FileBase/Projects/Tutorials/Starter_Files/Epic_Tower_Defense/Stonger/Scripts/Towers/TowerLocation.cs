@@ -23,13 +23,16 @@ public class TowerLocation : MonoBehaviour
 
     public static event Action<GameObject> onViewingCurrentTower;
     public static event Action<int> onDismantledCurrentTower;
+    public static event Action<int> onRepairedCurrentTower;
+    public static event Action onRepairedCurrentTowerHealth;
     public static event Action<int> onPurchaseTowerUpgrade;
-    
+
 
     private void OnEnable()
     {
         TowerManager.onBrowsingTowerLocations += ToggleVacantParticleEffect;
         TowerManager.onDismantleTower += DismantleTower;
+        TowerManager.onRepairTower += RepairTower;
         TowerManager.onUpgradeTower += UpgradeTower;
         Gatling_Gun.onDeath += DestroyTower;
         Missile_Launcher.onDeath += DestroyTower;
@@ -39,6 +42,7 @@ public class TowerLocation : MonoBehaviour
     {
         TowerManager.onBrowsingTowerLocations -= ToggleVacantParticleEffect;
         TowerManager.onDismantleTower -= DismantleTower;
+        TowerManager.onRepairTower -= RepairTower;
         TowerManager.onUpgradeTower -= UpgradeTower;
         Gatling_Gun.onDeath -= DestroyTower;
         Missile_Launcher.onDeath -= DestroyTower;
@@ -173,6 +177,20 @@ public class TowerLocation : MonoBehaviour
             _isOccupied = false;
             _currentPlacedTower = null;
             _currentPlacedTowerInterface = null;
+        }
+    }
+
+    private void RepairTower(GameObject towerToBeRepaired)
+    {
+        if (towerToBeRepaired == _currentPlacedTower)
+        {
+            //For GameManager to update WarFunds
+            if (_currentPlacedTower.tag.Contains("Upgrade"))
+                onRepairedCurrentTower?.Invoke(_currentPlacedTowerInterface.UpgradeWarFundRepairCost);
+            else
+                onRepairedCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundRepairCost);
+
+            onRepairedCurrentTowerHealth?.Invoke();
         }
     }
 

@@ -56,6 +56,7 @@ public class Gatling_Gun : Explodable, ITower
         Aim.onNoTargetInRange += StopShooting;
         TowerLocation.onViewingCurrentTower += ToggleTowerRange;
         TowerLocation.onSetNewTowerHealth += UpdateHealthBar;
+        TowerLocation.onRepairedCurrentTowerHealth += ResetHealth;
         TowerManager.onStopViewingTower += ToggleTowerRange;
         Enemy.onAttack += TakeDamage;
         GameManager.onSelfDestructTowers += SelfDestruct;
@@ -99,6 +100,7 @@ public class Gatling_Gun : Explodable, ITower
         Aim.onNoTargetInRange -= StopShooting;
         TowerLocation.onViewingCurrentTower -= ToggleTowerRange;
         TowerLocation.onSetNewTowerHealth -= UpdateHealthBar;
+        TowerLocation.onRepairedCurrentTowerHealth -= ResetHealth;
         TowerManager.onStopViewingTower -= ToggleTowerRange;
         Enemy.onAttack -= TakeDamage;
         GameManager.onSelfDestructTowers -= SelfDestruct;
@@ -126,6 +128,14 @@ public class Gatling_Gun : Explodable, ITower
     void Update()
     {
         
+    }
+
+    private void ResetHealth()
+    {
+        Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
+        _health = Health;
+        _healthPercent = 1;
+        onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
     }
 
     // Method to rotate gun barrel 

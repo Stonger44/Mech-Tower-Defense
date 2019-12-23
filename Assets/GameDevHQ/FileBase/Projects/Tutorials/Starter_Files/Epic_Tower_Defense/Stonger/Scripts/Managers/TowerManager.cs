@@ -31,6 +31,7 @@ public class TowerManager : MonoSingleton<TowerManager>
     public static event Action<GameObject> onStopViewingTower;
     public static event Action onStopViewingTowerUI;
     public static event Action<GameObject> onDismantleTower;
+    public static event Action<GameObject> onRepairTower;
     public static event Action<GameObject, GameObject> onUpgradeTower;
 
     private bool _onVacantLocation;
@@ -141,7 +142,11 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     public void RepairTower()
     {
-        Debug.Log("Repairing Tower");
+        if (GameManager.Instance.WaveRunning == true)
+        {
+            onRepairTower?.Invoke(CurrentlyViewedTower);
+            StopViewingTower();
+        }
     }
     /*----------View Tower----------*/
 

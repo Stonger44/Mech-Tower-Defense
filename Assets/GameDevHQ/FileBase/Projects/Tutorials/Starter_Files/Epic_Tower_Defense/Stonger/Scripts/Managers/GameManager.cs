@@ -78,6 +78,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onResetComplete += OnEnemyResetComplete;
         TowerLocation.onPurchaseTower += SpendWarFunds;
         TowerLocation.onDismantledCurrentTower += CollectDismantledTowerWarFunds;
+        TowerLocation.onRepairedCurrentTower += SpendWarFunds;
         TowerLocation.onPurchaseTowerUpgrade += SpendWarFunds;
         Gatling_Gun.onBroadcastTowerWarFundValue += SaveCurrentWaveInitialTotalWarFunds;
         Missile_Launcher.onBroadcastTowerWarFundValue += SaveCurrentWaveInitialTotalWarFunds;
@@ -91,6 +92,7 @@ public class GameManager : MonoSingleton<GameManager>
         Enemy.onResetComplete -= OnEnemyResetComplete;
         TowerLocation.onPurchaseTower -= SpendWarFunds;
         TowerLocation.onDismantledCurrentTower -= CollectDismantledTowerWarFunds;
+        TowerLocation.onRepairedCurrentTower -= SpendWarFunds;
         TowerLocation.onPurchaseTowerUpgrade -= SpendWarFunds;
         Gatling_Gun.onBroadcastTowerWarFundValue -= SaveCurrentWaveInitialTotalWarFunds;
         Missile_Launcher.onBroadcastTowerWarFundValue -= SaveCurrentWaveInitialTotalWarFunds;
