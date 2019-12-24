@@ -9766,7 +9766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialWaveEnemyCount: 5
-  _initialHealth: 5
+  _initialHealth: 3
   _health: 0
   _healthBarGameObject: {fileID: 704600513}
   _healthCautionThreshold: 0.55
