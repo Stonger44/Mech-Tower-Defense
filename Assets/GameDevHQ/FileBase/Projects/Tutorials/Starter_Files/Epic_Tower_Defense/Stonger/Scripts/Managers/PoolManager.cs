@@ -158,7 +158,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             if (explosion.activeSelf == false)
             {
-                if ((explosion.name.Contains("Tower") && explodingObject.tag.Contains("Tower")) || explosion.name.Contains(explodingObject.tag))
+                if (FoundMatchingExplosion(explosion, explodingObject))
                 {
                     return explosion;
                 }
@@ -167,6 +167,35 @@ public class PoolManager : MonoSingleton<PoolManager>
 
         GenerateExplosion(explodingObject);
         return RequestExplosion(explodingObject);
+    }
+
+    private bool FoundMatchingExplosion(GameObject explosion, GameObject explodingObject)
+    {
+        //Found matching Tower explosion
+        if (explosion.CompareTag("Explosion_Tower"))
+        {
+            if (explodingObject.CompareTag("Tower_Gatling_Gun") ||
+            explodingObject.CompareTag("Tower_Gatling_Gun_Upgrade") ||
+            explodingObject.CompareTag("Tower_Missile_Launcher") ||
+            explodingObject.CompareTag("Tower_Missile_Launcher_Upgrade"))
+            {
+                return true;
+            }
+        }
+
+        //Found matching Mech explosion
+        if (explosion.CompareTag("Explosion_Mech1") && explodingObject.CompareTag("Mech1"))
+            return true;
+        if (explosion.CompareTag("Explosion_Mech2") && explodingObject.CompareTag("Mech2"))
+            return true;
+
+        //Found matching Missile explosion
+        if (explosion.CompareTag("Explosion_Missile") && explodingObject.CompareTag("Missile"))
+            return true;
+
+
+        //If we get here, no matching explosion was found
+        return false;
     }
 
     public void ResetExplosionPosition(GameObject explosion)
