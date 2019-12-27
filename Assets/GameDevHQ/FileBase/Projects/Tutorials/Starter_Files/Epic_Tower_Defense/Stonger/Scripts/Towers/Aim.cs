@@ -23,7 +23,7 @@ public class Aim : MonoBehaviour
     [SerializeField] private List<GameObject> _targetList = new List<GameObject>();
     [SerializeField] private GameObject _currentTarget;
 
-    private string _targetName;
+    //private string _targetName;
 
     public static event Action<GameObject, GameObject> onTargetInRange;
     public static event Action<GameObject> onNoTargetInRange;
@@ -66,7 +66,7 @@ public class Aim : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _targetName = "Mech";
+        //_targetName = "Mech";
     }
 
     // Update is called once per frame
@@ -116,7 +116,7 @@ public class Aim : MonoBehaviour
         _horizontalAimPivot.transform.rotation = Quaternion.Slerp(_horizontalAimPivot.transform.rotation, _horizontalOnlyLookRotation, _rotationSpeed * Time.deltaTime);
 
         //Missile Launchers only have horizontal rotation
-        if (!_objectRoot.name.Contains("Missile"))
+        if (_objectRoot.CompareTag("Tower_Missile_Launcher") == false && _objectRoot.CompareTag("Tower_Missile_Launcher_Upgrade") == false)
         {
             _lookRotation = Quaternion.LookRotation(_lookDirection);
             _verticalAimPivot.transform.rotation = Quaternion.Slerp(_verticalAimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);
@@ -126,7 +126,7 @@ public class Aim : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Contains(_targetName) && _targetList.Contains(other.gameObject) == false)
+        if ((other.CompareTag("Mech1") || other.CompareTag("Mech2")) && _targetList.Contains(other.gameObject) == false)
             _targetList.Add(other.gameObject);
 
         if (_currentTarget == null && _targetList.Count > 0)
@@ -143,7 +143,7 @@ public class Aim : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag.Contains(_targetName) && _targetList.Contains(other.gameObject) == false)
+        if ((other.CompareTag("Mech1") || other.CompareTag("Mech2")) && _targetList.Contains(other.gameObject) == false)
             _targetList.Add(other.gameObject);
 
         if (_currentTarget == null && _targetList.Contains(other.gameObject))
