@@ -18,9 +18,16 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _edgeScrollMarginTop, _edgeScrollMarginLeft, _edgeScrollMarginRight, _edgeScrollMarginBottom;
     [SerializeField] private Vector3 _newCameraPosition, _confinedCameraPosition;
 
+    private Camera _camera;
+
     // Start is called before the first frame update
     void Start()
     {
+        _camera = Camera.main;
+
+        if (_camera == null)
+            Debug.LogError("_camera is NULL.");
+
         //Cache _edgeScrollMargin values based on _edgeScrollWidthPercent
         _edgeScrollMarginLeft = Screen.width * _edgeScrollWidthPercent;
         _edgeScrollMarginRight = Screen.width - (Screen.width * _edgeScrollWidthPercent);
@@ -65,9 +72,9 @@ public class CameraController : MonoBehaviour
             if (_scrollInput > 0)
             {
                 //Zoom In
-                Camera.main.fieldOfView -= _yDelta;
+                _camera.fieldOfView -= _yDelta;
                 
-                if (Camera.main.fieldOfView >= _fieldOfViewMin && Camera.main.fieldOfView <= _fieldOfViewMax)
+                if (_camera.fieldOfView >= _fieldOfViewMin && _camera.fieldOfView <= _fieldOfViewMax)
                 {
                     //Adjust Camera confined area
                     _xMin -= _xDelta;
@@ -79,9 +86,9 @@ public class CameraController : MonoBehaviour
             else if (_scrollInput < 0)
             {
                 //Zoom Out
-                Camera.main.fieldOfView += _yDelta;
+                _camera.fieldOfView += _yDelta;
 
-                if (Camera.main.fieldOfView >= _fieldOfViewMin && Camera.main.fieldOfView <= _fieldOfViewMax)
+                if (_camera.fieldOfView >= _fieldOfViewMin && _camera.fieldOfView <= _fieldOfViewMax)
                 {
                     //Adjust Camera confined area
                     _xMin += _xDelta;
@@ -92,7 +99,7 @@ public class CameraController : MonoBehaviour
             }
 
             //Confine Zoom
-            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, _fieldOfViewMin, _fieldOfViewMax);
+            _camera.fieldOfView = Mathf.Clamp(_camera.fieldOfView, _fieldOfViewMin, _fieldOfViewMax);
         }
 
         ConfineCamera();

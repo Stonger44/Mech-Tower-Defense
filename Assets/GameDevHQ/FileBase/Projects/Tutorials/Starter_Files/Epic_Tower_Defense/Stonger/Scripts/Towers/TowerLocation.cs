@@ -108,14 +108,14 @@ public class TowerLocation : MonoBehaviour
         ITower currentITower = TowerManager.Instance.CurrentTower.GetComponent<ITower>();
         if (currentITower == null)
         {
-            Debug.Log("No Tower Selected!");
+            //Debug.Log("No Tower Selected!");
             return;
         }
 
         //Check 2: Is there enough WarFund available?
         if (currentITower.WarFundCost > GameManager.Instance.TotalWarFunds)
         {
-            Debug.Log("Insufficient WarFunds. Cost: " + currentITower.WarFundCost + ". Total War Funds: " + GameManager.Instance.TotalWarFunds + ".");
+            //Debug.Log("Insufficient WarFunds. Cost: " + currentITower.WarFundCost + ". Total War Funds: " + GameManager.Instance.TotalWarFunds + ".");
             onInsufficientWarFunds?.Invoke();
             return;
         }
@@ -123,7 +123,7 @@ public class TowerLocation : MonoBehaviour
         //Check 3: Make sure the Tower Image (mouse pointer) is still in position
         if (this.transform.position != TowerManager.Instance.CurrentTowerImage.transform.position)
         {
-            Debug.Log("Tower not in Position");
+            //Debug.Log("Tower not in Position");
             return;
         }
 

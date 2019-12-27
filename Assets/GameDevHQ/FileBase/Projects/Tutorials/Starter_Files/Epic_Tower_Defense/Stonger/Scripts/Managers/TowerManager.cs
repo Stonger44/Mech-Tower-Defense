@@ -36,11 +36,17 @@ public class TowerManager : MonoSingleton<TowerManager>
 
     private bool _onVacantLocation;
 
+    private Camera _mainCamera;
+
     public override void Init()
     {
         IsPlacingTower = false;
         IsViewingTower = false;
         TowerImagesContainer = GameObject.Find("TowerImagesContainer");
+        _mainCamera = Camera.main;
+
+        if (_mainCamera == null)
+            Debug.LogError("_mainCamera is NULL.");
     }
 
     private void OnEnable()
@@ -184,7 +190,7 @@ public class TowerManager : MonoSingleton<TowerManager>
         if (!_onVacantLocation)
         {
             //Cast a ray from the mouse position on the screen into the game world. Whoa.
-            _rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
+            _rayOrigin = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(_rayOrigin, out _hitInfo))
             {

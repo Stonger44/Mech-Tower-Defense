@@ -241,7 +241,7 @@ public class Enemy : Explodable
         _lookDirection = _currentTarget.transform.position - _aimPivot.transform.position;
         _rotationSpeed = _trackingSpeed;
 
-        Debug.DrawRay(_aimPivot.transform.position, _lookDirection, Color.green);
+        //Debug.DrawRay(_aimPivot.transform.position, _lookDirection, Color.green);
 
         _lookRotation = Quaternion.LookRotation(_lookDirection);
         _aimPivot.transform.rotation = Quaternion.Slerp(_aimPivot.transform.rotation, _lookRotation, _rotationSpeed * Time.deltaTime);

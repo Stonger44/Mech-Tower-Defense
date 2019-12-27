@@ -107,7 +107,7 @@ public class Aim : MonoBehaviour
             _lookDirection = _neutralPosition - this.transform.position;
             _rotationSpeed = _standbySpeed;
         }
-        Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
+        //Debug.DrawRay(this.transform.position, _lookDirection, Color.red);
 
         _horizontalOnlyLookDirection.x = _lookDirection.x;
         _horizontalOnlyLookDirection.z = _lookDirection.z;
