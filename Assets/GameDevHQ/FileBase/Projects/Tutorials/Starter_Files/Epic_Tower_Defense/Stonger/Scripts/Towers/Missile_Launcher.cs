@@ -118,12 +118,15 @@ public class Missile_Launcher : Explodable, ITower
 
     }
 
-    private void ResetHealth()
+    private void ResetHealth(GameObject recentlyRepairedTower)
     {
-        Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
-        _health = Health;
-        _healthPercent = 1;
-        onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        if (recentlyRepairedTower == this.gameObject)
+        {
+            Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
+            _health = Health;
+            _healthPercent = 1;
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent); 
+        }
     }
 
     private void StartUp()
@@ -175,7 +178,7 @@ public class Missile_Launcher : Explodable, ITower
 
     private void FireMissiles(GameObject currentTower, GameObject currentTarget)
     {
-        if (currentTower == this.gameObject && currentTarget.tag == "Mech2" && _launched == false) //check if we launched the rockets
+        if (currentTower == this.gameObject && currentTarget.CompareTag("Mech2") && _launched == false) //check if we launched the rockets
         {
             _launched = true; //set the launch bool to true
             StartCoroutine(FireRocketsRoutine(currentTarget)); //start a coroutine that fires the rockets. 

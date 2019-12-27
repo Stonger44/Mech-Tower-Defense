@@ -130,12 +130,15 @@ public class Gatling_Gun : Explodable, ITower
         
     }
 
-    private void ResetHealth()
+    private void ResetHealth(GameObject recentlyRepairedTower)
     {
-        Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
-        _health = Health;
-        _healthPercent = 1;
-        onHealthUpdate?.Invoke(this.gameObject, _healthPercent);
+        if (recentlyRepairedTower == this.gameObject)
+        {
+            Health = (this.gameObject.tag.Contains("Upgrade") ? UpgradeInitialHealth : InitialHealth); //Reset Health
+            _health = Health;
+            _healthPercent = 1;
+            onHealthUpdate?.Invoke(this.gameObject, _healthPercent); 
+        }
     }
 
     // Method to rotate gun barrel 
@@ -149,7 +152,7 @@ public class Gatling_Gun : Explodable, ITower
 
     private void Shoot(GameObject attackingTower, GameObject currentTarget)
     {
-        if (attackingTower == this.gameObject && currentTarget.tag.Contains("Mech"))
+        if (attackingTower == this.gameObject && (currentTarget.CompareTag("Mech1") || currentTarget.CompareTag("Mech2")))
         {
             if (!_isAttacking)
             {

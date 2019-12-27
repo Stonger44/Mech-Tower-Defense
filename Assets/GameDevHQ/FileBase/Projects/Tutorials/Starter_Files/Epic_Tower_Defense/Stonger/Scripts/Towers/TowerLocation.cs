@@ -24,7 +24,7 @@ public class TowerLocation : MonoBehaviour
     public static event Action<GameObject> onViewingCurrentTower;
     public static event Action<int> onDismantledCurrentTower;
     public static event Action<int> onRepairedCurrentTower;
-    public static event Action onRepairedCurrentTowerHealth;
+    public static event Action<GameObject> onRepairedCurrentTowerHealth;
     public static event Action<int> onPurchaseTowerUpgrade;
 
 
@@ -190,7 +190,7 @@ public class TowerLocation : MonoBehaviour
             else
                 onRepairedCurrentTower?.Invoke(_currentPlacedTowerInterface.WarFundRepairCost);
 
-            onRepairedCurrentTowerHealth?.Invoke();
+            onRepairedCurrentTowerHealth?.Invoke(_currentPlacedTower);
         }
     }
 

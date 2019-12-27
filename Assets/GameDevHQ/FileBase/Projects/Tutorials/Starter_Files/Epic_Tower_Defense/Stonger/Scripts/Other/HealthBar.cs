@@ -47,7 +47,8 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_rootObject.tag.Contains("Mech"))
+        //Only Mech health bars need to rotate to face the camera
+        if (_rootObject.CompareTag("Mech1") || _rootObject.CompareTag("Mech2"))
             LookAtCamera();
     }
 
@@ -63,8 +64,8 @@ public class HealthBar : MonoBehaviour
         {
             _healthBar.fillAmount = healthPercent;
 
-            //Not for Mechs (Mech healthbars are already red)
-            if (!_rootObject.tag.Contains("Mech"))
+            //Not for Mechs (Mech health bars are already red)
+            if (_rootObject.CompareTag("Mech1") == false && _rootObject.CompareTag("Mech2") == false)
             {
                 if (healthPercent <= GameManager.Instance.HealthWarningThreshold)
                     _healthBar.color = _healthRed;
