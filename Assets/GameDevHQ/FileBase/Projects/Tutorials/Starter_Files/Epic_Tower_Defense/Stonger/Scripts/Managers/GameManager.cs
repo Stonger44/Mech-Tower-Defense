@@ -57,6 +57,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public static event Action onCollectCurrentActiveTowersTotalWarFundValue;
 
+    private WaitForSeconds _countDownPrepWaitForSeconds;
+    private WaitForSeconds _countDownWaitForSeconds;
+
     public override void Init()
     {
         Time.timeScale = 1;
@@ -70,6 +73,9 @@ public class GameManager : MonoSingleton<GameManager>
         FinalWave = _finalWave;
         onWaveUpdate?.Invoke(_wave, _finalWave);
         ResetWaveEnemyCount();
+
+        _countDownPrepWaitForSeconds = new WaitForSeconds(0.44f);
+        _countDownWaitForSeconds = new WaitForSeconds(1);
     }
 
     private void OnEnable()
@@ -188,9 +194,9 @@ public class GameManager : MonoSingleton<GameManager>
         {
             onUpdateLevelStatusCountDown?.Invoke(i);
             if (i == 4)
-                yield return new WaitForSeconds(0.5f);
+                yield return _countDownPrepWaitForSeconds;
             else
-                yield return new WaitForSeconds(1);
+                yield return _countDownWaitForSeconds;
         }
         onUpdateLevelStatusCountDown?.Invoke(-1); //The LevelStatusUI will hide itself with this parameter
 
