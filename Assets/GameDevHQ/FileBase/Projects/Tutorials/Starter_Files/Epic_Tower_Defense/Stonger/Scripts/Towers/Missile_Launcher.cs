@@ -50,6 +50,10 @@ public class Missile_Launcher : Explodable, ITower
     public static event Action<GameObject, float> onHealthUpdate;
     public static event Action<int> onBroadcastTowerWarFundValue;
 
+    private WaitForSeconds _waitForSeconds_LockOnDelayTime;
+    private WaitForSeconds _waitForSeconds_FireDelay;
+    private WaitForSeconds _waitForSeconds_ReloadTime;
+
     private void OnEnable()
     {
         Aim.onTargetInRange += FireMissiles;
@@ -110,7 +114,9 @@ public class Missile_Launcher : Explodable, ITower
 
     private void Start()
     {
-
+        _waitForSeconds_LockOnDelayTime = new WaitForSeconds(_lockOnDelayTime);
+        _waitForSeconds_FireDelay = new WaitForSeconds(_fireDelay);
+        _waitForSeconds_ReloadTime = new WaitForSeconds(_reloadTime);
     }
 
     private void Update()
@@ -148,7 +154,7 @@ public class Missile_Launcher : Explodable, ITower
 
     IEnumerator FireRocketsRoutine(GameObject currentTarget)
     {
-        yield return new WaitForSeconds(_lockOnDelayTime);
+        yield return _waitForSeconds_LockOnDelayTime;
 
         for (int i = 0; i < _misslePositions.Length; i++) //for loop to iterate through each missle position
         {
@@ -164,12 +170,12 @@ public class Missile_Launcher : Explodable, ITower
             rocket.GetComponent<Missile>().AssignMissleRules(_launchSpeed, _power, _fuseDelay, _destroyTime, this.gameObject, currentTarget, _warheadDamage); //assign missle properties 
 
             _misslePositions[i].SetActive(false); //turn off the rocket sitting in the turret to make it look like it fired
-            yield return new WaitForSeconds(_fireDelay); //wait for the firedelay
+            yield return _waitForSeconds_FireDelay; //wait for the firedelay
         }
 
         for (int i = 0; i < _misslePositions.Length; i++) //itterate through missle positions
         {
-            yield return new WaitForSeconds(_reloadTime); //wait for reload time
+            yield return _waitForSeconds_ReloadTime; //wait for reload time
             _misslePositions[i].SetActive(true); //enable fake rocket to show ready to fire
         }
 

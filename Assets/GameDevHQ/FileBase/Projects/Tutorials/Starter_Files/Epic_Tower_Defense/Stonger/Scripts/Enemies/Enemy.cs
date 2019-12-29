@@ -29,6 +29,20 @@ public class Enemy : Explodable
     [SerializeField] private float _navMeshRadius;
     private Quaternion _defaultRotation;
 
+    /*----------Death Routine----------*/
+    private WaitForSeconds _waitForSeconds_StopMovingForward = new WaitForSeconds(0.2f);
+    private WaitForSeconds _waitForSeconds_SignalDeath = new WaitForSeconds(1.0f);
+    private WaitForSeconds _waitForSeconds_DeathAnimation = new WaitForSeconds(3.0f);
+    private WaitForSeconds _waitForSeconds_Explosion = new WaitForSeconds(0.5f);
+    /*----------Death Routine----------*/
+
+    /*----------Shoot Routine----------*/
+    private WaitForSeconds _waitForSeconds_Aim = new WaitForSeconds(0.1f);
+    private WaitForSeconds _waitForSeconds_InitialFireDelay;
+    private WaitForSeconds _waitForSeconds_FireDelay;
+    private WaitForSeconds _waitForSeconds_ResetAim = new WaitForSeconds(1.0f);
+    /*----------Shoot Routine----------*/
+
     /*----------Aiming----------*/
     [SerializeField] private GameObject _aimPivot;
     [SerializeField] private GameObject _neutralLookPointObject;
@@ -45,7 +59,7 @@ public class Enemy : Explodable
     [SerializeField] private bool _isReturningFire;
     [SerializeField] private bool _isAiming;
 
-    [SerializeField] private float _initialFireDelayTime;
+    [SerializeField] private float _initialFireDelay;
     [SerializeField] private int _roundCount;
     [SerializeField] private float _fireDelay;
 
@@ -97,6 +111,10 @@ public class Enemy : Explodable
 
         if (_shootSound == null)
             Debug.LogError("_shootSound is NULL.");
+
+        _waitForSeconds_InitialFireDelay = new WaitForSeconds(_initialFireDelay);
+        _waitForSeconds_FireDelay = new WaitForSeconds(_fireDelay);
+
     }
 
     private void Update()
@@ -204,7 +222,7 @@ public class Enemy : Explodable
 
         //Shoot
         _animator.SetBool("IsShooting", true);
-        yield return new WaitForSeconds(_initialFireDelayTime);
+        yield return _waitForSeconds_InitialFireDelay;
         for (int i = 0; i < _roundCount; i++)
         {
             //Shoot
@@ -213,14 +231,14 @@ public class Enemy : Explodable
             onAttack?.Invoke(_attackingObject, _damageToDeal);
 
             //Turn off muzzle flash
-            yield return new WaitForSeconds(_fireDelay);
+            yield return _waitForSeconds_FireDelay;
             MuzzleFlashes_SetActive(false);
 
-            if (_isDying || _attackingObject.activeSelf == false)
+            if (_isDying || _attackingObject == null || _attackingObject.activeSelf == false)
                 break;
 
             //FireDelay
-            yield return new WaitForSeconds(_fireDelay);
+            yield return _waitForSeconds_FireDelay;
         }
         _shootSound.Stop();
 
@@ -229,7 +247,7 @@ public class Enemy : Explodable
         _animator.SetBool("IsShooting", false);
 
         //Return Mech to neutral look position
-        yield return new WaitForSeconds(1.0f);
+        yield return _waitForSeconds_ResetAim;
         _isAiming = false;
         _isReturningFire = false;
     }
@@ -261,27 +279,27 @@ public class Enemy : Explodable
         _animator.SetBool("IsDying", true);
 
         //Stop moving forward
-        yield return new WaitForSeconds(0.2f);
+        yield return _waitForSeconds_StopMovingForward;
         _navMeshAgent.isStopped = true;
 
         //Signal death (basically to get towers to stop shooting at the enemy; it's already dying, so it's already dead)
-        yield return new WaitForSeconds(1.0f);
+        yield return _waitForSeconds_SignalDeath;
         _collider.enabled = false;
         onDying?.Invoke(this.gameObject);
 
         //Play death animation before the...
-        yield return new WaitForSeconds(3.0f);
+        yield return _waitForSeconds_DeathAnimation;
 
         //...Explosion!
         PlayExplosion();
 
         //Hide enemy (because it exploded)
-        yield return new WaitForSeconds(0.5f);
+        yield return _waitForSeconds_Explosion;
         SendToJunkyard();
         onDeath?.Invoke(this.gameObject);
         ResetEnemy();
 
-        yield return new WaitForSeconds(1.0f);
+        yield return _waitForSeconds_ResetAim;
         _isAiming = false;
 
         this.gameObject.SetActive(false);

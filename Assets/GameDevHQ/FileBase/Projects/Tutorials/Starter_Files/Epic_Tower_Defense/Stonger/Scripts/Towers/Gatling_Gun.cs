@@ -50,6 +50,8 @@ public class Gatling_Gun : Explodable, ITower
     public static event Action<GameObject, float> onHealthUpdate;
     public static event Action<int> onBroadcastTowerWarFundValue;
 
+    private WaitForSeconds _waitForSeconds_FireDelay;
+
     private void OnEnable()
     {
         Aim.onTargetInRange += Shoot;
@@ -122,6 +124,8 @@ public class Gatling_Gun : Explodable, ITower
         _audioSource.playOnAwake = false; //disabling play on awake
         _audioSource.loop = true; //making sure our sound effect loops
         _audioSource.clip = _fireSound; //assign the clip to play
+
+        _waitForSeconds_FireDelay = new WaitForSeconds(_fireDelay);
     }
 
     // Update is called once per frame
@@ -194,7 +198,7 @@ public class Gatling_Gun : Explodable, ITower
     private IEnumerator AttackRoutine(GameObject currentTarget)
     {
         onShoot?.Invoke(this.gameObject, currentTarget, _damageToDeal);
-        yield return new WaitForSeconds(_fireDelay);
+        yield return _waitForSeconds_FireDelay;
 
         _isAttacking = false;
     }

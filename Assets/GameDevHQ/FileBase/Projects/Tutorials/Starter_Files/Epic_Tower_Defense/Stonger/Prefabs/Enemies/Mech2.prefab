@@ -7967,7 +7967,7 @@ MonoBehaviour:
   _trackingSpeed: 4
   _isReturningFire: 0
   _isAiming: 1
-  _initialFireDelayTime: 0.75
+  _initialFireDelay: 0.75
   _roundCount: 5
   _fireDelay: 0.45
   _shootSound: {fileID: 6525929249254412377}
