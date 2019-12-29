@@ -179,6 +179,7 @@ MonoBehaviour:
   _launchSpeed: 0
   _power: 0
   _fuseDelay: 0
+  _targetPositionRandomRange: 0.5
 --- !u!1 &7428324586168007313
 GameObject:
   m_ObjectHideFlags: 0

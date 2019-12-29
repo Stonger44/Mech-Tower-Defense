@@ -52,7 +52,7 @@ public class PoolManager : MonoSingleton<PoolManager>
             //I only want to spawn the bigger mechs 25% of the time
             _randomIndex = (Random.Range(0f, 1f) <= 0.75f) ? (int)EnemyType.Mech1 : (int)EnemyType.Mech2;
 
-            _generatedEnemy = Instantiate(_enemyPrefabs[_randomIndex]);
+            _generatedEnemy = Instantiate(_enemyPrefabs[1]);
 
             //Put enemies in EnemyContainer to keep the heirarchy clean
             _generatedEnemy.transform.parent = _enemyContainer.transform;

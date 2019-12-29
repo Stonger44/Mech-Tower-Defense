@@ -31,6 +31,8 @@ public class Missile : Explodable
     private GameObject _attackAltitude;
     private GameObject _detonationAltitude;
     private GameObject _currentTarget;
+    [SerializeField] private float _targetPositionRandomRange;
+    private Vector3 _approximateTargetPosition;
     private Enemy _currentTargetScript;
     private bool _isSeekingTarget;
     private Vector3 _lookDirection;
@@ -74,6 +76,8 @@ public class Missile : Explodable
             _rigidbody.useGravity = true;
             _rigidbody.detectCollisions = true;
         }
+
+        _approximateTargetPosition = Vector3.zero;
     }
 
     private void OnDisable()
@@ -157,6 +161,8 @@ public class Missile : Explodable
         {
             if (!_isMissileDetonating)
             {
+                Debug.Log("Missile Hit: " + other.gameObject.name);
+
                 _isMissileDetonating = true;
                 DetonateMissile(other);
             }
@@ -173,7 +179,14 @@ public class Missile : Explodable
             return;
         }
 
-        _lookDirection = _currentTarget.transform.position - this.transform.position;
+        //_lookDirection = _currentTarget.transform.position - this.transform.position;
+
+        //Randomize the target position a bit so the missiles aren't ridiculously accurate
+        _approximateTargetPosition.x = _currentTarget.transform.position.x + UnityEngine.Random.Range(-_targetPositionRandomRange, _targetPositionRandomRange);
+        //_approximateTargetPosition.y = _currentTarget.transform.position.y + UnityEngine.Random.Range(-_targetPositionRandomRange, _targetPositionRandomRange);
+        _approximateTargetPosition.z = _currentTarget.transform.position.z + UnityEngine.Random.Range(-_targetPositionRandomRange, _targetPositionRandomRange);
+
+        _lookDirection = _approximateTargetPosition - this.transform.position;
 
         this.transform.rotation = Quaternion.LookRotation(_lookDirection);
     }
