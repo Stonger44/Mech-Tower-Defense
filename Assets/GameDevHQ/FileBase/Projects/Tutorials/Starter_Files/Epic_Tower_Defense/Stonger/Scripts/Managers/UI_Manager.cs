@@ -186,7 +186,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
         {
             if (GameManager.Instance.Wave == (GameManager.Instance.FinalWave + 1))
             {
-                _status.text = "LEVEL COMPLETE";
+                _status.text = "LEVEL COMPLETE!";
             }
             else if (GameManager.Instance.Wave == GameManager.Instance.FinalWave)
             {
