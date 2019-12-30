@@ -11049,7 +11049,7 @@ GameObject:
   - component: {fileID: 8301687516009011900}
   - component: {fileID: 9052230731078863065}
   - component: {fileID: 4848382126901744287}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mech1
   m_TagString: Mech1
   m_Icon: {fileID: 0}
@@ -11142,15 +11142,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosion: {fileID: 0}
   _explosionSound: {fileID: 0}
-  _initialHealth: 10
-  _health: 10
-  _warFunds: 50
+  _initialHealth: 20
+  _health: 20
+  _warFunds: 75
   _onStandby: 0
   _inJunkyard: 0
   _animator: {fileID: 1569259853865098464}
   _isDying: 0
   _collider: {fileID: 8301687516009011900}
   _navMeshRadius: 2
+  _missileDamageAmount: 2
   _aimPivot: {fileID: 6985418190555967737}
   _neutralLookPointObject: {fileID: 48388572228162692}
   _attackingObject: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,6 +29,10 @@ public class Enemy : Explodable
     [SerializeField] private Collider _collider;
     [SerializeField] private float _navMeshRadius;
     private Quaternion _defaultRotation;
+
+    //private Collider[] _hitEnemiesArray = new Collider[50];
+    [SerializeField] private int _missileDamageAmount;
+    private bool _isMissileBarrageDamageRoutineRunning = false;
 
     /*----------Death Routine----------*/
     private WaitForSeconds _waitForSeconds_StopMovingForward = new WaitForSeconds(0.2f);
@@ -79,7 +84,8 @@ public class Enemy : Explodable
     private void OnEnable()
     {
         Gatling_Gun.onShoot += TakeDamage;
-        Missile.onTargetHit += TakeDamage;
+        //Missile.onTargetHit += TakeDamage;
+        Missile.onDetonate += OnMissileDetonation;
 
         enemyCount++;
 
@@ -94,11 +100,71 @@ public class Enemy : Explodable
     private void OnDisable()
     {
         Gatling_Gun.onShoot -= TakeDamage;
-        Missile.onTargetHit -= TakeDamage;
+        //Missile.onTargetHit -= TakeDamage;
+        Missile.onDetonate -= OnMissileDetonation;
 
         enemyCount--;
 
         _onStandby = false;
+        _isMissileBarrageDamageRoutineRunning = false;
+        //_hitEnemiesArray = null;
+    }
+
+    private void OnMissileDetonation(GameObject attackingObject, Collider[] hitEnemiesArray)
+    {
+        //if (_isMissileBarrageDamageRoutineRunning)
+        //    return;
+
+        //if (_hitEnemiesArray == null)
+        //    _hitEnemiesArray = hitEnemiesArray;
+
+        if (hitEnemiesArray.FirstOrDefault(collider => collider == _collider) != null)
+        {
+            if (_isDying == false && _onStandby == false && _inJunkyard == false)
+            {
+                //if (_isMissileBarrageDamageRoutineRunning == false)
+                //{
+                    //_isMissileBarrageDamageRoutineRunning = true;
+                    //StartCoroutine(MissileBarrageDamageRoutine(attackingObject));
+                    TakeDamage(attackingObject, this.gameObject, _missileDamageAmount);
+                //}
+            }
+        }
+
+        //foreach (var enemy in hitEnemiesArray)
+        //{
+        //    if (enemy.collider == _collider)
+        //    {
+        //        if (_isDying == false && _onStandby == false && _inJunkyard == false)
+        //        {
+        //            if (_isMissileBarrageDamageRoutineRunning == false)
+        //            {
+        //                _isMissileBarrageDamageRoutineRunning = true;
+        //                StartCoroutine(MissileBarrageDamageRoutine(attackingObject));
+        //            }
+        //        }
+        //    }
+        //}
+    }
+
+    private WaitForSeconds _waitForSeconds_MissileDamageDelay = new WaitForSeconds(0.2f);
+
+    private IEnumerator MissileBarrageDamageRoutine(GameObject attackingObject)
+    {
+        int missilesLaunched = (attackingObject.CompareTag("Tower_Missile_Launcher_Upgrade")) ? 12 : 6;
+
+        for (int i = 0; i < missilesLaunched; i++)
+        {
+            if (_isDying == true || _onStandby == true || _inJunkyard == true)
+                break;
+
+            TakeDamage(attackingObject, this.gameObject, _missileDamageAmount);
+
+            yield return _waitForSeconds_MissileDamageDelay;
+        }
+
+        //_hitEnemiesArray = null;
+        _isMissileBarrageDamageRoutineRunning = false;
     }
 
     private void Start()
@@ -193,7 +259,7 @@ public class Enemy : Explodable
             if (_isDying)
                 return;
 
-            if (attackingObject.tag.Contains("Tower"))
+            if (IsAttackingObjectATower(attackingObject))
             {
                 if (!_isReturningFire)
                 {
@@ -203,6 +269,19 @@ public class Enemy : Explodable
                 }
             }
         }
+    }
+
+    private bool IsAttackingObjectATower(GameObject attackingObject)
+    {
+        if (attackingObject.CompareTag("Tower_Gatling_Gun")
+            || attackingObject.CompareTag("Tower_Gatling_Gun_Upgrade")
+            || attackingObject.CompareTag("Tower_Missile_Launcher")
+            || attackingObject.CompareTag("Tower_Missile_Launcher_Upgrade"))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void StopShooting()

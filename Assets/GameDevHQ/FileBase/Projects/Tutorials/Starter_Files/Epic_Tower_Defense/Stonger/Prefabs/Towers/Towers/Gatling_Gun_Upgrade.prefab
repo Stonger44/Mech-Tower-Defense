@@ -29615,7 +29615,7 @@ MonoBehaviour:
     UpgradeTowerSprite: {fileID: 21300000, guid: b402effddb5b69e43bf972cfe08693ae,
       type: 3}
   _towerRange: {fileID: 8080867948098752774}
-  _fireDelay: 0.5
+  _fireDelay: 0.15
   _damageToDeal: 2
 --- !u!1001 &772088761667623421
 PrefabInstance:

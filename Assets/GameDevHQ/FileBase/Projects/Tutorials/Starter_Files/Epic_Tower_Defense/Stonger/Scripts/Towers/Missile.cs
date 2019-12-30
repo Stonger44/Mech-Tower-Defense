@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))] //require rigidbody
@@ -37,11 +38,15 @@ public class Missile : Explodable
     private bool _isSeekingTarget;
     private Vector3 _lookDirection;
     private int _damageAmount;
+    [SerializeField] private float _blastRadius;
     private bool _isMissileDetonating;
+
+    [SerializeField] private Collider[] _hitEnemiesArray = new Collider[50];
 
     private GameObject _missileLauncher;
 
-    public static event Action<GameObject, GameObject, int> onTargetHit;
+    //public static event Action<GameObject, GameObject, int> onTargetHit;
+    public static event Action<GameObject, Collider[]> onDetonate;
 
     // Use this for initialization
     IEnumerator Start()
@@ -78,6 +83,8 @@ public class Missile : Explodable
         }
 
         _approximateTargetPosition = Vector3.zero;
+
+        Array.Clear(_hitEnemiesArray, 0, _hitEnemiesArray.Length);
     }
 
     private void OnDisable()
@@ -130,7 +137,7 @@ public class Missile : Explodable
     /// <summary>
     /// This method is used to assign traits to our missle assigned from the launcher.
     /// </summary>
-    public void AssignMissleRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject missileLauncher, GameObject currentTarget, int damagAmount)
+    public void AssignMissileRules(float launchSpeed, float power, float fuseDelay, float destroyTimer, GameObject missileLauncher, GameObject currentTarget, int damagAmount)
     {
         _launchSpeed = launchSpeed; //set the launch speed
         _power = power; //set the power
@@ -161,8 +168,6 @@ public class Missile : Explodable
         {
             if (!_isMissileDetonating)
             {
-                Debug.Log("Missile Hit: " + other.gameObject.name);
-
                 _isMissileDetonating = true;
                 DetonateMissile(other);
             }
@@ -208,8 +213,10 @@ public class Missile : Explodable
         //Detonate:
         PlayExplosion();
 
-        if (other.tag.Contains("Mech"))
-            onTargetHit?.Invoke(_missileLauncher, _currentTarget, _damageAmount);
+        int hitEnemyCount = Physics.OverlapSphereNonAlloc(this.transform.position, _blastRadius, _hitEnemiesArray, 1 << 8);
+
+        if (hitEnemyCount > 0)
+            onDetonate?.Invoke(_missileLauncher, _hitEnemiesArray);
 
         ResetMissile();
 
