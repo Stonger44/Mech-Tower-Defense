@@ -7952,7 +7952,7 @@ MonoBehaviour:
   _explosionSound: {fileID: 0}
   _initialHealth: 150
   _health: 150
-  _warFunds: 750
+  _warFunds: 500
   _onStandby: 0
   _inJunkyard: 0
   _animator: {fileID: 2775925118558770885}
