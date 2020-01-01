@@ -8,6 +8,7 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 {
     [SerializeField] private GameObject _levelStatus;
     [SerializeField] private Text _status;
+    [SerializeField] private GameObject _pressPlay;
 
     [SerializeField] private Text _waveCount;
     [SerializeField] private Text _enemyCount;
@@ -124,6 +125,9 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             case 3:
             case 2:
             case 1:
+                if (_pressPlay.activeSelf == true) //hide when countDown starts
+                    _pressPlay.SetActive(false);
+
                 if (_levelStatus.activeSelf == false) //Show for countDown
                     _levelStatus.SetActive(true);
 
@@ -194,10 +198,13 @@ public class UI_Manager : MonoSingleton<UI_Manager>
             }
             else
             {
-                _status.text = "WAVE  " + GameManager.Instance.Wave + "  INCOMING";
+                _status.text = "WAVE  " + GameManager.Instance.Wave;
             }
         }
 
+        //Do not Show Press Play text if the Final Wave was cleared
+        if (GameManager.Instance.Wave != (GameManager.Instance.FinalWave + 1))
+            _pressPlay.SetActive(true);
 
         _playButton.SetActive(true);
         _ffButton.SetActive(true);

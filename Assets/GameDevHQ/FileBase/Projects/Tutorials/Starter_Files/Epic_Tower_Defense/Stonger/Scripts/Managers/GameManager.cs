@@ -144,7 +144,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void OnRestartButtonPress()
     {
-
+        Time.timeScale = 1;
         StartCoroutine(RestartRoutine());
     }
 
