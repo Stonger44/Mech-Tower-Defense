@@ -133,11 +133,15 @@ public class GameManager : MonoSingleton<GameManager>
         {
             foreach (var audioSource in _totalAudioSourceArray)
                 audioSource.Pause();
+
+            _backgroundMusic.Pause();
         }
         else
         {
             foreach (var audioSource in _totalAudioSourceArray)
                 audioSource.UnPause();
+
+            _backgroundMusic.UnPause();
 
             if (WaveRunning == false)
                 StartWave();
@@ -216,6 +220,10 @@ public class GameManager : MonoSingleton<GameManager>
         onWaveUpdate?.Invoke(_wave, _finalWave);
         onStartWave?.Invoke();
 
+        _backgroundMusic.loop = true;
+        _backgroundMusic.time = 0f;
+        _backgroundMusic.Play();
+
         _isStartWaveRoutineRunning = false;
     }
 
@@ -226,6 +234,18 @@ public class GameManager : MonoSingleton<GameManager>
         Wave++;
 
         onUpdateLevelStatus?.Invoke();
+    }
+
+    private void WaveFailed()
+    {
+        WaveRunning = false;
+        WaveSuccess = false;
+
+        onUpdateLevelStatus?.Invoke();
+        onWaveFailed?.Invoke(_health);
+        onSelfDestructTowers?.Invoke();
+        _backgroundMusic.loop = false;
+        _backgroundMusic.time = 120;
     }
 
     private void TakeDamage()
@@ -249,16 +269,6 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    private void WaveFailed()
-    {
-        WaveRunning = false;
-        WaveSuccess = false;
-
-        onUpdateLevelStatus?.Invoke();
-        onWaveFailed?.Invoke(_health);
-        onSelfDestructTowers?.Invoke();
-    }
-
     private void OnEnemyExplosion(GameObject enemy)
     {
         var enemyScript = enemy.GetComponent<Enemy>();
@@ -280,7 +290,11 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnEnemyResetComplete(GameObject enemy)
     {
         if (Enemy.enemyCount <= 0)
+        {
+            _backgroundMusic.loop = false;
+            _backgroundMusic.time = 120;
             WaveComplete();
+        }
     }
 
     private void ResetWaveEnemyCount()
