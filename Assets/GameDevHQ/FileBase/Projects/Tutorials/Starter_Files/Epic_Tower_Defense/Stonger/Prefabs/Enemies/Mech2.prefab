@@ -8002,7 +8002,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fccc46974bfb74a4498b8793b264e90c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.05
   m_Pitch: 0.75
   Loop: 0
   Mute: 0
@@ -22661,10 +22661,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2865773250719540329}
     m_Modifications:
-    - target: {fileID: 7387174874295706130, guid: 341d2fe9877d26c4c9aea74231554c98,
+    - target: {fileID: 7387174873267435788, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
-      propertyPath: m_Name
-      value: HealthBarMech
+      propertyPath: m_Color.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387174873267435789, guid: 341d2fe9877d26c4c9aea74231554c98,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.965
       objectReference: {fileID: 0}
     - target: {fileID: 7387174874295706129, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
@@ -22736,21 +22741,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 7387174874295706130, guid: 341d2fe9877d26c4c9aea74231554c98,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthBarMech
+      objectReference: {fileID: 0}
     - target: {fileID: 7387174874295706141, guid: 341d2fe9877d26c4c9aea74231554c98,
         type: 3}
       propertyPath: _rootObject
       value: 
       objectReference: {fileID: 2870730364675067733}
-    - target: {fileID: 7387174873267435789, guid: 341d2fe9877d26c4c9aea74231554c98,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.965
-      objectReference: {fileID: 0}
-    - target: {fileID: 7387174873267435788, guid: 341d2fe9877d26c4c9aea74231554c98,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 341d2fe9877d26c4c9aea74231554c98, type: 3}
 --- !u!4 &6321042941832753952 stripped

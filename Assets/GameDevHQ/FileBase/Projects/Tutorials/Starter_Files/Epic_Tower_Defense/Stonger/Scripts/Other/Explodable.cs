@@ -22,6 +22,7 @@ public class Explodable : MonoBehaviour
         _explosionSound = _explosion.GetComponent<AudioSource>();
         if (_explosionSound == null)
             Debug.LogError(this.gameObject.name + " _explosionSound is NULL.");
+        _explosionSound.volume = 0.1f;
 
         _explosion.SetActive(true); //Turn explosion visual effects on
         _explosionSound.Play();

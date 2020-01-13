@@ -124,6 +124,7 @@ public class Gatling_Gun : Explodable, ITower
         _audioSource.playOnAwake = false; //disabling play on awake
         _audioSource.loop = true; //making sure our sound effect loops
         _audioSource.clip = _fireSound; //assign the clip to play
+        _audioSource.volume = 0.05f;
 
         _waitForSeconds_FireDelay = new WaitForSeconds(_fireDelay);
     }
