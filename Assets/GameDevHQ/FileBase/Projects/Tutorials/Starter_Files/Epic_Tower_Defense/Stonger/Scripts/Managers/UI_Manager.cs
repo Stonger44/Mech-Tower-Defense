@@ -60,6 +60,11 @@ public class UI_Manager : MonoSingleton<UI_Manager>
 
     public static event Action onResetEnemiesFotNextWave;
 
+    [SerializeField] private AudioSource _soundEffect;
+
+    [SerializeField] private AudioClip _countDownBlip;
+    [SerializeField] private AudioClip _countDownBlipFinal;
+
     private void OnEnable()
     {
         TowerLocation.onViewingCurrentTower += ShowCurrentTowerOptions;
@@ -132,16 +137,27 @@ public class UI_Manager : MonoSingleton<UI_Manager>
                     _levelStatus.SetActive(true);
 
                 _status.text = countDownTime.ToString();
+
+                if (_soundEffect.clip != _countDownBlip)
+                    _soundEffect.clip = _countDownBlip;
+                _soundEffect.Play();
+
                 break;
             case 0:
                 if (_levelStatus.activeSelf == false) //Show for countDown
                     _levelStatus.SetActive(true);
 
                 _status.text = "BEGIN!";
+
+                if (_soundEffect.clip != _countDownBlipFinal)
+                    _soundEffect.clip = _countDownBlipFinal;
+                _soundEffect.Play();
+
                 break;
             case -1:
                 _levelStatus.SetActive(false);
                 _status.text = "";
+                _soundEffect.clip = _countDownBlip; //reset to default sounds for next countdown
                 break;
             default:
                 Debug.LogError("countDownTime value not recognized.");

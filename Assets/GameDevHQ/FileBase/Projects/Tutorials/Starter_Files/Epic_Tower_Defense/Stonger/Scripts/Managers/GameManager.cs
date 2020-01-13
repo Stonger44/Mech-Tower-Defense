@@ -60,6 +60,8 @@ public class GameManager : MonoSingleton<GameManager>
     private WaitForSeconds _waitForSeconds_CountDownPrep = new WaitForSeconds(0.44f);
     private WaitForSeconds _waitForSeconds_CountDown = new WaitForSeconds(1);
 
+    [SerializeField] private AudioSource _backgroundMusic;
+
     public override void Init()
     {
         Time.timeScale = 1;
