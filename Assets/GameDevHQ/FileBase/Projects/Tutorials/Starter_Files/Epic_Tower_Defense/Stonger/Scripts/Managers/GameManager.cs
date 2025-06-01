@@ -120,7 +120,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
     
     public void OnPlaybackButtonPressed(float timescale)
